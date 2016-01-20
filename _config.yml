@@ -29,7 +29,7 @@ disqus_shortname: Dimon
 
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 sass:
   style: compressed
 gems:
