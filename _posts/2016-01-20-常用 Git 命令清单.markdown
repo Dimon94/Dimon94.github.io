@@ -9,7 +9,7 @@ tags: Git
 
 一般来说，日常使用只要牢记下面的几个命令就足够了。
 
-![Git常用命令](https://lh3.googleusercontent.com/v2MLC2-AtZ2UGb8WhFuNRjKWIIaxmjn99c-ZOhnE3jhlqk8XywHQVsEzOJzhEGpNybal7ns=s170)
+![Git常用命令](https://raw.githubusercontent.com/Dimon94/Dimon94.github.io/master/assets/images/Git.png)
 
 以下是几个专有名词的译名如下。
 
