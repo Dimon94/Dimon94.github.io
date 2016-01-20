@@ -281,6 +281,6 @@ $ git revert [commit]
 $ git archive
 ```
 
->摘抄自:[常用 Git 命令清单][Git]
+>转载自:[常用 Git 命令清单][Git]
 
 [Git]:    http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html
