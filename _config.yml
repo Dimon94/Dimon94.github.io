@@ -34,3 +34,5 @@ sass:
   style: compressed
 gems:
   - jekyll-sitemap
+
+favicon: /assets/img/favicon.ico
