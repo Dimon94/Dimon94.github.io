@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-07T13:43:43.116Z</updated>
+  <updated>2016-03-12T13:51:06.708Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/03/07/%E3%80%90%E8%AF%91%E6%96%87%E3%80%91RxAndroid%20and%20Kotlin(Part%201)/"/>
     <id>http://yoursite.com/2016/03/07/【译文】RxAndroid and Kotlin(Part 1)/</id>
     <published>2016-03-07T12:59:06.000Z</published>
-    <updated>2016-03-07T13:43:43.116Z</updated>
+    <updated>2016-03-12T13:51:06.708Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;原文作者：Ahmed Rizwan&lt;/p&gt;
@@ -42,6 +42,7 @@
 &lt;p&gt;摘要： Kotlin is an awesometacular alternative to Java, that works amazingly well on Android. And oh, it’s developed by JetBrains!&lt;/p&gt;
 &lt;p&gt;P.S. &lt;code&gt;Kotlin&lt;/code&gt; 是没有分号的。:-)&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;hr&gt;
 &lt;h3 id=&quot;Rx：概念&quot;&gt;&lt;a href=&quot;#Rx：概念&quot; class=&quot;headerlink&quot; title=&quot;Rx：概念&quot;&gt;&lt;/a&gt;Rx：概念&lt;/h3&gt;&lt;p&gt;如果你已经对于&lt;code&gt;Rx&lt;/code&gt;有了很好的概念，那么你可以跳过这一part。否则…请你继续吞了下面的这颗安利！！！&lt;/p&gt;
 &lt;p&gt;那么什么是Rx呢？(⊙v⊙)蒽…其实就是反应式编程&lt;code&gt;reactive programming&lt;/code&gt;…用简单的话说，反应式编程&lt;code&gt;reactive programming&lt;/code&gt;其实就是一种与观察者模式&lt;code&gt;Observer Pattern&lt;/code&gt;密切相关的编程模式。&lt;br&gt;其中，由被观察者&lt;code&gt;Observable&lt;/code&gt;调用了观察者&lt;code&gt;Subscriber&lt;/code&gt;的回调方法，就实现了由被观察者&lt;code&gt;Observable&lt;/code&gt;向观察者&lt;code&gt;Subscriber&lt;/code&gt;的事件传递，即观察者模式&lt;code&gt;Observer Pattern&lt;/code&gt;。&lt;br&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*Oa7zxVaeyF4TO6Mres4E5w.png&quot; alt=&quot;Observer Pattern&quot;&gt;&lt;/p&gt;
@@ -140,7 +141,24 @@
     
       &lt;blockquote&gt;
 &lt;p&gt;原文作者：Ahmed Rizwan&lt;/p&gt;
-&lt;p&gt;原文链接：&lt;a href=&quot;https://medium.com/@ahmedrizwan/rxandroid-and-kotlin-part-1-f0382dc26ed8#.8wixgg4a5&quot; 
+&lt;p&gt;原文链接：&lt;a href=&quot;https://medium.com/@ahmedrizwan/rxandroid-and-kotlin-part-1-f0382dc26ed8#.8wixgg4a5&quot;&gt;RxAndroid and Kotlin (Part1)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;译文作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;译者语：由于本人水平有限，翻译可能会存在偏差，望大大们谅解。翻译文章只为交流学习，谢谢观看。&lt;/p&gt;
+&lt;p&gt;文中的&lt;code&gt;Subscriber&lt;/code&gt;我直接译为观察者了，只是为了方便自己理解，如有不悦，见谅。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;我开始关注&lt;a href=&quot;https://github.com/ReactiveX/RxAndroid&quot;&gt;RxAndroid&lt;/a&gt;已经差不多一周时间了。一开始，我并没有真正意义上地理解它…我的意思是：我抓住了它的概念，但是我却不清楚该何时使用它。不过后来看了一些例子以及一些干货文章（链接在文章末）后，我才了解了&lt;code&gt;RxAndroid&lt;/code&gt;！（有了个良好的程度）当时的内心如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*rjlr5GxQIx8o28U5nhtDxg.gif&quot; alt=&quot;Such Rx. Much Reactive. Wow!&quot;&gt;&lt;/p&gt;
+&lt;p&gt;简而言之，你几乎可以在任何地方使用&lt;code&gt;Rx&lt;/code&gt;，但你不能这样做。你应该明智地揣摩哪儿更适合使用它，因为在某种情况下，&lt;code&gt;Rx&lt;/code&gt;可以提升100倍以上的生产性或者比正常命令性编程更好，而在其他情况下，则是没必要使用它的。&lt;/p&gt;
+&lt;p&gt;那么以下，我将展示&lt;code&gt;Kotlin&lt;/code&gt;和&lt;code&gt;Java&lt;/code&gt;这两种语言关于&lt;code&gt;Rx&lt;/code&gt;的一些例子。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你现在对&lt;code&gt;Kotlin&lt;/code&gt;不那么熟悉，那么我建议您可以访问以下链接:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://kotlinlang.org/&quot;&gt;Official Kotlin Website&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://kotlinlang.org/docs/tutorials/kotlin-android.html&quot;&gt;Getting Started on Android&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.google.com/document/d/1ReS3ep-hjxWA8kZi0YqDbEhCqTt29hG8P44aA9W0DM8/edit&quot;&gt;Jake Wharton’s Paper on Kotlin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;摘要： Kotlin is an awesometacular alternative to Java, that works amazingly well on Android. And oh, it’s developed by JetBrains!&lt;/p&gt;
+&lt;p&gt;P.S. &lt;code&gt;Kotlin&lt;/code&gt; 是没有分号的。:-)&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -158,31 +176,11 @@
   </entry>
   
   <entry>
-    <title>HelloWorld</title>
-    <link href="http://yoursite.com/2016/03/02/HelloWorld/"/>
-    <id>http://yoursite.com/2016/03/02/HelloWorld/</id>
-    <published>2016-03-01T17:44:45.000Z</published>
-    <updated>2016-03-01T18:03:39.766Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;腐朽的技术文类小博客&quot;&gt;&lt;a href=&quot;#腐朽的技术文类小博客&quot; class=&quot;headerlink&quot; title=&quot;腐朽的技术文类小博客&quot;&gt;&lt;/a&gt;腐朽的技术文类小博客&lt;/h1&gt;&lt;p&gt;&lt;code&gt;Hello Hexo!&lt;/code&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;腐朽的技术文类小博客&quot;&gt;&lt;a href=&quot;#腐朽的技术文类小博客&quot; class=&quot;headerlink&quot; title=&quot;腐朽的技术文类小博客&quot;&gt;&lt;/a&gt;腐朽的技术文类小博客&lt;/h1&gt;&lt;p&gt;&lt;code&gt;Hello Hexo!&lt;/code&gt;&lt;/p&gt;
-
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>常用 Git 命令清单</title>
     <link href="http://yoursite.com/2016/01/20/%E5%B8%B8%E7%94%A8%20Git%20%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95/"/>
     <id>http://yoursite.com/2016/01/20/常用 Git 命令清单/</id>
     <published>2016-01-20T01:56:06.000Z</published>
-    <updated>2016-03-01T18:05:09.092Z</updated>
+    <updated>2016-03-12T13:45:34.691Z</updated>
     
     <content type="html">&lt;p&gt;作为Git的初学者，对于这种版本控制系统并不是如此的熟练。所以摘抄了一些网上的大神总结的常用命令，把它挂在这，方便查找。&lt;/p&gt;
 &lt;ul&gt;
@@ -190,6 +188,7 @@
 &lt;li&gt;日期： 2015年12月 9日&lt;br&gt;-&lt;br&gt;我每天使用 Git ，但是很多命令记不住。&lt;br&gt;一般来说，日常使用只要记住下图6个命令，就可以了。但是熟练使用，恐怕要记住60～100个命令。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&quot;/images/Git.png&quot; alt=&quot;Git常用命令&quot;&gt;&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;以下是几个专有名词的译名如下。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Workspace: 工作区&lt;/li&gt;
@@ -218,7 +217,9 @@
       &lt;p&gt;作为Git的初学者，对于这种版本控制系统并不是如此的熟练。所以摘抄了一些网上的大神总结的常用命令，把它挂在这，方便查找。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;作者： 阮一峰&lt;/li&gt;
-&lt;li&gt;日期： 2015年12月 9日&lt;br&gt;-&lt;br&gt;我每天使用 Git ，但是很多命令记不住。&lt;
+&lt;li&gt;日期： 2015年12月 9日&lt;br&gt;-&lt;br&gt;我每天使用 Git ，但是很多命令记不住。&lt;br&gt;一般来说，日常使用只要记住下图6个命令，就可以了。但是熟练使用，恐怕要记住60～100个命令。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;/images/Git.png&quot; alt=&quot;Git常用命令&quot;&gt;&lt;/p&gt;
     
     </summary>
     
