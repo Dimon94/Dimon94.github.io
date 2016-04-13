@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-12T13:51:06.708Z</updated>
+  <updated>2016-04-13T16:27:48.775Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,128 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2016年3月小结</title>
+    <link href="http://yoursite.com/2016/04/03/2016%E5%B9%B43%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
+    <id>http://yoursite.com/2016/04/03/2016年3月小结/</id>
+    <published>2016-04-03T12:44:06.000Z</published>
+    <updated>2016-04-13T16:27:48.775Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER:&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;GanWuMei&lt;/code&gt;项目完成度40%&lt;/li&gt;
+&lt;li&gt;在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能回去学习，加强项目经验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;习惯&quot;&gt;&lt;a href=&quot;#习惯&quot; class=&quot;headerlink&quot; title=&quot;习惯&quot;&gt;&lt;/a&gt;习惯&lt;/h3&gt;&lt;h4 id=&quot;社交网络&quot;&gt;&lt;a href=&quot;#社交网络&quot; class=&quot;headerlink&quot; title=&quot;社交网络&quot;&gt;&lt;/a&gt;社交网络&lt;/h4&gt;&lt;p&gt;得益于大神&lt;a href=&quot;http://lucida.me/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Lucida&lt;/a&gt;的博客，开始有规律的作息以及有意识地去阅读书籍，但是仍旧很多地方做得不够。&lt;/p&gt;
+&lt;p&gt;经常出现一种被茫茫文章淹没的感觉，在简书、掘金等信息入口里被每天的技术推荐带着阅读，有时候甚至沉浸得太深而忘记做本来计划的事情，直接导致工作效率低了…这点在未来需要控制。&lt;/p&gt;
+&lt;p&gt;参考&lt;a href=&quot;http://lucida.me/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Lucida&lt;/a&gt;的规划，给自己也制定了一份：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习时间(8:30-23:30) [好吧，没工作的人就是闲-_-] 禁用无营养非技术文章，有营养有技术选读。&lt;/li&gt;
+&lt;li&gt;早上起床背完单词洗漱完毕后可以奖励自己看看这周新番更新！！！&lt;/li&gt;
+&lt;li&gt;晚上上床后禁用社交网络，只许与卿姐聊，并且要早睡。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;阅读&quot;&gt;&lt;a href=&quot;#阅读&quot; class=&quot;headerlink&quot; title=&quot;阅读&quot;&gt;&lt;/a&gt;阅读&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;算法4：43/636 这是我从3月底回到住处开始阅读的基础编程书籍，还需要继续加油;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;Atom&lt;/code&gt;安装体验：&lt;br&gt;&lt;a href=&quot;http://tech.glowing.com/cn/advices-to-junior-developers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;如何提升你的能力？给年轻程序员的几条建议&lt;/a&gt;:在这篇文章的指引下，我开始注重开发工具的运用，挑选真正适合自己的开发工具，文章中介绍几种开发神器，GitHub开发的&lt;code&gt;Atom&lt;/code&gt;和&lt;code&gt;Emacs&lt;/code&gt;。爱尝试一切新事物的我（就是爱玩），开始半天的开发工具的玩物丧志之旅。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://atom-china.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Atom China&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://wiki.jikexueyuan.com/project/atom/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Atom 使用教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;Atom&lt;/code&gt;初体验就是很适合wed开发。。。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Emacs&lt;/code&gt;安装体验&lt;br&gt;下载了一下&lt;code&gt;Emacs&lt;/code&gt;,发现这个开发工具的学习成本真的很高，配置都很花功夫。&lt;br&gt;下面三篇入门指南：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.csdn.net/redguardtoo/article/details/7222501&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一年成为Emacs高手(像神一样使用编辑器)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.jianshu.com/p/b4cf683c25f3&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;从零开始——Emacs 安装配置使用教程 2015&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.zybuluo.com/qqiseeu/note/17692&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Emacs配置文件——新手攻略&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&quot;AE&quot;&gt;&lt;a href=&quot;#AE&quot; class=&quot;headerlink&quot; title=&quot;AE&quot;&gt;&lt;/a&gt;AE&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://zh.wikipedia.org/zh/Adobe_After_Effects&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Adobe AfterEffects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://tieba.baidu.com/f?kw=ae&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AE贴吧&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://v.youku.com/v_show/id_XMTQ3NTA3MzU5Ng==.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;视频: 狂奔的奇葩兔 教程 AE的安装与破解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&quot;RxJava&quot;&gt;&lt;a href=&quot;#RxJava&quot; class=&quot;headerlink&quot; title=&quot;RxJava&quot;&gt;&lt;/a&gt;RxJava&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.devtf.cn/?p=323&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NotRxJava懒人专用指南&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&quot;RecyclerView&quot;&gt;&lt;a href=&quot;#RecyclerView&quot; class=&quot;headerlink&quot; title=&quot;RecyclerView&quot;&gt;&lt;/a&gt;RecyclerView&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://www.binpress.com/tutorial/android-l-recyclerview-and-cardview-tutorial/156&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Guide to Android RecyclerView and CardView&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://medium.com/google-developers/writing-more-code-by-writing-less-code-with-android-studio-live-templates-244f648d17c7#.y9jbgob2y&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Writing More Code by Writing Less Code with Android Studio Live Templates&lt;/a&gt;&lt;br&gt;关于AndroidStudio 的&lt;strong&gt;Live Templates&lt;/strong&gt;（动态模板），效果如下：&lt;br&gt;&lt;img src=&quot;https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif&quot; alt=&quot;动态模板（正确地）创建和显示一个新的吐司&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://labs.ribot.co.uk/android-application-architecture-8b6e34acda65#.9z7ocnp81&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Application Architecture&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Our journey from standard Activities and AsyncTasks to a modern MVP-based architecture powered by RxJava.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;4月OKR&quot;&gt;&lt;a href=&quot;#4月OKR&quot; class=&quot;headerlink&quot; title=&quot;4月OKR&quot;&gt;&lt;/a&gt;4月OKR&lt;/h1&gt;&lt;p&gt;目标：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下功夫学好Java&lt;/li&gt;
+&lt;li&gt;基本算法问题过关&lt;/li&gt;
+&lt;li&gt;安卓项目制作，3个以上&lt;/li&gt;
+&lt;li&gt;完成毕业设计&lt;/li&gt;
+&lt;li&gt;把自己的要求提高，找到好工作为止&lt;/li&gt;
+&lt;li&gt;每天commit-小目标30天（3月22号开始）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;量化：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;算法4，每天理解一个算法，白板写三次&lt;/li&gt;
+&lt;li&gt;加强数据结构知识&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关键结果：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每天作息（8:30 - 00:00）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;smirk&lt;/code&gt;: 禁欲&lt;/li&gt;
+&lt;li&gt;完成毕业设计&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;ALL END！&lt;/p&gt;
+&lt;p&gt;希望你稀饭我的文字，謝謝观看~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER:&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;GanWuMei&lt;/code&gt;项目完成度40%&lt;/li&gt;
+&lt;li&gt;在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能回去学习，加强项目经验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;习惯&quot;&gt;&lt;a href=&quot;#习惯&quot; class=&quot;headerlink&quot; title=&quot;习惯&quot;&gt;&lt;/a&gt;习惯&lt;/h3&gt;&lt;h4 id=&quot;社交网络&quot;&gt;&lt;a href=&quot;#社交网络&quot; class=&quot;headerlink&quot; title=&quot;社交网络&quot;&gt;&lt;/a&gt;社交网络&lt;/h4&gt;&lt;p&gt;得益于大神&lt;a href=&quot;http://lucida.me/&quot;&gt;Lucida&lt;/a&gt;的博客，开始有规律的作息以及有意识地去阅读书籍，但是仍旧很多地方做得不够。&lt;/p&gt;
+&lt;p&gt;经常出现一种被茫茫文章淹没的感觉，在简书、掘金等信息入口里被每天的技术推荐带着阅读，有时候甚至沉浸得太深而忘记做本来计划的事情，直接导致工作效率低了…这点在未来需要控制。&lt;/p&gt;
+&lt;p&gt;参考&lt;a href=&quot;http://lucida.me/&quot;&gt;Lucida&lt;/a&gt;的规划，给自己也制定了一份：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习时间(8:30-23:30) [好吧，没工作的人就是闲-_-] 禁用无营养非技术文章，有营养有技术选读。&lt;/li&gt;
+&lt;li&gt;早上起床背完单词洗漱完毕后可以奖励自己看看这周新番更新！！！&lt;/li&gt;
+&lt;li&gt;晚上上床后禁用社交网络，只许与卿姐聊，并且要早睡。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="总结" scheme="http://yoursite.com/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="总结" scheme="http://yoursite.com/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>【译文】RxAndroid and Kotlin (Part1)</title>
