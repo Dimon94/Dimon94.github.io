@@ -43,7 +43,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="总结," />
+  <meta name="keywords" content="Android,研读笔记," />
 
 
 
@@ -66,13 +66,19 @@ LOFTER：@Dimon、
 GitHub：@Dimon94
 
 
+01-Activity的生命周期
+生命周期和启动模式以及IntentFilter的匹配规则分析。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
+Activity的生命周期分为两个部分
+
+典型情况下的生命周期
+异常情况下的生命周期
+
+典型情况下的生命周期分析
+onCreate :表示Activity正在被创建。在这里可以做一些初始化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2016年3月小结">
-<meta property="og:url" content="http://yoursite.com/2016/04/03/2016年3月小结/index.html">
+<meta property="og:title" content="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
+<meta property="og:url" content="http://yoursite.com/2016/04/19/01-Activity的生命周期/index.html">
 <meta property="og:site_name" content="Dimon's Program Basement">
 <meta property="og:description" content="作者：Dimon
 
@@ -81,14 +87,22 @@ LOFTER：@Dimon、
 GitHub：@Dimon94
 
 
+01-Activity的生命周期
+生命周期和启动模式以及IntentFilter的匹配规则分析。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
-<meta property="og:image" content="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif">
-<meta property="og:updated_time" content="2016-04-19T07:32:19.776Z">
+Activity的生命周期分为两个部分
+
+典型情况下的生命周期
+异常情况下的生命周期
+
+典型情况下的生命周期分析
+onCreate :表示Activity正在被创建。在这里可以做一些初始化">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif">
+<meta property="og:image" content="http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8BActivity%E7%9A%84%E9%87%8D%E5%BB%BA%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%85%B3%E4%BA%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E6%81%A2%E5%A4%8DView%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84.png">
+<meta property="og:updated_time" content="2016-04-19T07:42:36.929Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2016年3月小结">
+<meta name="twitter:title" content="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
 <meta name="twitter:description" content="作者：Dimon
 
 微博：@Dimon-喰
@@ -96,11 +110,17 @@ LOFTER：@Dimon、
 GitHub：@Dimon94
 
 
+01-Activity的生命周期
+生命周期和启动模式以及IntentFilter的匹配规则分析。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
-<meta name="twitter:image" content="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif">
+Activity的生命周期分为两个部分
+
+典型情况下的生命周期
+异常情况下的生命周期
+
+典型情况下的生命周期分析
+onCreate :表示Activity正在被创建。在这里可以做一些初始化">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif">
 
 
 
@@ -118,7 +138,7 @@ GanWuMei项目完成度40%
   };
 </script>
 
-  <title> 2016年3月小结 | Dimon's Program Basement </title>
+  <title> Android开发艺术探索(研读笔记)-01-Activity的生命周期 | Dimon's Program Basement </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +278,7 @@ GanWuMei项目完成度40%
             
             
               
-                2016年3月小结
+                Android开发艺术探索(研读笔记)-01-Activity的生命周期
               
             
           </h1>
@@ -270,8 +290,8 @@ GanWuMei项目完成度40%
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-03T20:44:06+08:00" content="2016-04-03">
-              2016-04-03
+            <time itemprop="dateCreated" datetime="2016-04-19T15:40:00+08:00" content="2016-04-19">
+              2016-04-19
             </time>
           </span>
 
@@ -284,8 +304,20 @@ GanWuMei项目完成度40%
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/总结/" itemprop="url" rel="index">
-                    <span itemprop="name">总结</span>
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
                   </a>
                 </span>
 
@@ -300,8 +332,8 @@ GanWuMei项目完成度40%
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/03/2016年3月小结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/03/2016年3月小结/" itemprop="commentsCount"></span>
+                <a href="/2016/04/19/01-Activity的生命周期/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/19/01-Activity的生命周期/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,7 +343,7 @@ GanWuMei项目完成度40%
 
           
           
-             <span id="/2016/04/03/2016年3月小结/" class="leancloud_visitors" data-flag-title="2016年3月小结">
+             <span id="/2016/04/19/01-Activity的生命周期/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -340,79 +372,129 @@ GanWuMei项目完成度40%
 <li>GitHub：<a href="https://github.com/Dimon94" target="_blank" rel="external">@Dimon94</a></li>
 </ul>
 </blockquote>
-<hr>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><code>GanWuMei</code>项目完成度40%</li>
-<li>在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能回去学习，加强项目经验。</li>
-</ul>
-<hr>
-<h3 id="习惯"><a href="#习惯" class="headerlink" title="习惯"></a>习惯</h3><h4 id="社交网络"><a href="#社交网络" class="headerlink" title="社交网络"></a>社交网络</h4><p>得益于大神<a href="http://lucida.me/" target="_blank" rel="external">Lucida</a>的博客，开始有规律的作息以及有意识地去阅读书籍，但是仍旧很多地方做得不够。</p>
-<p>经常出现一种被茫茫文章淹没的感觉，在简书、掘金等信息入口里被每天的技术推荐带着阅读，有时候甚至沉浸得太深而忘记做本来计划的事情，直接导致工作效率低了…这点在未来需要控制。</p>
-<p>参考<a href="http://lucida.me/" target="_blank" rel="external">Lucida</a>的规划，给自己也制定了一份：</p>
-<ul>
-<li>学习时间(8:30-23:30) [好吧，没工作的人就是闲-_-] 禁用无营养非技术文章，有营养有技术选读。</li>
-<li>早上起床背完单词洗漱完毕后可以奖励自己看看这周新番更新！！！</li>
-<li>晚上上床后禁用社交网络，只许与卿姐聊，并且要早睡。</li>
-</ul>
-<a id="more"></a>
-<h3 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h3><ul>
-<li>算法4：43/636 这是我从3月底回到住处开始阅读的基础编程书籍，还需要继续加油;</li>
-</ul>
-<p><code>Atom</code>安装体验：<br><a href="http://tech.glowing.com/cn/advices-to-junior-developers/" target="_blank" rel="external">如何提升你的能力？给年轻程序员的几条建议</a>:在这篇文章的指引下，我开始注重开发工具的运用，挑选真正适合自己的开发工具，文章中介绍几种开发神器，GitHub开发的<code>Atom</code>和<code>Emacs</code>。爱尝试一切新事物的我（就是爱玩），开始半天的开发工具的玩物丧志之旅。</p>
-<ul>
-<li><a href="https://atom-china.org/" target="_blank" rel="external">Atom China</a></li>
-<li><a href="http://wiki.jikexueyuan.com/project/atom/" target="_blank" rel="external">Atom 使用教程</a></li>
-</ul>
-<p><code>Atom</code>初体验就是很适合wed开发。。。</p>
-<p><code>Emacs</code>安装体验<br>下载了一下<code>Emacs</code>,发现这个开发工具的学习成本真的很高，配置都很花功夫。<br>下面三篇入门指南：</p>
-<ul>
-<li><a href="http://blog.csdn.net/redguardtoo/article/details/7222501" target="_blank" rel="external">一年成为Emacs高手(像神一样使用编辑器)</a></li>
-<li><a href="http://www.jianshu.com/p/b4cf683c25f3" target="_blank" rel="external">从零开始——Emacs 安装配置使用教程 2015</a></li>
-<li><a href="https://www.zybuluo.com/qqiseeu/note/17692" target="_blank" rel="external">Emacs配置文件——新手攻略</a></li>
-</ul>
-<h5 id="AE"><a href="#AE" class="headerlink" title="AE"></a>AE</h5><ul>
-<li><a href="https://zh.wikipedia.org/zh/Adobe_After_Effects" target="_blank" rel="external">Adobe AfterEffects</a></li>
-<li><a href="http://tieba.baidu.com/f?kw=ae" target="_blank" rel="external">AE贴吧</a></li>
-<li><a href="http://v.youku.com/v_show/id_XMTQ3NTA3MzU5Ng==.html" target="_blank" rel="external">视频: 狂奔的奇葩兔 教程 AE的安装与破解</a></li>
-</ul>
-<h5 id="RxJava"><a href="#RxJava" class="headerlink" title="RxJava"></a>RxJava</h5><ul>
-<li><a href="http://www.devtf.cn/?p=323" target="_blank" rel="external">NotRxJava懒人专用指南</a></li>
-</ul>
-<h5 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ul>
-<li><p><a href="http://www.binpress.com/tutorial/android-l-recyclerview-and-cardview-tutorial/156" target="_blank" rel="external">A Guide to Android RecyclerView and CardView</a></p>
-</li>
-<li><p><a href="https://medium.com/google-developers/writing-more-code-by-writing-less-code-with-android-studio-live-templates-244f648d17c7#.y9jbgob2y" target="_blank" rel="external">Writing More Code by Writing Less Code with Android Studio Live Templates</a><br>关于AndroidStudio 的<strong>Live Templates</strong>（动态模板），效果如下：<br><img src="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif" alt="动态模板（正确地）创建和显示一个新的吐司"></p>
-</li>
-<li><p><a href="https://labs.ribot.co.uk/android-application-architecture-8b6e34acda65#.9z7ocnp81" target="_blank" rel="external">Android Application Architecture</a></p>
-<blockquote>
-<p>Our journey from standard Activities and AsyncTasks to a modern MVP-based architecture powered by RxJava.</p>
+<h2 id="01-Activity的生命周期"><a href="#01-Activity的生命周期" class="headerlink" title="01-Activity的生命周期"></a>01-Activity的生命周期</h2><blockquote>
+<p>生命周期和启动模式以及IntentFilter的匹配规则分析。</p>
 </blockquote>
-</li>
+<p>Activity的生命周期分为两个部分</p>
+<ol>
+<li>典型情况下的生命周期</li>
+<li>异常情况下的生命周期</li>
+</ol>
+<h3 id="典型情况下的生命周期分析"><a href="#典型情况下的生命周期分析" class="headerlink" title="典型情况下的生命周期分析"></a>典型情况下的生命周期分析</h3><ul>
+<li><strong>onCreate</strong> :表示<code>Activity</code>正在被创建。在这里可以做一些初始化的工作。</li>
+<li><strong>onRestart</strong> :表示<code>Activity</code>正在重新启动。当当前<code>Activity</code>从不可见重新变成可见状态。</li>
+<li><strong>onStart</strong> :表示<code>Activity</code>正在被启动。已经可见，但不在前台，无法交互。</li>
+<li><strong>onResume</strong> :表示<code>Activity</code>已经可见，并且出现在前台可以交互。</li>
+<li><strong>onPause</strong> :表示<code>Activity</code>正在停止。在这里可以做一些储存数据，停止动画等工作，<strong>但不能太耗时</strong>，因为必须<code>onPause</code>执行完成之后新的<code>Activity</code>才能<code>Resume</code>。</li>
+<li><strong>onStop</strong> :表示<code>Activity</code>即将停止。可以进行一些稍微重量级的回收工作，不能太耗时。</li>
+<li><strong>onDestroy</strong> :表示<code>Activity</code>即将被销毁。可以进行一些回收工作和最终的资源释放。</li>
 </ul>
+<p><img src="http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif" alt="Activity的生命周期"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li><strong>onStart和onStop是从Activity是否可见这个角度来回调的</strong></li>
+<li><strong>onResum和onPause是从Activity是否在前台这个角度来回调的</strong></li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="异常情况下的生命周期分析"><a href="#异常情况下的生命周期分析" class="headerlink" title="异常情况下的生命周期分析"></a>异常情况下的生命周期分析</h3><h4 id="情况-1：资源相关的系统配置发生改变导致Activity被杀死并重新创建"><a href="#情况-1：资源相关的系统配置发生改变导致Activity被杀死并重新创建" class="headerlink" title="情况 1：资源相关的系统配置发生改变导致Activity被杀死并重新创建"></a>情况 1：资源相关的系统配置发生改变导致Activity被杀死并重新创建</h4><blockquote>
+<p>比如说横屏手机和竖屏手机会拿到两张不同的图片（设定了landscape或者portrait状态下的图片）。本来手机在竖屏状态，突然旋转屏幕，由于系统配置发生了变化，在默认情况下，Activity会被销毁并且重新创建，当然我们也可以阻止系统重新创建我们的Activity。</p>
+</blockquote>
+<p>当系统配置发生改变后，Activity会调用 onPause -&gt; onStop -&gt; onDestroy。</p>
+<p>由于是异常情况终止，系统会在<code>onStop</code>之前调用<code>onSaveInstanceState</code>来保存当前<code>Activity</code>的状态。(与<code>onPause</code>没有时序关系)</p>
+<p>当<code>Activity</code>被系统重新创建后，系统会调用<code>onRestoreInstanceState</code>，把之前<code>onSaveInstanceState</code>方法所保存的<strong><code>Bundle</code>对象</strong>作为参数同时传给<code>onRestoreInstanceState</code>和<code>onCreate</code>方法。(从时序来说，<code>onRestoreInstanceState</code>的调用时机在<code>onStart</code>之后)</p>
+<p><img src="http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8BActivity%E7%9A%84%E9%87%8D%E5%BB%BA%E8%BF%87%E7%A8%8B.png" alt="异常情况下Activity的重建过程"></p>
+<p>而在视图方面，当Activity在异常情况下需要重新创建时，系统会默认为我们保存当前Activity的视图结构，并且在Activity重启后为我们恢复这些数据。</p>
+<p>其实每个View都有<code>onSaveInstanceState</code>和<code>onRestoreInstanceState</code>,关于保存和恢复View层级结构，系统的工作流程如下：</p>
+<p><img src="http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%85%B3%E4%BA%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E6%81%A2%E5%A4%8DView%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84.png" alt="关于保存与恢复View层级结构"></p>
+<blockquote>
+<p>onSaveInstanceState方法，系统只会在Activity即将被销毁<strong>并且有机会重新显示</strong>的情况下才会去调用它。</p>
+</blockquote>
+<h4 id="情况-2：资源内存不足导致低优先级的Activity被杀死"><a href="#情况-2：资源内存不足导致低优先级的Activity被杀死" class="headerlink" title="情况 2：资源内存不足导致低优先级的Activity被杀死"></a>情况 2：资源内存不足导致低优先级的Activity被杀死</h4><p>其实这种情况的数据存储与恢复过程与情况 1完全一致。</p>
+<p>Activity的优先级情况：</p>
+<ul>
+<li>前台的<code>Activity</code> —— 正在和用户交互的<code>Activity</code>，优先级最高</li>
+<li>可见但非前台的<code>Activity</code> —— 比如<code>Activity</code>中弹出了一个对话框，导致<code>Activity</code>可见但是位于后台，无法和用户进行直接交互</li>
+<li>后台的<code>Activity</code> —— 已经被暂停的<code>Activity</code>，比如执行了<code>onStop</code>，优先级最低</li>
+</ul>
+<p>当系统内存不足时，系统就会按照上述优先级去杀死目标<code>Activity</code>所在的进程，并在后续通过<code>onSaveInstanceState</code>和<code>onRestoreInstanceState</code>来存储和恢复数据。而将后台工作放入<code>Service</code>中是一个比较好的方法。</p>
+<h4 id="当系统配置改变后，Activity如何不被重新创建"><a href="#当系统配置改变后，Activity如何不被重新创建" class="headerlink" title="当系统配置改变后，Activity如何不被重新创建"></a>当系统配置改变后，Activity如何不被重新创建</h4><p>由于系统配置中有很多内容，如果当某项内容发生改变后，不想系统重新创建<code>Activity</code>，<strong>可以给<code>Activity</code>指定<code>configChanges</code>属性</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:configChanges=&quot;orientation|keyboardHidden&quot;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">项目</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">mcc</td>
+<td style="text-align:left">SIM卡唯一标识IMSI(国际移动用户识别码)中的国家代码，由3位数组成，中国为460.此项 标识mcc代码发生了改变</td>
+</tr>
+<tr>
+<td style="text-align:left">mnc</td>
+<td style="text-align:left">SIM卡唯一标识IMSI(国际移动用户识别码)中的运营商代码，由两位数字组成，中国移动TD系统为00，中国联通为01，中国电信为03。此项标识mnc发生改变</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>locale</strong></td>
+<td style="text-align:left">设备的本地位置发生了改变们一般指切换了系统语言</td>
+</tr>
+<tr>
+<td style="text-align:left">touchscreen</td>
+<td style="text-align:left">触摸屏发生了改变，正常情况下无法发生，可以忽略它</td>
+</tr>
+<tr>
+<td style="text-align:left">keyboard</td>
+<td style="text-align:left">键盘类型发生了改变，比如用户使用了外插键盘</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>keyboardHidden</strong></td>
+<td style="text-align:left">键盘的可访问性发生了改变，比如用户调出了键盘</td>
+</tr>
+<tr>
+<td style="text-align:left">navigation</td>
+<td style="text-align:left">系统导航方式发生了改变，比如采用了轨迹球导航，很难发生，可以忽略</td>
+</tr>
+<tr>
+<td style="text-align:left">screenLayout</td>
+<td style="text-align:left">屏幕布局发生了改变，很可能是用户激活了另一个显示设备</td>
+</tr>
+<tr>
+<td style="text-align:left">fontScale</td>
+<td style="text-align:left">系统字体缩放比如发生了改变，比如用户选择了一个新字号</td>
+</tr>
+<tr>
+<td style="text-align:left">uiMode</td>
+<td style="text-align:left">用户界面模式发生了改变，比如是否开启了夜间模式（API8新添加）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>orientation</strong></td>
+<td style="text-align:left">屏幕方向发生了改变，这个是最常用的，比如旋转了手机屏幕</td>
+</tr>
+<tr>
+<td style="text-align:left">screenSize</td>
+<td style="text-align:left">当屏幕的尺寸信息发生了改变，当旋转设备屏幕时，屏幕尺寸会发生变化，这个选项比较特殊，它和编译选项有关，当编译选项中的minSdkVersion和targetSdkVersion 均低于13时，此选项不会导致Activity重启，否则会导致Activity重启（API13新添加）</td>
+</tr>
+<tr>
+<td style="text-align:left">smallestScreenSize</td>
+<td style="text-align:left">设备的物理屏幕尺寸发生了改变，这个项目和屏幕的方向没有关系，仅仅表示在实际的物理屏幕的尺寸改变的时候发生，比如用户切换到了外部的显示设备，这个选项和screenSize一样，当编译选项中的minSdkVersion和targetSdkVersion均低于13时，此选项不会导致Activity重启，否则会导致Activity重启（API13新添加）</td>
+</tr>
+<tr>
+<td style="text-align:left">layoutDirection</td>
+<td style="text-align:left">当布局方向发生变化，这个属性用的比较少，正常情况下无须修改布局的layoutDirection属性（API17新添加）</td>
+</tr>
+</tbody>
+</table>
+<p>如果我们没有在<code>Activity</code>的<code>configChanges</code>属性中指定该选项的话，当配置发生改变后就会导致<code>Activity</code>重新创建。</p>
+<p>最常用的只有<code>locale</code>、<code>orientation</code>和<code>keyboardHidden</code>。</p>
+<p>需要修改的代码很简单，只需要在AndroidMenifest.xml中加入Activity的声明即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span><br><span class="line">    <span class="attr">android:name</span>=<span class="string">"com.dimon.MainActivity"</span></span><br><span class="line">    <span class="attr">android:configChanges</span>=<span class="string">"orientation|screenSize"</span></span><br><span class="line">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span></span>&#123;</span><br><span class="line">  <span class="keyword">super</span>.onConfigurationChanged(newConfig);</span><br><span class="line">  Log.d(TAG,<span class="string">"onConfigurationChanged,newOrientation:"</span> + newConfig.orientation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Activity</code>没有重新创建，并且没有调用<code>onSaveInstanceState</code>和<code>onRestoreInstanceState</code>来存储和恢复数据，而是系统调用了<code>Activity</code>的<code>onConfigurationChanged</code>方法，这个时候我们可以加入一些自己的特殊处理了。</p>
 <hr>
-<h1 id="4月OKR"><a href="#4月OKR" class="headerlink" title="4月OKR"></a>4月OKR</h1><p>目标：</p>
 <ul>
-<li>下功夫学好Java</li>
-<li>基本算法问题过关</li>
-<li>安卓项目制作，3个以上</li>
-<li>完成毕业设计</li>
-<li>把自己的要求提高，找到好工作为止</li>
-<li>每天commit-小目标30天（3月22号开始）</li>
+<li>邮箱 ：<a href="elisabethzhen@163.com">elisabethzhen@163.com</a></li>
+<li>Good Luck!</li>
 </ul>
-<p>量化：</p>
-<ul>
-<li>算法4，每天理解一个算法，白板写三次</li>
-<li>加强数据结构知识</li>
-</ul>
-<p>关键结果：</p>
-<ul>
-<li>每天作息（8:30 - 00:00）</li>
-<li><code>smirk</code>: 禁欲</li>
-<li>完成毕业设计</li>
-</ul>
-<hr>
-<p>ALL END！</p>
-<p>希望你稀饭我的文字，謝謝观看~</p>
 
       
     </div>
@@ -427,7 +509,9 @@ GanWuMei项目完成度40%
       
         <div class="post-tags">
           
-            <a href="/tags/总结/" rel="tag">#总结</a>
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/研读笔记/" rel="tag">#研读笔记</a>
           
         </div>
       
@@ -436,17 +520,13 @@ GanWuMei项目完成度40%
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/07/【译文】RxAndroid and Kotlin(Part 1)/" rel="next" title="【译文】RxAndroid and Kotlin (Part1)">
-                <i class="fa fa-chevron-left"></i> 【译文】RxAndroid and Kotlin (Part1)
+              <a href="/2016/04/03/2016年3月小结/" rel="next" title="2016年3月小结">
+                <i class="fa fa-chevron-left"></i> 2016年3月小结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/19/01-Activity的生命周期/" rel="prev" title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
-                Android开发艺术探索(研读笔记)-01-Activity的生命周期 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +555,8 @@ GanWuMei项目完成度40%
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/03/2016年3月小结/"
-           data-title="2016年3月小结" data-url="http://yoursite.com/2016/04/03/2016年3月小结/">
+      <div class="ds-thread" data-thread-key="2016/04/19/01-Activity的生命周期/"
+           data-title="Android开发艺术探索(研读笔记)-01-Activity的生命周期" data-url="http://yoursite.com/2016/04/19/01-Activity的生命周期/">
       </div>
     
   </div>
@@ -602,7 +682,7 @@ GanWuMei项目完成度40%
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#习惯"><span class="nav-number">2.</span> <span class="nav-text">习惯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#社交网络"><span class="nav-number">2.1.</span> <span class="nav-text">社交网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阅读"><span class="nav-number">3.</span> <span class="nav-text">阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AE"><span class="nav-number">3.0.1.</span> <span class="nav-text">AE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RxJava"><span class="nav-number">3.0.2.</span> <span class="nav-text">RxJava</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RecyclerView"><span class="nav-number">3.0.3.</span> <span class="nav-text">RecyclerView</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4月OKR"><span class="nav-number"></span> <span class="nav-text">4月OKR</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#01-Activity的生命周期"><span class="nav-number">1.</span> <span class="nav-text">01-Activity的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#典型情况下的生命周期分析"><span class="nav-number">1.1.</span> <span class="nav-text">典型情况下的生命周期分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常情况下的生命周期分析"><span class="nav-number">2.1.</span> <span class="nav-text">异常情况下的生命周期分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况-1：资源相关的系统配置发生改变导致Activity被杀死并重新创建"><span class="nav-number">2.1.1.</span> <span class="nav-text">情况 1：资源相关的系统配置发生改变导致Activity被杀死并重新创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况-2：资源内存不足导致低优先级的Activity被杀死"><span class="nav-number">2.1.2.</span> <span class="nav-text">情况 2：资源内存不足导致低优先级的Activity被杀死</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当系统配置改变后，Activity如何不被重新创建"><span class="nav-number">2.1.3.</span> <span class="nav-text">当系统配置改变后，Activity如何不被重新创建</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

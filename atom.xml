@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-13T16:27:48.775Z</updated>
+  <updated>2016-04-19T07:42:36.929Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,17 +16,206 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>2016年3月小结</title>
-    <link href="http://yoursite.com/2016/04/03/2016%E5%B9%B43%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
-    <id>http://yoursite.com/2016/04/03/2016年3月小结/</id>
-    <published>2016-04-03T12:44:06.000Z</published>
-    <updated>2016-04-13T16:27:48.775Z</updated>
+    <title>Android开发艺术探索(研读笔记)-01-Activity的生命周期</title>
+    <link href="http://yoursite.com/2016/04/19/01-Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>http://yoursite.com/2016/04/19/01-Activity的生命周期/</id>
+    <published>2016-04-19T07:40:00.000Z</published>
+    <updated>2016-04-19T07:42:36.929Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LOFTER:&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;01-Activity的生命周期&quot;&gt;&lt;a href=&quot;#01-Activity的生命周期&quot; class=&quot;headerlink&quot; title=&quot;01-Activity的生命周期&quot;&gt;&lt;/a&gt;01-Activity的生命周期&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;生命周期和启动模式以及IntentFilter的匹配规则分析。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Activity的生命周期分为两个部分&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;典型情况下的生命周期&lt;/li&gt;
+&lt;li&gt;异常情况下的生命周期&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;典型情况下的生命周期分析&quot;&gt;&lt;a href=&quot;#典型情况下的生命周期分析&quot; class=&quot;headerlink&quot; title=&quot;典型情况下的生命周期分析&quot;&gt;&lt;/a&gt;典型情况下的生命周期分析&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;onCreate&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在被创建。在这里可以做一些初始化的工作。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onRestart&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在重新启动。当当前&lt;code&gt;Activity&lt;/code&gt;从不可见重新变成可见状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onStart&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在被启动。已经可见，但不在前台，无法交互。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onResume&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;已经可见，并且出现在前台可以交互。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onPause&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在停止。在这里可以做一些储存数据，停止动画等工作，&lt;strong&gt;但不能太耗时&lt;/strong&gt;，因为必须&lt;code&gt;onPause&lt;/code&gt;执行完成之后新的&lt;code&gt;Activity&lt;/code&gt;才能&lt;code&gt;Resume&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onStop&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;即将停止。可以进行一些稍微重量级的回收工作，不能太耗时。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onDestroy&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;即将被销毁。可以进行一些回收工作和最终的资源释放。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif&quot; alt=&quot;Activity的生命周期&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;onStart和onStop是从Activity是否可见这个角度来回调的&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onResum和onPause是从Activity是否在前台这个角度来回调的&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id=&quot;异常情况下的生命周期分析&quot;&gt;&lt;a href=&quot;#异常情况下的生命周期分析&quot; class=&quot;headerlink&quot; title=&quot;异常情况下的生命周期分析&quot;&gt;&lt;/a&gt;异常情况下的生命周期分析&lt;/h3&gt;&lt;h4 id=&quot;情况-1：资源相关的系统配置发生改变导致Activity被杀死并重新创建&quot;&gt;&lt;a href=&quot;#情况-1：资源相关的系统配置发生改变导致Activity被杀死并重新创建&quot; class=&quot;headerlink&quot; title=&quot;情况 1：资源相关的系统配置发生改变导致Activity被杀死并重新创建&quot;&gt;&lt;/a&gt;情况 1：资源相关的系统配置发生改变导致Activity被杀死并重新创建&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;比如说横屏手机和竖屏手机会拿到两张不同的图片（设定了landscape或者portrait状态下的图片）。本来手机在竖屏状态，突然旋转屏幕，由于系统配置发生了变化，在默认情况下，Activity会被销毁并且重新创建，当然我们也可以阻止系统重新创建我们的Activity。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当系统配置发生改变后，Activity会调用 onPause -&amp;gt; onStop -&amp;gt; onDestroy。&lt;/p&gt;
+&lt;p&gt;由于是异常情况终止，系统会在&lt;code&gt;onStop&lt;/code&gt;之前调用&lt;code&gt;onSaveInstanceState&lt;/code&gt;来保存当前&lt;code&gt;Activity&lt;/code&gt;的状态。(与&lt;code&gt;onPause&lt;/code&gt;没有时序关系)&lt;/p&gt;
+&lt;p&gt;当&lt;code&gt;Activity&lt;/code&gt;被系统重新创建后，系统会调用&lt;code&gt;onRestoreInstanceState&lt;/code&gt;，把之前&lt;code&gt;onSaveInstanceState&lt;/code&gt;方法所保存的&lt;strong&gt;&lt;code&gt;Bundle&lt;/code&gt;对象&lt;/strong&gt;作为参数同时传给&lt;code&gt;onRestoreInstanceState&lt;/code&gt;和&lt;code&gt;onCreate&lt;/code&gt;方法。(从时序来说，&lt;code&gt;onRestoreInstanceState&lt;/code&gt;的调用时机在&lt;code&gt;onStart&lt;/code&gt;之后)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5%E4%B8%8BActivity%E7%9A%84%E9%87%8D%E5%BB%BA%E8%BF%87%E7%A8%8B.png&quot; alt=&quot;异常情况下Activity的重建过程&quot;&gt;&lt;/p&gt;
+&lt;p&gt;而在视图方面，当Activity在异常情况下需要重新创建时，系统会默认为我们保存当前Activity的视图结构，并且在Activity重启后为我们恢复这些数据。&lt;/p&gt;
+&lt;p&gt;其实每个View都有&lt;code&gt;onSaveInstanceState&lt;/code&gt;和&lt;code&gt;onRestoreInstanceState&lt;/code&gt;,关于保存和恢复View层级结构，系统的工作流程如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs99u.com1.z0.glb.clouddn.com/image/png/%E5%85%B3%E4%BA%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E6%81%A2%E5%A4%8DView%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84.png&quot; alt=&quot;关于保存与恢复View层级结构&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;onSaveInstanceState方法，系统只会在Activity即将被销毁&lt;strong&gt;并且有机会重新显示&lt;/strong&gt;的情况下才会去调用它。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;情况-2：资源内存不足导致低优先级的Activity被杀死&quot;&gt;&lt;a href=&quot;#情况-2：资源内存不足导致低优先级的Activity被杀死&quot; class=&quot;headerlink&quot; title=&quot;情况 2：资源内存不足导致低优先级的Activity被杀死&quot;&gt;&lt;/a&gt;情况 2：资源内存不足导致低优先级的Activity被杀死&lt;/h4&gt;&lt;p&gt;其实这种情况的数据存储与恢复过程与情况 1完全一致。&lt;/p&gt;
+&lt;p&gt;Activity的优先级情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前台的&lt;code&gt;Activity&lt;/code&gt; —— 正在和用户交互的&lt;code&gt;Activity&lt;/code&gt;，优先级最高&lt;/li&gt;
+&lt;li&gt;可见但非前台的&lt;code&gt;Activity&lt;/code&gt; —— 比如&lt;code&gt;Activity&lt;/code&gt;中弹出了一个对话框，导致&lt;code&gt;Activity&lt;/code&gt;可见但是位于后台，无法和用户进行直接交互&lt;/li&gt;
+&lt;li&gt;后台的&lt;code&gt;Activity&lt;/code&gt; —— 已经被暂停的&lt;code&gt;Activity&lt;/code&gt;，比如执行了&lt;code&gt;onStop&lt;/code&gt;，优先级最低&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当系统内存不足时，系统就会按照上述优先级去杀死目标&lt;code&gt;Activity&lt;/code&gt;所在的进程，并在后续通过&lt;code&gt;onSaveInstanceState&lt;/code&gt;和&lt;code&gt;onRestoreInstanceState&lt;/code&gt;来存储和恢复数据。而将后台工作放入&lt;code&gt;Service&lt;/code&gt;中是一个比较好的方法。&lt;/p&gt;
+&lt;h4 id=&quot;当系统配置改变后，Activity如何不被重新创建&quot;&gt;&lt;a href=&quot;#当系统配置改变后，Activity如何不被重新创建&quot; class=&quot;headerlink&quot; title=&quot;当系统配置改变后，Activity如何不被重新创建&quot;&gt;&lt;/a&gt;当系统配置改变后，Activity如何不被重新创建&lt;/h4&gt;&lt;p&gt;由于系统配置中有很多内容，如果当某项内容发生改变后，不想系统重新创建&lt;code&gt;Activity&lt;/code&gt;，&lt;strong&gt;可以给&lt;code&gt;Activity&lt;/code&gt;指定&lt;code&gt;configChanges&lt;/code&gt;属性&lt;/strong&gt;。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;android:configChanges=&amp;quot;orientation|keyboardHidden&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:left&quot;&gt;项目&lt;/th&gt;
+&lt;th style=&quot;text-align:left&quot;&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;mcc&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;SIM卡唯一标识IMSI(国际移动用户识别码)中的国家代码，由3位数组成，中国为460.此项 标识mcc代码发生了改变&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;mnc&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;SIM卡唯一标识IMSI(国际移动用户识别码)中的运营商代码，由两位数字组成，中国移动TD系统为00，中国联通为01，中国电信为03。此项标识mnc发生改变&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;&lt;strong&gt;locale&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;设备的本地位置发生了改变们一般指切换了系统语言&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;touchscreen&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;触摸屏发生了改变，正常情况下无法发生，可以忽略它&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;keyboard&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;键盘类型发生了改变，比如用户使用了外插键盘&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;&lt;strong&gt;keyboardHidden&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;键盘的可访问性发生了改变，比如用户调出了键盘&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;navigation&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;系统导航方式发生了改变，比如采用了轨迹球导航，很难发生，可以忽略&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;screenLayout&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;屏幕布局发生了改变，很可能是用户激活了另一个显示设备&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;fontScale&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;系统字体缩放比如发生了改变，比如用户选择了一个新字号&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;uiMode&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;用户界面模式发生了改变，比如是否开启了夜间模式（API8新添加）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;&lt;strong&gt;orientation&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;屏幕方向发生了改变，这个是最常用的，比如旋转了手机屏幕&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;screenSize&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;当屏幕的尺寸信息发生了改变，当旋转设备屏幕时，屏幕尺寸会发生变化，这个选项比较特殊，它和编译选项有关，当编译选项中的minSdkVersion和targetSdkVersion 均低于13时，此选项不会导致Activity重启，否则会导致Activity重启（API13新添加）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;smallestScreenSize&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;设备的物理屏幕尺寸发生了改变，这个项目和屏幕的方向没有关系，仅仅表示在实际的物理屏幕的尺寸改变的时候发生，比如用户切换到了外部的显示设备，这个选项和screenSize一样，当编译选项中的minSdkVersion和targetSdkVersion均低于13时，此选项不会导致Activity重启，否则会导致Activity重启（API13新添加）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;layoutDirection&lt;/td&gt;
+&lt;td style=&quot;text-align:left&quot;&gt;当布局方向发生变化，这个属性用的比较少，正常情况下无须修改布局的layoutDirection属性（API17新添加）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如果我们没有在&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;configChanges&lt;/code&gt;属性中指定该选项的话，当配置发生改变后就会导致&lt;code&gt;Activity&lt;/code&gt;重新创建。&lt;/p&gt;
+&lt;p&gt;最常用的只有&lt;code&gt;locale&lt;/code&gt;、&lt;code&gt;orientation&lt;/code&gt;和&lt;code&gt;keyboardHidden&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;需要修改的代码很简单，只需要在AndroidMenifest.xml中加入Activity的声明即可：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;activity&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.MainActivity&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:configChanges&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;orientation|screenSize&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:label&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;@string/app_name&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;android.intent.action.MAIN&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;category&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;android.intent.category.LAUNCHER&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;activity&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@Override&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;onConfigurationChanged&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Configuration newConfig)&lt;/span&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;super&lt;/span&gt;.onConfigurationChanged(newConfig);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  Log.d(TAG,&lt;span class=&quot;string&quot;&gt;&quot;onConfigurationChanged,newOrientation:&quot;&lt;/span&gt; + newConfig.orientation);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;Activity&lt;/code&gt;没有重新创建，并且没有调用&lt;code&gt;onSaveInstanceState&lt;/code&gt;和&lt;code&gt;onRestoreInstanceState&lt;/code&gt;来存储和恢复数据，而是系统调用了&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onConfigurationChanged&lt;/code&gt;方法，这个时候我们可以加入一些自己的特殊处理了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;邮箱 ：&lt;a href=&quot;elisabethzhen@163.com&quot;&gt;elisabethzhen@163.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Good Luck!&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;01-Activity的生命周期&quot;&gt;&lt;a href=&quot;#01-Activity的生命周期&quot; class=&quot;headerlink&quot; title=&quot;01-Activity的生命周期&quot;&gt;&lt;/a&gt;01-Activity的生命周期&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;生命周期和启动模式以及IntentFilter的匹配规则分析。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Activity的生命周期分为两个部分&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;典型情况下的生命周期&lt;/li&gt;
+&lt;li&gt;异常情况下的生命周期&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;典型情况下的生命周期分析&quot;&gt;&lt;a href=&quot;#典型情况下的生命周期分析&quot; class=&quot;headerlink&quot; title=&quot;典型情况下的生命周期分析&quot;&gt;&lt;/a&gt;典型情况下的生命周期分析&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;onCreate&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在被创建。在这里可以做一些初始化的工作。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onRestart&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在重新启动。当当前&lt;code&gt;Activity&lt;/code&gt;从不可见重新变成可见状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onStart&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在被启动。已经可见，但不在前台，无法交互。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onResume&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;已经可见，并且出现在前台可以交互。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onPause&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;正在停止。在这里可以做一些储存数据，停止动画等工作，&lt;strong&gt;但不能太耗时&lt;/strong&gt;，因为必须&lt;code&gt;onPause&lt;/code&gt;执行完成之后新的&lt;code&gt;Activity&lt;/code&gt;才能&lt;code&gt;Resume&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onStop&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;即将停止。可以进行一些稍微重量级的回收工作，不能太耗时。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onDestroy&lt;/strong&gt; :表示&lt;code&gt;Activity&lt;/code&gt;即将被销毁。可以进行一些回收工作和最终的资源释放。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif&quot; alt=&quot;Activity的生命周期&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;onStart和onStop是从Activity是否可见这个角度来回调的&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;onResum和onPause是从Activity是否在前台这个角度来回调的&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="Android进阶" scheme="http://yoursite.com/categories/Android%E8%BF%9B%E9%98%B6/"/>
+    
+      <category term="Android开发艺术探索(研读笔记)" scheme="http://yoursite.com/categories/Android%E8%BF%9B%E9%98%B6/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+      <category term="研读笔记" scheme="http://yoursite.com/tags/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2016年3月小结</title>
+    <link href="http://yoursite.com/2016/04/03/2016%E5%B9%B43%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
+    <id>http://yoursite.com/2016/04/03/2016年3月小结/</id>
+    <published>2016-04-03T12:44:06.000Z</published>
+    <updated>2016-04-19T07:32:19.776Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
@@ -110,7 +299,8 @@
 &lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LOFTER:&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;

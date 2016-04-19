@@ -234,6 +234,175 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/19/01-Activity的生命周期/" itemprop="url">
+                  Android开发艺术探索(研读笔记)-01-Activity的生命周期
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-19T15:40:00+08:00" content="2016-04-19">
+              2016-04-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/19/01-Activity的生命周期/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/19/01-Activity的生命周期/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/19/01-Activity的生命周期/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
+<ul>
+<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
+<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
+<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
+</ul>
+</blockquote>
+<h2 id="01-Activity的生命周期"><a href="#01-Activity的生命周期" class="headerlink" title="01-Activity的生命周期"></a>01-Activity的生命周期</h2><blockquote>
+<p>生命周期和启动模式以及IntentFilter的匹配规则分析。</p>
+</blockquote>
+<p>Activity的生命周期分为两个部分</p>
+<ol>
+<li>典型情况下的生命周期</li>
+<li>异常情况下的生命周期</li>
+</ol>
+<h3 id="典型情况下的生命周期分析"><a href="#典型情况下的生命周期分析" class="headerlink" title="典型情况下的生命周期分析"></a>典型情况下的生命周期分析</h3><ul>
+<li><strong>onCreate</strong> :表示<code>Activity</code>正在被创建。在这里可以做一些初始化的工作。</li>
+<li><strong>onRestart</strong> :表示<code>Activity</code>正在重新启动。当当前<code>Activity</code>从不可见重新变成可见状态。</li>
+<li><strong>onStart</strong> :表示<code>Activity</code>正在被启动。已经可见，但不在前台，无法交互。</li>
+<li><strong>onResume</strong> :表示<code>Activity</code>已经可见，并且出现在前台可以交互。</li>
+<li><strong>onPause</strong> :表示<code>Activity</code>正在停止。在这里可以做一些储存数据，停止动画等工作，<strong>但不能太耗时</strong>，因为必须<code>onPause</code>执行完成之后新的<code>Activity</code>才能<code>Resume</code>。</li>
+<li><strong>onStop</strong> :表示<code>Activity</code>即将停止。可以进行一些稍微重量级的回收工作，不能太耗时。</li>
+<li><strong>onDestroy</strong> :表示<code>Activity</code>即将被销毁。可以进行一些回收工作和最终的资源释放。</li>
+</ul>
+<p><img src="http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif" alt="Activity的生命周期"></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li><strong>onStart和onStop是从Activity是否可见这个角度来回调的</strong></li>
+<li><strong>onResum和onPause是从Activity是否在前台这个角度来回调的</strong></li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/04/19/01-Activity的生命周期/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/03/2016年3月小结/" itemprop="url">
                   2016年3月小结
                 </a>
@@ -315,7 +484,8 @@
 <p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
 <ul>
 <li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>LOFTER:<a href="http://dimon.lofter.com/">@Dimon、</a></li>
+<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
+<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
 </ul>
 </blockquote>
 <hr>
@@ -677,7 +847,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -685,7 +855,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -694,7 +864,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
