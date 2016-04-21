@@ -1,0 +1,1023 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="-2LgXCRgibkjgRHEHV6qkJDimDy1UXZUXwnRq1tB-l0" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,研读笔记," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Dimon's Program Basement" type="application/atom+xml" />
+
+
+
+
+
+
+
+
+
+<meta name="description" content="作者：Dimon
+
+微博：@Dimon-喰
+LOFTER：@Dimon、
+GitHub：@Dimon94
+
+
+02-Activity的启动模式Activity 的 LaunchMode
+复习一点：启动Activity时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。
+
+Activity的四种启动模式：
+
+standard：标准模式、默认模式。每次启动一个Activity">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发艺术探索(研读笔记)-02-Activity的启动模式">
+<meta property="og:url" content="http://yoursite.com/2016/04/21/02-Activity的启动模式/index.html">
+<meta property="og:site_name" content="Dimon's Program Basement">
+<meta property="og:description" content="作者：Dimon
+
+微博：@Dimon-喰
+LOFTER：@Dimon、
+GitHub：@Dimon94
+
+
+02-Activity的启动模式Activity 的 LaunchMode
+复习一点：启动Activity时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。
+
+Activity的四种启动模式：
+
+standard：标准模式、默认模式。每次启动一个Activity">
+<meta property="og:image" content="http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://7xs99u.com1.z0.glb.clouddn.com/image/png/TaskAffinity%E5%B1%9E%E6%80%A7.png">
+<meta property="og:updated_time" content="2016-04-21T00:07:54.719Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发艺术探索(研读笔记)-02-Activity的启动模式">
+<meta name="twitter:description" content="作者：Dimon
+
+微博：@Dimon-喰
+LOFTER：@Dimon、
+GitHub：@Dimon94
+
+
+02-Activity的启动模式Activity 的 LaunchMode
+复习一点：启动Activity时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。
+
+Activity的四种启动模式：
+
+standard：标准模式、默认模式。每次启动一个Activity">
+<meta name="twitter:image" content="http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Android开发艺术探索(研读笔记)-02-Activity的启动模式 | Dimon's Program Basement </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?608bd6a153f307b37bc1616a3d4b898e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dimon's Program Basement</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发艺术探索(研读笔记)-02-Activity的启动模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-21T08:05:00+08:00" content="2016-04-21">
+              2016-04-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/21/02-Activity的启动模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/02-Activity的启动模式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/21/02-Activity的启动模式/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-02-Activity的启动模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>作者：<a href="https://dimon94.github.io/" target="_blank" rel="external">Dimon</a></p>
+<ul>
+<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="_blank" rel="external">@Dimon-喰</a></li>
+<li>LOFTER：<a href="http://dimon.lofter.com/" target="_blank" rel="external">@Dimon、</a></li>
+<li>GitHub：<a href="https://github.com/Dimon94" target="_blank" rel="external">@Dimon94</a></li>
+</ul>
+</blockquote>
+<h2 id="02-Activity的启动模式"><a href="#02-Activity的启动模式" class="headerlink" title="02-Activity的启动模式"></a>02-Activity的启动模式</h2><h3 id="Activity-的-LaunchMode"><a href="#Activity-的-LaunchMode" class="headerlink" title="Activity 的 LaunchMode"></a>Activity 的 LaunchMode</h3><blockquote>
+<p>复习一点：启动<code>Activity</code>时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。</p>
+</blockquote>
+<p><code>Activity</code>的四种启动模式：</p>
+<ul>
+<li><p><strong>standard</strong>：标准模式、默认模式。每次启动一个<code>Activity</code>都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，某个<code>Activity</code>启动了一号<code>Activity</code>，那么一号<code>Activity</code>就运行在启动它的那个<code>Activity</code>所在的栈中。</p>
+</li>
+<li><p><strong>singleTop</strong>：栈顶复用模式。如果新的<code>Activity</code>已经位于任务栈的栈顶，那么此<code>Activity</code>就不会被重新创建，同时它的<code>onNewIntent</code>方法会被回调，并且可以根据此方法的参数获得当前请求的信息。</p>
+</li>
+<li><p><strong>singleTask</strong>：栈内复用模式。在这种单实例模式下，只要<code>Activity</code>在一个栈中存在，那么多次启动此<code>Activity</code>都不会重新创建实例，系统也会调用其<code>onNewIntent</code>。</p>
+</li>
+</ul>
+<p><img src="http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png" alt="singleTask 的工作流程"></p>
+<ul>
+<li><strong>singleInstance</strong>：单实例模式。这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是<strong>具体此种模式的<code>Activity</code>只能单独地位于一个任务栈中。</strong></li>
+</ul>
+<blockquote>
+<p>注：在任何跳转的时候，首先调用本<code>Activity</code>的<code>onPause</code>，然后跳转。如果被跳转的<code>activity</code>由于启动方式而没创建新的实例，则会先调用<code>onNewIntent</code>，然后按照正常的生命周期调用。</p>
+</blockquote>
+<p>如：</p>
+<ol>
+<li>A→B，A：onPause；B：onCreate，onStart，onResume。</li>
+<li>A(singleTop)→A，A：onPause；A：onSaveInstanceState；A：onResume。</li>
+</ol>
+<a id="more"></a>
+<h3 id="一些具体问题与情况"><a href="#一些具体问题与情况" class="headerlink" title="一些具体问题与情况"></a>一些具体问题与情况</h3><ul>
+<li>一：</li>
+</ul>
+<blockquote>
+<p>首先要说明：任务栈分为前台任务栈和后台任务栈，后台任务栈中的<code>Activity</code>位于暂停状态。</p>
+</blockquote>
+<p>当在前台任务栈AB启动Activity D，而D正好是后台任务栈CD的栈顶。现在假设后台任务栈里的Activity的启动模式是<code>singleTask</code>，请求启动D，那么整个后台任务栈都会被切换到前台，直接占据前台任务栈的栈顶，即ABCD。如果之前请求启动的是C，那么就会变成ABC。</p>
+<p><strong><code>singleTask</code>模式的<code>Activity</code>切换到栈顶会导致在它之上的栈内的<code>Activity</code>出栈。</strong></p>
+<ul>
+<li>二：</li>
+</ul>
+<p><code>TaskAffinity</code>：任务相关性。标识一个<code>Activity</code>所需要的任务栈的名字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adnroid:taskAffinity=&quot;com.dimon.task1&quot;</span><br></pre></td></tr></table></figure>
+<p>默认情况下<code>Activity</code>所需要的任务栈的名字为应用的包名。</p>
+<p><img src="http://7xs99u.com1.z0.glb.clouddn.com/image/png/TaskAffinity%E5%B1%9E%E6%80%A7.png" alt="TaskAddinity"></p>
+<h3 id="如何给Activity指定启动模式呢？"><a href="#如何给Activity指定启动模式呢？" class="headerlink" title="如何给Activity指定启动模式呢？"></a>如何给Activity指定启动模式呢？</h3><h4 id="第一种方法：通过AndroidMenifest为Activity指定启动模式。"><a href="#第一种方法：通过AndroidMenifest为Activity指定启动模式。" class="headerlink" title="第一种方法：通过AndroidMenifest为Activity指定启动模式。"></a>第一种方法：通过<code>AndroidMenifest</code>为<code>Activity</code>指定启动模式。</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span><br><span class="line">    <span class="attr">android:name</span>=<span class="string">"com.dimon.SecondActivity"</span></span><br><span class="line">    <span class="attr">android:configChanges</span>=<span class="string">"screenLayout"</span></span><br><span class="line">    <span class="attr">adnroid:taskAffinity</span>=<span class="string">"com.dimon.task1"</span></span><br><span class="line">    <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></span><br><span class="line">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。"><a href="#第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。" class="headerlink" title="第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。"></a>第二种方法：通过在<code>Intent</code>中设置标志位来为<code>Activity</code>指定启动模式。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">intent.setClass(MainActivity.<span class="keyword">this</span>, SecondActivity.class);</span><br><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><ul>
+<li>优先级：第二种方法比第一种优先级高，两种都存在时，以第二种为准。</li>
+<li>限定范围：第一种无法设置<code>FLAG_ACTIVITY_NEW_TASK</code>标识，而第二种无法指定<code>singleTask</code>模式。</li>
+</ul>
+<h3 id="Acticity-中的一些比较常用的-Flags"><a href="#Acticity-中的一些比较常用的-Flags" class="headerlink" title="Acticity 中的一些比较常用的 Flags"></a>Acticity 中的一些比较常用的 Flags</h3><ul>
+<li><strong><code>FLAG_ACTIVITY_NEW_TASK</code></strong></li>
+</ul>
+<p>这个标记位的作用是为<code>Activity</code>指定“<code>singleTask</code>”启动模式，其效果和在XML中指定该启动模式相同。</p>
+<ul>
+<li><strong><code>FLAG_ACTIVITY_SINGLE_TOP</code></strong></li>
+</ul>
+<p>这个标记位的作用是为<code>Activity</code>指定“<code>singleTop</code>”启动模式，其效果和在XML中指定该启动模式相同。</p>
+<ul>
+<li><strong><code>FLAG_ACTIVITY_CLEAR_TOP</code></strong></li>
+</ul>
+<p>具有此标记位的<code>Activity</code>，当它启动时，在同一个任务栈中所有位于他上面的<code>Activity</code>都要出栈。<code>singleTask</code>默认就具有这个标记位的效果。如果被启动的<code>Activity</code>采用了<code>standard</code>启动模式，那么它连通它之上的<code>Activity</code>都要出栈，系统会创建新的<code>Activity</code>实例并放入栈顶。</p>
+<ul>
+<li><strong><code>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS</code></strong></li>
+</ul>
+<p>具有这个标记的<code>Activity</code>不会出现在历史<code>Activity</code>的列表中，当某种情况下我们不希望用户通过历史列表回到我们的<code>Activity</code>的时候这个标记比较有用。它等同于在XML中指定Activity的属性<code>android:excludeFromRecents=&quot;true&quot;</code>。</p>
+<h3 id="IntentFilter的匹配规则"><a href="#IntentFilter的匹配规则" class="headerlink" title="IntentFilter的匹配规则"></a>IntentFilter的匹配规则</h3><h4 id="action的匹配规则"><a href="#action的匹配规则" class="headerlink" title="action的匹配规则"></a>action的匹配规则</h4><p><code>action</code>的匹配要求<code>Intent</code>中的<code>action</code>存在且必须和过滤规则中的一个<code>action</code>相同。区分大小写。</p>
+<h4 id="categoryd的匹配规则"><a href="#categoryd的匹配规则" class="headerlink" title="categoryd的匹配规则"></a>categoryd的匹配规则</h4><p>如果<code>Intent</code>中含有<code>category</code>，那么所以的<code>category</code>都必须和过滤规则中的其中一个<code>category</code>相同。</p>
+<p>如果<code>Intent</code>中不含有<code>category</code>，那么也能匹配，因为系统在调用<code>startActivity</code>或者<code>startActivityForResult</code>的时候会默认为<code>Intent</code>加上“<code>android.intent.category.DEFAULT</code>”这个<code>category</code>，所以为了我们的<code>Activity</code>能够接收隐式调用，就必须在<code>intent-filter</code>中指定“<code>android.intent.category.DEFAULT</code>”。</p>
+<h4 id="data的匹配规则"><a href="#data的匹配规则" class="headerlink" title="data的匹配规则"></a>data的匹配规则</h4><p>规则与<code>action</code>相似。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:mimeType</span>=<span class="string">"image/*"</span>/&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上规则说明<code>Intent</code>中的<code>mimeType</code>属性必须为“<code>image/*</code>”才能匹配。虽然没有定义<code>URI</code>，但是还是得有默认值，<code>URI</code>的默认值为<code>content</code>和<code>file</code>。也就是说没有<code>URI</code>也得在<code>Intent</code>中的<code>URI</code>部分的<code>schema</code>必须为<code>content</code>或者<code>file</code>才能匹配。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intent.setDataAndType(uri.parse(<span class="string">"file://abc"</span>),<span class="string">"image/png"</span>);</span><br></pre></td></tr></table></figure>
+<p>如果要为Intent指定完整的data，必须调用setDataAndType方法，不能先调用setData再调用setType。因为这两个方法会彼此清除对方的值。源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Intent <span class="title">setData</span><span class="params">(Uri data)</span></span>&#123;</span><br><span class="line">  mData = data;</span><br><span class="line">  mType = <span class="keyword">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而<code>data</code>的结构略微复杂，语法如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:host</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:port</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:path</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:pathPattern</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:pathPrefix</span>=<span class="string">"string"</span></span><br><span class="line">  <span class="attr">android:mimeType</span>=<span class="string">"string"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>data</code>由两部分组成，<code>mimeType</code>和<code>URI</code>。</p>
+<p><code>mimeType</code>指媒体类型，例如image/jpeg、audio/mpeg4-generic和video/*等。</p>
+<p><code>URI</code>的结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;|&lt;pathPrefix&gt;|&lt;pathPattern&gt;]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Scheme</strong>：URI的模式，比如http、file、content等。</li>
+<li><strong>Host</strong>：URI的主机名，比如www.baidu.com</li>
+<li><strong>Port</strong>：URI的端口号。</li>
+<li><strong>Path、pathPattern和pathPrefix</strong>：这三个表示路径信息，path完整路径信息；pathPattern也表示完整的路径信息，但是它里面可以包括通配符“*”，注意正则表达式；pathPrefix表示路径的前缀信息。</li>
+</ul>
+<hr>
+<h4 id="IntentFilter整合例子"><a href="#IntentFilter整合例子" class="headerlink" title="IntentFilter整合例子"></a>IntentFilter整合例子</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.dimon.1"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.dimon.2"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.dimon.1a"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.dimon.2b"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULF"</span>/&gt;</span>\</span><br><span class="line">  <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:mimeType</span>=<span class="string">"text/plain"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.dimon.1"</span>);</span><br><span class="line">intent.addCategory(<span class="string">"com.dimon.2b"</span>);</span><br><span class="line">intent.setDataAndType(Uri.parse(<span class="string">"file://abc"</span>),<span class="string">"text/plain"</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h4 id="Some-Tips"><a href="#Some-Tips" class="headerlink" title="Some Tips"></a>Some Tips</h4><p>使用隐式方式启动<code>Activity</code>时，最好做一下判断，看看是否有<code>Activity</code>能够匹配我们的隐式<code>Intent</code>。</p>
+<p>方法有两个：采用<code>PackageManager</code>的<code>resolveActivity</code>方法或者<code>Intent</code>的<code>resolveActivity</code>方法，如果他们匹配不了就返回<code>null</code>。</p>
+<p>另外<code>PackageManager</code>还提供了<code>queryIntentActivities</code>方法：它不是返回最佳匹配的<code>Activity</code>信息而是返回所有成功匹配的<code>Activity</code>信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> List&lt;ResolveInfo&gt; <span class="title">queryIntentActivities</span><span class="params">(Intent intent, <span class="keyword">int</span> flags)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> ResolveInfo <span class="title">resolveActivity</span><span class="params">(Intent intent, <span class="keyword">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>第二个参数我们使用<code>MATCH_DEFAULT_ONLY</code>这个标记位，这个标记位仅仅匹配那些在<code>intent-filter</code>中声明了<code>&lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</code>这个<code>category</code>的<code>Activity</code>。<br>只要上述两个方法不返回<code>null</code>，那么<code>startActivity</code>一定可以成功。因为不含有<code>DEFAULT</code>这个<code>category</code>的<code>Activity</code>是无法接收隐式<code>Intent</code>的。</p>
+<hr>
+<ul>
+<li>邮箱 ：<a href="elisabethzhen@163.com">elisabethzhen@163.com</a></li>
+<li>Good Luck!</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/研读笔记/" rel="tag">#研读笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/19/01-Activity的生命周期/" rel="next" title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
+                <i class="fa fa-chevron-left"></i> Android开发艺术探索(研读笔记)-01-Activity的生命周期
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/21/02-Activity的启动模式/"
+           data-title="Android开发艺术探索(研读笔记)-02-Activity的启动模式" data-url="http://yoursite.com/2016/04/21/02-Activity的启动模式/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Dimon" />
+          <p class="site-author-name" itemprop="name">Dimon</p>
+          <p class="site-description motion-element" itemprop="description">We are Infinite.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Dimon94" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/1951749771/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#02-Activity的启动模式"><span class="nav-number">1.</span> <span class="nav-text">02-Activity的启动模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-的-LaunchMode"><span class="nav-number">1.1.</span> <span class="nav-text">Activity 的 LaunchMode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些具体问题与情况"><span class="nav-number">1.2.</span> <span class="nav-text">一些具体问题与情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何给Activity指定启动模式呢？"><span class="nav-number">1.3.</span> <span class="nav-text">如何给Activity指定启动模式呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种方法：通过AndroidMenifest为Activity指定启动模式。"><span class="nav-number">1.3.1.</span> <span class="nav-text">第一种方法：通过AndroidMenifest为Activity指定启动模式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。"><span class="nav-number">1.3.2.</span> <span class="nav-text">第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区别"><span class="nav-number">1.3.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Acticity-中的一些比较常用的-Flags"><span class="nav-number">1.4.</span> <span class="nav-text">Acticity 中的一些比较常用的 Flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntentFilter的匹配规则"><span class="nav-number">1.5.</span> <span class="nav-text">IntentFilter的匹配规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#action的匹配规则"><span class="nav-number">1.5.1.</span> <span class="nav-text">action的匹配规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#categoryd的匹配规则"><span class="nav-number">1.5.2.</span> <span class="nav-text">categoryd的匹配规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data的匹配规则"><span class="nav-number">1.5.3.</span> <span class="nav-text">data的匹配规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntentFilter整合例子"><span class="nav-number">1.5.4.</span> <span class="nav-text">IntentFilter整合例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Some-Tips"><span class="nav-number">1.5.5.</span> <span class="nav-text">Some Tips</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dimon"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("KtTYmruy40XUzbz614ICkYYa-gzGzoHsz", "xcPlVQXKgSn0EUhX9mAQNnTW");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+</body>
+</html>

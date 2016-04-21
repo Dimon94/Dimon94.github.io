@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-19T07:42:36.929Z</updated>
+  <updated>2016-04-21T00:07:54.719Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,167 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android开发艺术探索(研读笔记)-02-Activity的启动模式</title>
+    <link href="http://yoursite.com/2016/04/21/02-Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2016/04/21/02-Activity的启动模式/</id>
+    <published>2016-04-21T00:05:00.000Z</published>
+    <updated>2016-04-21T00:07:54.719Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;02-Activity的启动模式&quot;&gt;&lt;a href=&quot;#02-Activity的启动模式&quot; class=&quot;headerlink&quot; title=&quot;02-Activity的启动模式&quot;&gt;&lt;/a&gt;02-Activity的启动模式&lt;/h2&gt;&lt;h3 id=&quot;Activity-的-LaunchMode&quot;&gt;&lt;a href=&quot;#Activity-的-LaunchMode&quot; class=&quot;headerlink&quot; title=&quot;Activity 的 LaunchMode&quot;&gt;&lt;/a&gt;Activity 的 LaunchMode&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;复习一点：启动&lt;code&gt;Activity&lt;/code&gt;时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Activity&lt;/code&gt;的四种启动模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;standard&lt;/strong&gt;：标准模式、默认模式。每次启动一个&lt;code&gt;Activity&lt;/code&gt;都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，某个&lt;code&gt;Activity&lt;/code&gt;启动了一号&lt;code&gt;Activity&lt;/code&gt;，那么一号&lt;code&gt;Activity&lt;/code&gt;就运行在启动它的那个&lt;code&gt;Activity&lt;/code&gt;所在的栈中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;singleTop&lt;/strong&gt;：栈顶复用模式。如果新的&lt;code&gt;Activity&lt;/code&gt;已经位于任务栈的栈顶，那么此&lt;code&gt;Activity&lt;/code&gt;就不会被重新创建，同时它的&lt;code&gt;onNewIntent&lt;/code&gt;方法会被回调，并且可以根据此方法的参数获得当前请求的信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;singleTask&lt;/strong&gt;：栈内复用模式。在这种单实例模式下，只要&lt;code&gt;Activity&lt;/code&gt;在一个栈中存在，那么多次启动此&lt;code&gt;Activity&lt;/code&gt;都不会重新创建实例，系统也会调用其&lt;code&gt;onNewIntent&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png&quot; alt=&quot;singleTask 的工作流程&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;singleInstance&lt;/strong&gt;：单实例模式。这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是&lt;strong&gt;具体此种模式的&lt;code&gt;Activity&lt;/code&gt;只能单独地位于一个任务栈中。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：在任何跳转的时候，首先调用本&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onPause&lt;/code&gt;，然后跳转。如果被跳转的&lt;code&gt;activity&lt;/code&gt;由于启动方式而没创建新的实例，则会先调用&lt;code&gt;onNewIntent&lt;/code&gt;，然后按照正常的生命周期调用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A→B，A：onPause；B：onCreate，onStart，onResume。&lt;/li&gt;
+&lt;li&gt;A(singleTop)→A，A：onPause；A：onSaveInstanceState；A：onResume。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;一些具体问题与情况&quot;&gt;&lt;a href=&quot;#一些具体问题与情况&quot; class=&quot;headerlink&quot; title=&quot;一些具体问题与情况&quot;&gt;&lt;/a&gt;一些具体问题与情况&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;一：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;首先要说明：任务栈分为前台任务栈和后台任务栈，后台任务栈中的&lt;code&gt;Activity&lt;/code&gt;位于暂停状态。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当在前台任务栈AB启动Activity D，而D正好是后台任务栈CD的栈顶。现在假设后台任务栈里的Activity的启动模式是&lt;code&gt;singleTask&lt;/code&gt;，请求启动D，那么整个后台任务栈都会被切换到前台，直接占据前台任务栈的栈顶，即ABCD。如果之前请求启动的是C，那么就会变成ABC。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;singleTask&lt;/code&gt;模式的&lt;code&gt;Activity&lt;/code&gt;切换到栈顶会导致在它之上的栈内的&lt;code&gt;Activity&lt;/code&gt;出栈。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;二：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;TaskAffinity&lt;/code&gt;：任务相关性。标识一个&lt;code&gt;Activity&lt;/code&gt;所需要的任务栈的名字。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;adnroid:taskAffinity=&amp;quot;com.dimon.task1&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;默认情况下&lt;code&gt;Activity&lt;/code&gt;所需要的任务栈的名字为应用的包名。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs99u.com1.z0.glb.clouddn.com/image/png/TaskAffinity%E5%B1%9E%E6%80%A7.png&quot; alt=&quot;TaskAddinity&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;如何给Activity指定启动模式呢？&quot;&gt;&lt;a href=&quot;#如何给Activity指定启动模式呢？&quot; class=&quot;headerlink&quot; title=&quot;如何给Activity指定启动模式呢？&quot;&gt;&lt;/a&gt;如何给Activity指定启动模式呢？&lt;/h3&gt;&lt;h4 id=&quot;第一种方法：通过AndroidMenifest为Activity指定启动模式。&quot;&gt;&lt;a href=&quot;#第一种方法：通过AndroidMenifest为Activity指定启动模式。&quot; class=&quot;headerlink&quot; title=&quot;第一种方法：通过AndroidMenifest为Activity指定启动模式。&quot;&gt;&lt;/a&gt;第一种方法：通过&lt;code&gt;AndroidMenifest&lt;/code&gt;为&lt;code&gt;Activity&lt;/code&gt;指定启动模式。&lt;/h4&gt;&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;activity&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.SecondActivity&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:configChanges&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;screenLayout&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;adnroid:taskAffinity&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.task1&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:launchMode&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;singleTask&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:label&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;@string/app_name&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。&quot;&gt;&lt;a href=&quot;#第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。&quot; class=&quot;headerlink&quot; title=&quot;第二种方法：通过在Intent中设置标志位来为Activity指定启动模式。&quot;&gt;&lt;/a&gt;第二种方法：通过在&lt;code&gt;Intent&lt;/code&gt;中设置标志位来为&lt;code&gt;Activity&lt;/code&gt;指定启动模式。&lt;/h4&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Intent intent = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Intent();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;intent.setClass(MainActivity.&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;, SecondActivity.class);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;startActivity(intent);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;区别&quot;&gt;&lt;a href=&quot;#区别&quot; class=&quot;headerlink&quot; title=&quot;区别&quot;&gt;&lt;/a&gt;区别&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;优先级：第二种方法比第一种优先级高，两种都存在时，以第二种为准。&lt;/li&gt;
+&lt;li&gt;限定范围：第一种无法设置&lt;code&gt;FLAG_ACTIVITY_NEW_TASK&lt;/code&gt;标识，而第二种无法指定&lt;code&gt;singleTask&lt;/code&gt;模式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Acticity-中的一些比较常用的-Flags&quot;&gt;&lt;a href=&quot;#Acticity-中的一些比较常用的-Flags&quot; class=&quot;headerlink&quot; title=&quot;Acticity 中的一些比较常用的 Flags&quot;&gt;&lt;/a&gt;Acticity 中的一些比较常用的 Flags&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;FLAG_ACTIVITY_NEW_TASK&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个标记位的作用是为&lt;code&gt;Activity&lt;/code&gt;指定“&lt;code&gt;singleTask&lt;/code&gt;”启动模式，其效果和在XML中指定该启动模式相同。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;FLAG_ACTIVITY_SINGLE_TOP&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个标记位的作用是为&lt;code&gt;Activity&lt;/code&gt;指定“&lt;code&gt;singleTop&lt;/code&gt;”启动模式，其效果和在XML中指定该启动模式相同。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;FLAG_ACTIVITY_CLEAR_TOP&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具有此标记位的&lt;code&gt;Activity&lt;/code&gt;，当它启动时，在同一个任务栈中所有位于他上面的&lt;code&gt;Activity&lt;/code&gt;都要出栈。&lt;code&gt;singleTask&lt;/code&gt;默认就具有这个标记位的效果。如果被启动的&lt;code&gt;Activity&lt;/code&gt;采用了&lt;code&gt;standard&lt;/code&gt;启动模式，那么它连通它之上的&lt;code&gt;Activity&lt;/code&gt;都要出栈，系统会创建新的&lt;code&gt;Activity&lt;/code&gt;实例并放入栈顶。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具有这个标记的&lt;code&gt;Activity&lt;/code&gt;不会出现在历史&lt;code&gt;Activity&lt;/code&gt;的列表中，当某种情况下我们不希望用户通过历史列表回到我们的&lt;code&gt;Activity&lt;/code&gt;的时候这个标记比较有用。它等同于在XML中指定Activity的属性&lt;code&gt;android:excludeFromRecents=&amp;quot;true&amp;quot;&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;IntentFilter的匹配规则&quot;&gt;&lt;a href=&quot;#IntentFilter的匹配规则&quot; class=&quot;headerlink&quot; title=&quot;IntentFilter的匹配规则&quot;&gt;&lt;/a&gt;IntentFilter的匹配规则&lt;/h3&gt;&lt;h4 id=&quot;action的匹配规则&quot;&gt;&lt;a href=&quot;#action的匹配规则&quot; class=&quot;headerlink&quot; title=&quot;action的匹配规则&quot;&gt;&lt;/a&gt;action的匹配规则&lt;/h4&gt;&lt;p&gt;&lt;code&gt;action&lt;/code&gt;的匹配要求&lt;code&gt;Intent&lt;/code&gt;中的&lt;code&gt;action&lt;/code&gt;存在且必须和过滤规则中的一个&lt;code&gt;action&lt;/code&gt;相同。区分大小写。&lt;/p&gt;
+&lt;h4 id=&quot;categoryd的匹配规则&quot;&gt;&lt;a href=&quot;#categoryd的匹配规则&quot; class=&quot;headerlink&quot; title=&quot;categoryd的匹配规则&quot;&gt;&lt;/a&gt;categoryd的匹配规则&lt;/h4&gt;&lt;p&gt;如果&lt;code&gt;Intent&lt;/code&gt;中含有&lt;code&gt;category&lt;/code&gt;，那么所以的&lt;code&gt;category&lt;/code&gt;都必须和过滤规则中的其中一个&lt;code&gt;category&lt;/code&gt;相同。&lt;/p&gt;
+&lt;p&gt;如果&lt;code&gt;Intent&lt;/code&gt;中不含有&lt;code&gt;category&lt;/code&gt;，那么也能匹配，因为系统在调用&lt;code&gt;startActivity&lt;/code&gt;或者&lt;code&gt;startActivityForResult&lt;/code&gt;的时候会默认为&lt;code&gt;Intent&lt;/code&gt;加上“&lt;code&gt;android.intent.category.DEFAULT&lt;/code&gt;”这个&lt;code&gt;category&lt;/code&gt;，所以为了我们的&lt;code&gt;Activity&lt;/code&gt;能够接收隐式调用，就必须在&lt;code&gt;intent-filter&lt;/code&gt;中指定“&lt;code&gt;android.intent.category.DEFAULT&lt;/code&gt;”。&lt;/p&gt;
+&lt;h4 id=&quot;data的匹配规则&quot;&gt;&lt;a href=&quot;#data的匹配规则&quot; class=&quot;headerlink&quot; title=&quot;data的匹配规则&quot;&gt;&lt;/a&gt;data的匹配规则&lt;/h4&gt;&lt;p&gt;规则与&lt;code&gt;action&lt;/code&gt;相似。&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:mimeType&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;image/*&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;以上规则说明&lt;code&gt;Intent&lt;/code&gt;中的&lt;code&gt;mimeType&lt;/code&gt;属性必须为“&lt;code&gt;image/*&lt;/code&gt;”才能匹配。虽然没有定义&lt;code&gt;URI&lt;/code&gt;，但是还是得有默认值，&lt;code&gt;URI&lt;/code&gt;的默认值为&lt;code&gt;content&lt;/code&gt;和&lt;code&gt;file&lt;/code&gt;。也就是说没有&lt;code&gt;URI&lt;/code&gt;也得在&lt;code&gt;Intent&lt;/code&gt;中的&lt;code&gt;URI&lt;/code&gt;部分的&lt;code&gt;schema&lt;/code&gt;必须为&lt;code&gt;content&lt;/code&gt;或者&lt;code&gt;file&lt;/code&gt;才能匹配。&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;intent.setDataAndType(uri.parse(&lt;span class=&quot;string&quot;&gt;&quot;file://abc&quot;&lt;/span&gt;),&lt;span class=&quot;string&quot;&gt;&quot;image/png&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果要为Intent指定完整的data，必须调用setDataAndType方法，不能先调用setData再调用setType。因为这两个方法会彼此清除对方的值。源码如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; Intent &lt;span class=&quot;title&quot;&gt;setData&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Uri data)&lt;/span&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mData = data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mType = &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;而&lt;code&gt;data&lt;/code&gt;的结构略微复杂，语法如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:scheme&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:host&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:port&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:path&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:pathPattern&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:pathPrefix&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;android:mimeType&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;string&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;data&lt;/code&gt;由两部分组成，&lt;code&gt;mimeType&lt;/code&gt;和&lt;code&gt;URI&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mimeType&lt;/code&gt;指媒体类型，例如image/jpeg、audio/mpeg4-generic和video/*等。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;URI&lt;/code&gt;的结构如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;scheme&amp;gt;://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/[&amp;lt;path&amp;gt;|&amp;lt;pathPrefix&amp;gt;|&amp;lt;pathPattern&amp;gt;]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Scheme&lt;/strong&gt;：URI的模式，比如http、file、content等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Host&lt;/strong&gt;：URI的主机名，比如www.baidu.com&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Port&lt;/strong&gt;：URI的端口号。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Path、pathPattern和pathPrefix&lt;/strong&gt;：这三个表示路径信息，path完整路径信息；pathPattern也表示完整的路径信息，但是它里面可以包括通配符“*”，注意正则表达式；pathPrefix表示路径的前缀信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4 id=&quot;IntentFilter整合例子&quot;&gt;&lt;a href=&quot;#IntentFilter整合例子&quot; class=&quot;headerlink&quot; title=&quot;IntentFilter整合例子&quot;&gt;&lt;/a&gt;IntentFilter整合例子&lt;/h4&gt;&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.1&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.2&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;category&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.1a&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;category&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.2b&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;category&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:name&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;android.intent.category.DEFAULF&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;\&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:mimeType&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;intent-filter&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Intent intent = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Intent(&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.1&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;intent.addCategory(&lt;span class=&quot;string&quot;&gt;&quot;com.dimon.2b&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;intent.setDataAndType(Uri.parse(&lt;span class=&quot;string&quot;&gt;&quot;file://abc&quot;&lt;/span&gt;),&lt;span class=&quot;string&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;startActivity(intent);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;Some-Tips&quot;&gt;&lt;a href=&quot;#Some-Tips&quot; class=&quot;headerlink&quot; title=&quot;Some Tips&quot;&gt;&lt;/a&gt;Some Tips&lt;/h4&gt;&lt;p&gt;使用隐式方式启动&lt;code&gt;Activity&lt;/code&gt;时，最好做一下判断，看看是否有&lt;code&gt;Activity&lt;/code&gt;能够匹配我们的隐式&lt;code&gt;Intent&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;方法有两个：采用&lt;code&gt;PackageManager&lt;/code&gt;的&lt;code&gt;resolveActivity&lt;/code&gt;方法或者&lt;code&gt;Intent&lt;/code&gt;的&lt;code&gt;resolveActivity&lt;/code&gt;方法，如果他们匹配不了就返回&lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;另外&lt;code&gt;PackageManager&lt;/code&gt;还提供了&lt;code&gt;queryIntentActivities&lt;/code&gt;方法：它不是返回最佳匹配的&lt;code&gt;Activity&lt;/code&gt;信息而是返回所有成功匹配的&lt;code&gt;Activity&lt;/code&gt;信息。&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;abstract&lt;/span&gt; List&amp;lt;ResolveInfo&amp;gt; &lt;span class=&quot;title&quot;&gt;queryIntentActivities&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Intent intent, &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; flags)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;abstract&lt;/span&gt; ResolveInfo &lt;span class=&quot;title&quot;&gt;resolveActivity&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Intent intent, &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; flags)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;第二个参数我们使用&lt;code&gt;MATCH_DEFAULT_ONLY&lt;/code&gt;这个标记位，这个标记位仅仅匹配那些在&lt;code&gt;intent-filter&lt;/code&gt;中声明了&lt;code&gt;&amp;lt;category android:name=&amp;quot;android.intent.category.DEFAULT&amp;quot;/&amp;gt;&lt;/code&gt;这个&lt;code&gt;category&lt;/code&gt;的&lt;code&gt;Activity&lt;/code&gt;。&lt;br&gt;只要上述两个方法不返回&lt;code&gt;null&lt;/code&gt;，那么&lt;code&gt;startActivity&lt;/code&gt;一定可以成功。因为不含有&lt;code&gt;DEFAULT&lt;/code&gt;这个&lt;code&gt;category&lt;/code&gt;的&lt;code&gt;Activity&lt;/code&gt;是无法接收隐式&lt;code&gt;Intent&lt;/code&gt;的。&lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;邮箱 ：&lt;a href=&quot;elisabethzhen@163.com&quot;&gt;elisabethzhen@163.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Good Luck!&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;02-Activity的启动模式&quot;&gt;&lt;a href=&quot;#02-Activity的启动模式&quot; class=&quot;headerlink&quot; title=&quot;02-Activity的启动模式&quot;&gt;&lt;/a&gt;02-Activity的启动模式&lt;/h2&gt;&lt;h3 id=&quot;Activity-的-LaunchMode&quot;&gt;&lt;a href=&quot;#Activity-的-LaunchMode&quot; class=&quot;headerlink&quot; title=&quot;Activity 的 LaunchMode&quot;&gt;&lt;/a&gt;Activity 的 LaunchMode&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;复习一点：启动&lt;code&gt;Activity&lt;/code&gt;时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;Activity&lt;/code&gt;的四种启动模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;standard&lt;/strong&gt;：标准模式、默认模式。每次启动一个&lt;code&gt;Activity&lt;/code&gt;都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，某个&lt;code&gt;Activity&lt;/code&gt;启动了一号&lt;code&gt;Activity&lt;/code&gt;，那么一号&lt;code&gt;Activity&lt;/code&gt;就运行在启动它的那个&lt;code&gt;Activity&lt;/code&gt;所在的栈中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;singleTop&lt;/strong&gt;：栈顶复用模式。如果新的&lt;code&gt;Activity&lt;/code&gt;已经位于任务栈的栈顶，那么此&lt;code&gt;Activity&lt;/code&gt;就不会被重新创建，同时它的&lt;code&gt;onNewIntent&lt;/code&gt;方法会被回调，并且可以根据此方法的参数获得当前请求的信息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;singleTask&lt;/strong&gt;：栈内复用模式。在这种单实例模式下，只要&lt;code&gt;Activity&lt;/code&gt;在一个栈中存在，那么多次启动此&lt;code&gt;Activity&lt;/code&gt;都不会重新创建实例，系统也会调用其&lt;code&gt;onNewIntent&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png&quot; alt=&quot;singleTask 的工作流程&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;singleInstance&lt;/strong&gt;：单实例模式。这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是&lt;strong&gt;具体此种模式的&lt;code&gt;Activity&lt;/code&gt;只能单独地位于一个任务栈中。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：在任何跳转的时候，首先调用本&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onPause&lt;/code&gt;，然后跳转。如果被跳转的&lt;code&gt;activity&lt;/code&gt;由于启动方式而没创建新的实例，则会先调用&lt;code&gt;onNewIntent&lt;/code&gt;，然后按照正常的生命周期调用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A→B，A：onPause；B：onCreate，onStart，onResume。&lt;/li&gt;
+&lt;li&gt;A(singleTop)→A，A：onPause；A：onSaveInstanceState；A：onResume。&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="Android进阶" scheme="http://yoursite.com/categories/Android%E8%BF%9B%E9%98%B6/"/>
+    
+      <category term="Android开发艺术探索(研读笔记)" scheme="http://yoursite.com/categories/Android%E8%BF%9B%E9%98%B6/Android%E5%BC%80%E5%8F%91%E8%89%BA%E6%9C%AF%E6%8E%A2%E7%B4%A2-%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="Android" scheme="http://yoursite.com/tags/Android/"/>
+    
+      <category term="研读笔记" scheme="http://yoursite.com/tags/%E7%A0%94%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Android开发艺术探索(研读笔记)-01-Activity的生命周期</title>
