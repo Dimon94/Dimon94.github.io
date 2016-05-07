@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-21T00:07:54.719Z</updated>
+  <updated>2016-05-07T20:01:49.385Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,92 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2016年4月小结</title>
+    <link href="http://yoursite.com/2016/05/08/2016%E5%B9%B44%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
+    <id>http://yoursite.com/2016/05/08/2016年4月小结/</id>
+    <published>2016-05-07T19:20:00.000Z</published>
+    <updated>2016-05-07T20:01:49.385Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Dimon94/GanWuMei&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;Gan物妹&lt;/code&gt;&lt;/a&gt;已经发布，成功获得55个&lt;code&gt;Star&lt;/code&gt;,15个&lt;code&gt;Fork&lt;/code&gt;,是一个很好的开端。&lt;/li&gt;
+&lt;li&gt;上个月在广州，这个月在江门待了整个月，都在充实自己的Android知识，虽然时有去浪，作息非常不规律，但是还是成功地迈开了第一步，加油！！！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;习惯&quot;&gt;&lt;a href=&quot;#习惯&quot; class=&quot;headerlink&quot; title=&quot;习惯&quot;&gt;&lt;/a&gt;习惯&lt;/h3&gt;&lt;p&gt;根据上个月的规划，开始对网站文章减少涉猎，只对于有用的文章进行阅读，加快了工作效率。&lt;/p&gt;
+&lt;p&gt;这个月继续如此，并且来到了大深圳开始找工作（好吧，第一个晚上就睡不着失眠了…）&lt;/p&gt;
+&lt;p&gt;因为机缘巧合，了解到德鲁克大师的一些思想，逐步开始对自己的时间进行规划与跟踪记录。现在每天跟随我的不是手机，而是一本绿色的小本本，里面记录的是自己一天中时间到底去哪了，复阅当天的时间记录对比规划，然后不断修订对第二天的规划，将时间用到刀刃上（比如现在失眠，就跑起来码字，呵呵。）&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;阅读&quot;&gt;&lt;a href=&quot;#阅读&quot; class=&quot;headerlink&quot; title=&quot;阅读&quot;&gt;&lt;/a&gt;阅读&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Android群英传：49/342 17号开始陆续看的进阶书籍，群英传中自定义View等知识非常好，正在缓慢提升。&lt;/li&gt;
+&lt;li&gt;Android开发艺术探索：72/507 也是17开始的，这本相对偏向理论性，也是帮助极大，加深了自己对Android更深层的一些细节的了解。IPC机制方面的知识可以说是看过的最舒服的讲解了，~(≧▽≦)/~赞！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;4月OKR反馈&quot;&gt;&lt;a href=&quot;#4月OKR反馈&quot; class=&quot;headerlink&quot; title=&quot;4月OKR反馈&quot;&gt;&lt;/a&gt;4月OKR反馈&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;算法问题没有完成&lt;/li&gt;
+&lt;li&gt;项目制作完毕&lt;/li&gt;
+&lt;li&gt;到现在为止连续commit32天，除了清明两天没有敲代码外，每天都有相应的代码输出，虽然有时候实在是没什么东西commit，就会出现一些update README 这些…但是不管怎么样，我还是坚持了。&lt;/li&gt;
+&lt;li&gt;作息问题基本随缘…经常有灵感舍不得睡觉…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;5月OKR&quot;&gt;&lt;a href=&quot;#5月OKR&quot; class=&quot;headerlink&quot; title=&quot;5月OKR&quot;&gt;&lt;/a&gt;5月OKR&lt;/h3&gt;&lt;p&gt;Objective：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对自己的时间消费进行实时记录&lt;/li&gt;
+&lt;li&gt;commit挑战继续，60天进发&lt;/li&gt;
+&lt;li&gt;拿到offer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;准备两张单子，紧急事件的单子和必须要做但是却不是特别重要的事情单子&lt;/li&gt;
+&lt;li&gt;每日早起第一件事就是检查每日粗略规划&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Results：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自身时间观念的提升&lt;/li&gt;
+&lt;li&gt;砍去无谓的时间浪费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;ALL END！&lt;/p&gt;
+&lt;p&gt;希望你稀饭我的文字，謝謝观看~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/Dimon94/GanWuMei&quot;&gt;&lt;code&gt;Gan物妹&lt;/code&gt;&lt;/a&gt;已经发布，成功获得55个&lt;code&gt;Star&lt;/code&gt;,15个&lt;code&gt;Fork&lt;/code&gt;,是一个很好的开端。&lt;/li&gt;
+&lt;li&gt;上个月在广州，这个月在江门待了整个月，都在充实自己的Android知识，虽然时有去浪，作息非常不规律，但是还是成功地迈开了第一步，加油！！！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;习惯&quot;&gt;&lt;a href=&quot;#习惯&quot; class=&quot;headerlink&quot; title=&quot;习惯&quot;&gt;&lt;/a&gt;习惯&lt;/h3&gt;&lt;p&gt;根据上个月的规划，开始对网站文章减少涉猎，只对于有用的文章进行阅读，加快了工作效率。&lt;/p&gt;
+&lt;p&gt;这个月继续如此，并且来到了大深圳开始找工作（好吧，第一个晚上就睡不着失眠了…）&lt;/p&gt;
+&lt;p&gt;因为机缘巧合，了解到德鲁克大师的一些思想，逐步开始对自己的时间进行规划与跟踪记录。现在每天跟随我的不是手机，而是一本绿色的小本本，里面记录的是自己一天中时间到底去哪了，复阅当天的时间记录对比规划，然后不断修订对第二天的规划，将时间用到刀刃上（比如现在失眠，就跑起来码字，呵呵。）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="总结" scheme="http://yoursite.com/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="总结" scheme="http://yoursite.com/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>Android开发艺术探索(研读笔记)-02-Activity的启动模式</title>
@@ -369,7 +455,7 @@
     <link href="http://yoursite.com/2016/04/03/2016%E5%B9%B43%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
     <id>http://yoursite.com/2016/04/03/2016年3月小结/</id>
     <published>2016-04-03T12:44:06.000Z</published>
-    <updated>2016-04-19T07:32:19.776Z</updated>
+    <updated>2016-05-07T19:24:53.758Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
