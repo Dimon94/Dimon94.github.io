@@ -43,7 +43,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="总结," />
+  <meta name="keywords" content="Android,研读笔记," />
 
 
 
@@ -59,48 +59,49 @@
 
 
 
-<meta name="description" content="作者：Dimon
+<meta name="description" content="Android开发艺术探索(研读笔记)
+作者：Dimon
 
 微博：@Dimon-喰
-LOFTER：@Dimon、
 GitHub：@Dimon94
+LOFTER：@Dimon、
 
 
+03-Android中的IPC机制(一)1.Android IPC 简介
+IPC(Inter-Process-Communication):含义为进程间通信，指两个进程之间进行数据交换的过程。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
+什么是进程：一般指一个执行单元，在PC和移动设备上的一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2016年3月小结">
-<meta property="og:url" content="http://yoursite.com/2016/04/03/2016年3月小结/index.html">
+<meta property="og:title" content="Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)">
+<meta property="og:url" content="http://yoursite.com/2016/05/09/03-Android中的IPC机制(一)/index.html">
 <meta property="og:site_name" content="Dimon's Program Basement">
-<meta property="og:description" content="作者：Dimon
+<meta property="og:description" content="Android开发艺术探索(研读笔记)
+作者：Dimon
 
 微博：@Dimon-喰
-LOFTER：@Dimon、
 GitHub：@Dimon94
+LOFTER：@Dimon、
 
 
+03-Android中的IPC机制(一)1.Android IPC 简介
+IPC(Inter-Process-Communication):含义为进程间通信，指两个进程之间进行数据交换的过程。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
-<meta property="og:image" content="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif">
-<meta property="og:updated_time" content="2016-05-07T19:24:53.758Z">
+什么是进程：一般指一个执行单元，在PC和移动设备上的一">
+<meta property="og:updated_time" content="2016-05-08T18:58:32.174Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2016年3月小结">
-<meta name="twitter:description" content="作者：Dimon
+<meta name="twitter:title" content="Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)">
+<meta name="twitter:description" content="Android开发艺术探索(研读笔记)
+作者：Dimon
 
 微博：@Dimon-喰
-LOFTER：@Dimon、
 GitHub：@Dimon94
+LOFTER：@Dimon、
 
 
+03-Android中的IPC机制(一)1.Android IPC 简介
+IPC(Inter-Process-Communication):含义为进程间通信，指两个进程之间进行数据交换的过程。
 
-小结
-GanWuMei项目完成度40%
-在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能">
-<meta name="twitter:image" content="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif">
+什么是进程：一般指一个执行单元，在PC和移动设备上的一">
 
 
 
@@ -118,7 +119,7 @@ GanWuMei项目完成度40%
   };
 </script>
 
-  <title> 2016年3月小结 | Dimon's Program Basement </title>
+  <title> Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一) | Dimon's Program Basement </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +259,7 @@ GanWuMei项目完成度40%
             
             
               
-                2016年3月小结
+                Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)
               
             
           </h1>
@@ -270,8 +271,8 @@ GanWuMei项目完成度40%
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-03T20:44:06+08:00" content="2016-04-03">
-              2016-04-03
+            <time itemprop="dateCreated" datetime="2016-05-09T02:09:00+08:00" content="2016-05-09">
+              2016-05-09
             </time>
           </span>
 
@@ -284,8 +285,20 @@ GanWuMei项目完成度40%
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/总结/" itemprop="url" rel="index">
-                    <span itemprop="name">总结</span>
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
                   </a>
                 </span>
 
@@ -300,8 +313,8 @@ GanWuMei项目完成度40%
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/03/2016年3月小结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/03/2016年3月小结/" itemprop="commentsCount"></span>
+                <a href="/2016/05/09/03-Android中的IPC机制(一)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/03-Android中的IPC机制(一)/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,7 +324,7 @@ GanWuMei项目完成度40%
 
           
           
-             <span id="/2016/04/03/2016年3月小结/" class="leancloud_visitors" data-flag-title="2016年3月小结">
+             <span id="/2016/05/09/03-Android中的IPC机制(一)/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -332,87 +345,52 @@ GanWuMei项目完成度40%
       
 
       
-        <blockquote>
+        <h1 id="Android开发艺术探索-研读笔记"><a href="#Android开发艺术探索-研读笔记" class="headerlink" title="Android开发艺术探索(研读笔记)"></a>Android开发艺术探索(研读笔记)</h1><blockquote>
 <p>作者：<a href="https://dimon94.github.io/" target="_blank" rel="external">Dimon</a></p>
 <ul>
 <li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="_blank" rel="external">@Dimon-喰</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/" target="_blank" rel="external">@Dimon、</a></li>
 <li>GitHub：<a href="https://github.com/Dimon94" target="_blank" rel="external">@Dimon94</a></li>
+<li>LOFTER：<a href="http://dimon.lofter.com/" target="_blank" rel="external">@Dimon、</a></li>
 </ul>
 </blockquote>
-<hr>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><code>GanWuMei</code>项目完成度40%</li>
-<li>在广州待了蛮多天，由于缺乏工作经验，Android开始之旅就艰难重重。基本上现在很多公司都不招Android实习。在我选择在Android这条路上走到黑的时候，中国Android市场开始出现疲态，Android初级程序员出现饱和状态，所以现在只能回去学习，加强项目经验。</li>
-</ul>
-<hr>
-<h3 id="习惯"><a href="#习惯" class="headerlink" title="习惯"></a>习惯</h3><h4 id="社交网络"><a href="#社交网络" class="headerlink" title="社交网络"></a>社交网络</h4><p>得益于大神<a href="http://lucida.me/" target="_blank" rel="external">Lucida</a>的博客，开始有规律的作息以及有意识地去阅读书籍，但是仍旧很多地方做得不够。</p>
-<p>经常出现一种被茫茫文章淹没的感觉，在简书、掘金等信息入口里被每天的技术推荐带着阅读，有时候甚至沉浸得太深而忘记做本来计划的事情，直接导致工作效率低了…这点在未来需要控制。</p>
-<p>参考<a href="http://lucida.me/" target="_blank" rel="external">Lucida</a>的规划，给自己也制定了一份：</p>
-<ul>
-<li>学习时间(8:30-23:30) [好吧，没工作的人就是闲-_-] 禁用无营养非技术文章，有营养有技术选读。</li>
-<li>早上起床背完单词洗漱完毕后可以奖励自己看看这周新番更新！！！</li>
-<li>晚上上床后禁用社交网络，只许与卿姐聊，并且要早睡。</li>
-</ul>
+<h2 id="03-Android中的IPC机制-一"><a href="#03-Android中的IPC机制-一" class="headerlink" title="03-Android中的IPC机制(一)"></a>03-Android中的IPC机制(一)</h2><h3 id="1-Android-IPC-简介"><a href="#1-Android-IPC-简介" class="headerlink" title="1.Android IPC 简介"></a>1.Android IPC 简介</h3><blockquote>
+<p>IPC(Inter-Process-Communication):含义为进程间通信，指两个进程之间进行数据交换的过程。</p>
+</blockquote>
+<p>什么是进程：一般指一个执行单元，在PC和移动设备上的一个程序或者一个应用。<br>什么是线程：线程是CPU调度的最小单元，是一种有限的系统资源。</p>
+<p>而一个进程可以包含多个线程。</p>
+<h3 id="2-Android中的多进程模式"><a href="#2-Android中的多进程模式" class="headerlink" title="2.Android中的多进程模式"></a>2.Android中的多进程模式</h3><p>只需要给四大组件指定 <code>android:process</code> 属性，就可以开启多进程模式。(非常规的方法，<code>JNI</code>在<code>native</code>层去<code>fork</code>一个新的进程)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//没有定义默认进程的进程名为包名：&quot;com.dimon&quot;</span><br><span class="line">android:process=&quot;:remote&quot;  -&gt;  进程名：&quot;com.dimon:remote&quot; 用&quot;:&quot;开头的进程属于当前应用的私有进程</span><br><span class="line">android:process=&quot;com.dimon.remote&quot;  -&gt;  进程名：&quot;com.dimon.remote&quot; 全局进程</span><br></pre></td></tr></table></figure>
+<p>私有进程：其他应用的组件不可以和它跑在同一个进程中。</p>
+<p>全局进程：其他应用通过<code>ShareUID</code>(每个应用都有自己唯一的<code>UID</code>，具有相同<code>UID</code>的应用才能共享数据)方式可以和它跑在同一个进程。同个应用间的多进程可以理解为两个不同的应用采用了ShareUID模式。</p>
+<p>除了<code>DDMS</code>视图查看进程外，还可以用<code>shell</code>来查看，命令为：<code>adb shell ps</code> 或者 <code>adb shell ps|grep com.dimon</code>(<code>com.dimon</code>是包名)</p>
 <a id="more"></a>
-<h3 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h3><ul>
-<li>算法4：43/636 这是我从3月底回到住处开始阅读的基础编程书籍，还需要继续加油;</li>
+<h4 id="多进程会造成的问题"><a href="#多进程会造成的问题" class="headerlink" title="多进程会造成的问题"></a>多进程会造成的问题</h4><ul>
+<li>静态成员和单例模式完全失效：主要是每个进程都分配了一个独立的虚拟机，不同的虚拟机在内存分配上有不同的地址空间；</li>
+<li>线程同步机制完全失效：因为不是同一块内存所以无法保证线程同步了；</li>
+<li><code>SharePreferences</code>的可靠性下降：<code>SharePreferences</code>底层是通过读/写<code>XML</code>文件来实现的，并发写可能会出现问题，也就是说其不支持两个进程同时去执行写操作；</li>
+<li><code>Application</code>会多次创建</li>
 </ul>
-<p><code>Atom</code>安装体验：<br><a href="http://tech.glowing.com/cn/advices-to-junior-developers/" target="_blank" rel="external">如何提升你的能力？给年轻程序员的几条建议</a>:在这篇文章的指引下，我开始注重开发工具的运用，挑选真正适合自己的开发工具，文章中介绍几种开发神器，GitHub开发的<code>Atom</code>和<code>Emacs</code>。爱尝试一切新事物的我（就是爱玩），开始半天的开发工具的玩物丧志之旅。</p>
+<h3 id="Serializable接口"><a href="#Serializable接口" class="headerlink" title="Serializable接口"></a>Serializable接口</h3><p><code>Serializable</code>是<code>Java</code>所提供的一个序列化接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">519067123721295773L</span>;<span class="comment">//反序列化的时候系统会检测是否版本相同，相同才可以算成功反序列化，不相同则会反序列化失败</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">int</span> userId;</span><br><span class="line">  <span class="keyword">public</span> String uesrName;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">boolean</span> isMale;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//序列化过程</span></span><br><span class="line">User user = <span class="keyword">new</span> User(<span class="number">0</span>, <span class="string">"jake"</span>, <span class="keyword">true</span>);</span><br><span class="line">ObjectOutputStream out = <span class="keyword">new</span> ObjectOutputStream(</span><br><span class="line">  <span class="keyword">new</span> FileOutputStream(<span class="string">"cache.txt"</span>));</span><br><span class="line">out.writeObject(user);</span><br><span class="line">out.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">//反序列化过程</span></span><br><span class="line">ObjectInputStream in = <span class="keyword">new</span> ObjectInputStream(</span><br><span class="line">  <span class="keyword">new</span> FileInputStream(<span class="string">"cache.txt"</span>));</span><br><span class="line">User newUser = (User) in.readObject();</span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
 <ul>
-<li><a href="https://atom-china.org/" target="_blank" rel="external">Atom China</a></li>
-<li><a href="http://wiki.jikexueyuan.com/project/atom/" target="_blank" rel="external">Atom 使用教程</a></li>
+<li>静态成员变量属于类不属于对象，所以不会参与序列化过程；</li>
+<li>用<code>transient</code>关键字标记的成员变量不参与序列化过程；</li>
 </ul>
-<p><code>Atom</code>初体验就是很适合wed开发。。。</p>
-<p><code>Emacs</code>安装体验<br>下载了一下<code>Emacs</code>,发现这个开发工具的学习成本真的很高，配置都很花功夫。<br>下面三篇入门指南：</p>
-<ul>
-<li><a href="http://blog.csdn.net/redguardtoo/article/details/7222501" target="_blank" rel="external">一年成为Emacs高手(像神一样使用编辑器)</a></li>
-<li><a href="http://www.jianshu.com/p/b4cf683c25f3" target="_blank" rel="external">从零开始——Emacs 安装配置使用教程 2015</a></li>
-<li><a href="https://www.zybuluo.com/qqiseeu/note/17692" target="_blank" rel="external">Emacs配置文件——新手攻略</a></li>
+<h3 id="Parcelable接口"><a href="#Parcelable接口" class="headerlink" title="Parcelable接口"></a>Parcelable接口</h3><p>典型用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class User implements Parcelable &#123;</span><br><span class="line">  public int uesrId;</span><br><span class="line">  public String uesrName;</span><br><span class="line">  public boolean isMale;</span><br><span class="line"></span><br><span class="line">  public Book book;</span><br><span class="line"></span><br><span class="line">  public User(int userId, String uesrName, boolean isMale) &#123;</span><br><span class="line">    this.userId = userId;</span><br><span class="line">    this.uesrName = uesrName;</span><br><span class="line">    this.isMale = isMale;</span><br><span class="line">  &#125;</span><br><span class="line">// 内容描述功能：对象存在文件描述符时，方法1</span><br><span class="line">  public int describeContents() &#123;</span><br><span class="line">    return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">// 序列化功能</span><br><span class="line">  public void writeToParcel(parcel out, int flags) &#123;</span><br><span class="line">    out.writeInt(userId);</span><br><span class="line">    out.writeString(uesrName);</span><br><span class="line">    out.writeInt(isMale ? 1 : 0 );</span><br><span class="line">    out.writeParcelable(book, 0 );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">// 反序列化功能</span><br><span class="line">  public static final Parcelable.Creator&lt;User&gt; CREATOR = new Parcelable.Creator&lt;User&gt;() &#123;</span><br><span class="line">    public User createFromParcel(Parcel in) &#123;</span><br><span class="line">      return new User(in);</span><br><span class="line"></span><br><span class="line">    public User[] newArray(int size) &#123;</span><br><span class="line">        return new User[size];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    private User(Parcel in) &#123;</span><br><span class="line">      userId = in.readInt();</span><br><span class="line">      uesrName = in.readString();</span><br><span class="line">      isMale = in.readInt() == 1;</span><br><span class="line">      // 传递当前线程的上下文类加载器</span><br><span class="line">      book = in.readParcelable(Thread.currentThread().getContextClassLoader());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="parcelable-与-Serializable的对比"><a href="#parcelable-与-Serializable的对比" class="headerlink" title="parcelable 与 Serializable的对比"></a>parcelable 与 Serializable的对比</h3><ul>
+<li>Serializable是Java中的序列化接口，其使用起来简单但是开销很大，序列化和反序列化过程需要大量I/O操作。</li>
+<li>Parcelable是Android中的序列化方式，缺点就是使用起来稍微麻烦点，但是它的效率很高，是Android推荐的序列化方式。</li>
 </ul>
-<h5 id="AE"><a href="#AE" class="headerlink" title="AE"></a>AE</h5><ul>
-<li><a href="https://zh.wikipedia.org/zh/Adobe_After_Effects" target="_blank" rel="external">Adobe AfterEffects</a></li>
-<li><a href="http://tieba.baidu.com/f?kw=ae" target="_blank" rel="external">AE贴吧</a></li>
-<li><a href="http://v.youku.com/v_show/id_XMTQ3NTA3MzU5Ng==.html" target="_blank" rel="external">视频: 狂奔的奇葩兔 教程 AE的安装与破解</a></li>
-</ul>
-<h5 id="RxJava"><a href="#RxJava" class="headerlink" title="RxJava"></a>RxJava</h5><ul>
-<li><a href="http://www.devtf.cn/?p=323" target="_blank" rel="external">NotRxJava懒人专用指南</a></li>
-</ul>
-<h5 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ul>
-<li><p><a href="http://www.binpress.com/tutorial/android-l-recyclerview-and-cardview-tutorial/156" target="_blank" rel="external">A Guide to Android RecyclerView and CardView</a></p>
-</li>
-<li><p><a href="https://medium.com/google-developers/writing-more-code-by-writing-less-code-with-android-studio-live-templates-244f648d17c7#.y9jbgob2y" target="_blank" rel="external">Writing More Code by Writing Less Code with Android Studio Live Templates</a><br>关于AndroidStudio 的<strong>Live Templates</strong>（动态模板），效果如下：<br><img src="https://d262ilb51hltx0.cloudfront.net/max/800/1*JkrYXGs1AxZAbK0sCLrJAQ.gif" alt="动态模板（正确地）创建和显示一个新的吐司"></p>
-</li>
-<li><p><a href="https://labs.ribot.co.uk/android-application-architecture-8b6e34acda65#.9z7ocnp81" target="_blank" rel="external">Android Application Architecture</a></p>
 <blockquote>
-<p>Our journey from standard Activities and AsyncTasks to a modern MVP-based architecture powered by RxJava.</p>
+<p>在<code>Android</code>平台上，推荐<code>Parcelable</code>,但在将对象序列化到存储设备或者将对象序列化后通过网络传输建议使用<code>Serializable</code></p>
 </blockquote>
-</li>
-</ul>
 <hr>
-<h1 id="4月OKR"><a href="#4月OKR" class="headerlink" title="4月OKR"></a>4月OKR</h1><p>目标：</p>
 <ul>
-<li>下功夫学好Java</li>
-<li>基本算法问题过关</li>
-<li>安卓项目制作，3个以上</li>
-<li>完成毕业设计</li>
-<li>把自己的要求提高，找到好工作为止</li>
-<li>每天commit-小目标30天（3月22号开始）</li>
+<li>邮箱 ：<a href="elisabethzhen@163.com">elisabethzhen@163.com</a></li>
+<li>Good Luck!</li>
 </ul>
-<p>量化：</p>
-<ul>
-<li>算法4，每天理解一个算法，白板写三次</li>
-<li>加强数据结构知识</li>
-</ul>
-<p>关键结果：</p>
-<ul>
-<li>每天作息（8:30 - 00:00）</li>
-<li><code>smirk</code>: 禁欲</li>
-<li>完成毕业设计</li>
-</ul>
-<hr>
-<p>ALL END！</p>
-<p>希望你稀饭我的文字，謝謝观看~</p>
 
       
     </div>
@@ -427,7 +405,9 @@ GanWuMei项目完成度40%
       
         <div class="post-tags">
           
-            <a href="/tags/总结/" rel="tag">#总结</a>
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/研读笔记/" rel="tag">#研读笔记</a>
           
         </div>
       
@@ -436,17 +416,13 @@ GanWuMei项目完成度40%
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/07/【译文】RxAndroid and Kotlin(Part 1)/" rel="next" title="【译文】RxAndroid and Kotlin (Part1)">
-                <i class="fa fa-chevron-left"></i> 【译文】RxAndroid and Kotlin (Part1)
+              <a href="/2016/05/08/2016年4月小结/" rel="next" title="2016年4月小结">
+                <i class="fa fa-chevron-left"></i> 2016年4月小结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/19/01-Activity的生命周期/" rel="prev" title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
-                Android开发艺术探索(研读笔记)-01-Activity的生命周期 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +451,8 @@ GanWuMei项目完成度40%
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/03/2016年3月小结/"
-           data-title="2016年3月小结" data-url="http://yoursite.com/2016/04/03/2016年3月小结/">
+      <div class="ds-thread" data-thread-key="2016/05/09/03-Android中的IPC机制(一)/"
+           data-title="Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)" data-url="http://yoursite.com/2016/05/09/03-Android中的IPC机制(一)/">
       </div>
     
   </div>
@@ -602,7 +578,7 @@ GanWuMei项目完成度40%
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#习惯"><span class="nav-number">2.</span> <span class="nav-text">习惯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#社交网络"><span class="nav-number">2.1.</span> <span class="nav-text">社交网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阅读"><span class="nav-number">3.</span> <span class="nav-text">阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AE"><span class="nav-number">3.0.1.</span> <span class="nav-text">AE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RxJava"><span class="nav-number">3.0.2.</span> <span class="nav-text">RxJava</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RecyclerView"><span class="nav-number">3.0.3.</span> <span class="nav-text">RecyclerView</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4月OKR"><span class="nav-number"></span> <span class="nav-text">4月OKR</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android开发艺术探索-研读笔记"><span class="nav-number">1.</span> <span class="nav-text">Android开发艺术探索(研读笔记)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#03-Android中的IPC机制-一"><span class="nav-number">1.1.</span> <span class="nav-text">03-Android中的IPC机制(一)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Android-IPC-简介"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.Android IPC 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Android中的多进程模式"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.Android中的多进程模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多进程会造成的问题"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">多进程会造成的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable接口"><span class="nav-number">1.1.3.</span> <span class="nav-text">Serializable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parcelable接口"><span class="nav-number">1.1.4.</span> <span class="nav-text">Parcelable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#parcelable-与-Serializable的对比"><span class="nav-number">1.1.5.</span> <span class="nav-text">parcelable 与 Serializable的对比</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
