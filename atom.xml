@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-05-08T18:58:32.174Z</updated>
+  <updated>2016-06-09T16:39:48.431Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,92 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2016年5月小结</title>
+    <link href="http://yoursite.com/2016/06/09/2016%E5%B9%B45%E6%9C%88%E5%B0%8F%E7%BB%93/"/>
+    <id>http://yoursite.com/2016/06/09/2016年5月小结/</id>
+    <published>2016-06-09T09:10:00.000Z</published>
+    <updated>2016-06-09T16:39:48.431Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;p&gt;这个月自己的生活，发生了翻天覆地的变化。发生了很多事情，生活过得充实得不想样子，直到今天端午节才有时间坐下来，细细回味这一个月。&lt;/p&gt;
+&lt;p&gt;五一回家陪了陪老妈，聊了很多，深感自己要更加努力才能让这个家变得更好。然后在期间，发布了&lt;a href=&quot;https://github.com/Dimon94/GanWuMei&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;Gan物妹&lt;/code&gt;&lt;/a&gt;，现在差不多90个&lt;code&gt;Star&lt;/code&gt;了，效果不错，之后有空就要进行&lt;code&gt;MVP&lt;/code&gt;的重构。&lt;/p&gt;
+&lt;p&gt;告别了母亲，踏上去往深圳的高铁列车，开始了漫长的找工作之旅。精心（只有那么几家招我这个水平的）挑选了几家较靠谱的公司之后，每天默默地在表哥那等待，一天、两天、三天…其实真的是自己出来得太迟了，才导致了现在找工作的尴尬局面，但是最终还是让我找到了一份我比较喜欢、公司文化很好的奋斗处所。第一份工作开始~&lt;/p&gt;
+&lt;p&gt;然后一路辛勤工作到月底，设计验收、答辩、论文、查重各种事情砸在我头上，然而无奈我走位飘逸，统统都完美完成,哈哈哈。&lt;/p&gt;
+&lt;hr&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;习惯&quot;&gt;&lt;a href=&quot;#习惯&quot; class=&quot;headerlink&quot; title=&quot;习惯&quot;&gt;&lt;/a&gt;习惯&lt;/h3&gt;&lt;p&gt;打工仔默默地生活在大城市，很多个人的习惯都被这城市的喧嚣所迷乱。每天上班挤地铁，开始各种看书听书，充实自己，然后上班前就是把自己一天要做的事情，都捋一遍，然后就开始doWork了。现在慢慢开始使用&lt;code&gt;Linux&lt;/code&gt;系统进行&lt;code&gt;Android&lt;/code&gt;开发，选择了我比较喜欢的&lt;code&gt;Ubuntu&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;工作中，因为自己是新手，对项目的掌握度不够，所以很多需要记录的东西，我记录在为知笔记里。说实话，为知笔记的&lt;code&gt;MarkDown&lt;/code&gt;功能还算不错。Android客户端和Linux端同步功能都挺好，麻麻再也不怕我丢失笔记了。&lt;/p&gt;
+&lt;h3 id=&quot;阅读&quot;&gt;&lt;a href=&quot;#阅读&quot; class=&quot;headerlink&quot; title=&quot;阅读&quot;&gt;&lt;/a&gt;阅读&lt;/h3&gt;&lt;h4 id=&quot;技术类&quot;&gt;&lt;a href=&quot;#技术类&quot; class=&quot;headerlink&quot; title=&quot;技术类&quot;&gt;&lt;/a&gt;技术类&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;鸟哥的Linux私房菜：101/4688,经典Linux入门书籍，一开始介绍Linux的发展史，后面还没看，挺好的，经典读物，这本书是用多看阅读上看自己找的PDF版本，不得不说，多看的扫描PDF技术还是很强的，PDF质量高的话，基本上没有什么错别字。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;非技术类&quot;&gt;&lt;a href=&quot;#非技术类&quot; class=&quot;headerlink&quot; title=&quot;非技术类&quot;&gt;&lt;/a&gt;非技术类&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;MacTalk·人生元编程：上班之后开始习惯于在地铁上用微信读书看书，人生元编程是我在微信上看完的第一本书。作者池老师是一个资深的互联网程序员，这本书算是他的微信公众号文章集，从字里行间可以感受得到池老师对于互联网以及编程的的一些理解，还有就是他对于Mac的热爱。话说看完他的这本书，最想做的就是存钱买台Mac。。。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;中国哲学简史：3章/29章，之前一直都觉得哲学是一门挺有趣的学问，外国的尼采、中国的老子，了解他们的思想，还是一件挺有趣的事情。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;一万小时理论：46%，这本书说实话就是引用各种例子去说明一个人要在某领域要获得成功就需要进行精深练习。可以，又有理论要求自己去敲代码了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;5月OKR反馈&quot;&gt;&lt;a href=&quot;#5月OKR反馈&quot; class=&quot;headerlink&quot; title=&quot;5月OKR反馈&quot;&gt;&lt;/a&gt;5月OKR反馈&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;自身时间掌控度提高，充分利用各种时间学习或者看书充实自己。&lt;/li&gt;
+&lt;li&gt;拿到offer，然后commit断了。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;6月OKR&quot;&gt;&lt;a href=&quot;#6月OKR&quot; class=&quot;headerlink&quot; title=&quot;6月OKR&quot;&gt;&lt;/a&gt;6月OKR&lt;/h3&gt;&lt;p&gt;Objective:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;合理安排自己的时间，早上早起单词，每天要读书至少一小时&lt;/li&gt;
+&lt;li&gt;重构项目&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;早上单词，晚上下班临走前整理今天所学所做的&lt;/li&gt;
+&lt;li&gt;每天抽时间看Android进阶书&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Results:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;完美了解公司项目&lt;/li&gt;
+&lt;li&gt;对MVP以及单元测试熟练&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;ALL END！&lt;/p&gt;
+&lt;p&gt;希望你稀饭我的文字，謝謝观看~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;作者：&lt;a href=&quot;https://dimon94.github.io/&quot;&gt;Dimon&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微博：&lt;a href=&quot;http://weibo.com/dscott/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1&quot;&gt;@Dimon-喰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LOFTER：&lt;a href=&quot;http://dimon.lofter.com/&quot;&gt;@Dimon、&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub：&lt;a href=&quot;https://github.com/Dimon94&quot;&gt;@Dimon94&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;小结&quot;&gt;&lt;a href=&quot;#小结&quot; class=&quot;headerlink&quot; title=&quot;小结&quot;&gt;&lt;/a&gt;小结&lt;/h3&gt;&lt;p&gt;这个月自己的生活，发生了翻天覆地的变化。发生了很多事情，生活过得充实得不想样子，直到今天端午节才有时间坐下来，细细回味这一个月。&lt;/p&gt;
+&lt;p&gt;五一回家陪了陪老妈，聊了很多，深感自己要更加努力才能让这个家变得更好。然后在期间，发布了&lt;a href=&quot;https://github.com/Dimon94/GanWuMei&quot;&gt;&lt;code&gt;Gan物妹&lt;/code&gt;&lt;/a&gt;，现在差不多90个&lt;code&gt;Star&lt;/code&gt;了，效果不错，之后有空就要进行&lt;code&gt;MVP&lt;/code&gt;的重构。&lt;/p&gt;
+&lt;p&gt;告别了母亲，踏上去往深圳的高铁列车，开始了漫长的找工作之旅。精心（只有那么几家招我这个水平的）挑选了几家较靠谱的公司之后，每天默默地在表哥那等待，一天、两天、三天…其实真的是自己出来得太迟了，才导致了现在找工作的尴尬局面，但是最终还是让我找到了一份我比较喜欢、公司文化很好的奋斗处所。第一份工作开始~&lt;/p&gt;
+&lt;p&gt;然后一路辛勤工作到月底，设计验收、答辩、论文、查重各种事情砸在我头上，然而无奈我走位飘逸，统统都完美完成,哈哈哈。&lt;/p&gt;
+&lt;hr&gt;
+    
+    </summary>
+    
+      <category term="总结" scheme="http://yoursite.com/categories/%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="总结" scheme="http://yoursite.com/tags/%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)</title>
