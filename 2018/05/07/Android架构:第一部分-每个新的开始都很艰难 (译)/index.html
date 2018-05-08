@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#Android架构:第一部分-每个新的开始都很艰难 (译) 本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。 每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android架构:第一部分-每个新的开始都很艰难 (译)">
+<meta property="og:url" content="http://yoursite.com/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Program Basement">
+<meta property="og:description" content="#Android架构:第一部分-每个新的开始都很艰难 (译) 本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。 每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_1.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/xAmvxi.gif">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_2.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_3.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_4.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/giphy-5.gif">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/no.gif">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_1-1.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_2-1.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_3-3.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_4-1.png">
+<meta property="og:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_5-2.png">
+<meta property="og:updated_time" content="2018-05-07T14:58:32.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android架构:第一部分-每个新的开始都很艰难 (译)">
+<meta name="twitter:description" content="#Android架构:第一部分-每个新的开始都很艰难 (译) 本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。 每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成">
+<meta name="twitter:image" content="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/"/>
+
+
+
+
+
+  <title>Android架构:第一部分-每个新的开始都很艰难 (译) | Dimon's Program Basement</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dimon's Program Basement</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android架构:第一部分-每个新的开始都很艰难 (译)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:11+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#Android架构:第一部分-每个新的开始都很艰难 (译)</p>
+<p>本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。</p>
+<p>每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成一些工作。 通常情况下，新社区很小，开发人员之间知识转移的潜力有限，也就是说，由于没有可用的架构指导原则，每个人都从自己的错误中学习。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_1.png" alt="Android architecture part 1 "></p>
+<p>早期的Android并不例外。 这对开发人员来说既酷又有吸引力，它为早期采用者成为围绕这一快速发展技术的社区的一部分提供了机会。</p>
+<a id="more"></a>
+<h2 id="早期Android时代的痛点：谷歌是否关心？"><a href="#早期Android时代的痛点：谷歌是否关心？" class="headerlink" title="早期Android时代的痛点：谷歌是否关心？"></a>早期Android时代的痛点：谷歌是否关心？</h2><p>你可以争辩说，那里有许多资深人士，他们拥有很多不同技术的经验，并且很快就会提出标准。 嗯，不一定。 如果这个技术背后有一个强大的公司可以赚钱，他们肯定会有自己的技术传播者，他们会传播关于这种新语言如何酷的文字，并且可以用它做很多事情，这很容易学习，扩展并满足数百万客户的需求。</p>
+<p>微软经常用它的技术做到这一点。 另一方面，当谷歌购买Android时，我诚实地认为他们将其视为一些其他方面的项目。 如果您从一开始就一直处于Android世界，那么您必须记住Google根本不关心您的挫折感和感受。 那些拥有更多经验，能力和帮助社区的意愿的家伙现在已经成为Android超级巨星或者小半神 - 例如Jake Wharton。</p>
+<blockquote>
+<p><em>“When Google bought Android, I honestly think they treated it just as some other side project.”</em></p>
+</blockquote>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/xAmvxi.gif" alt="xamvxi"></p>
+<p>你可以说的另一件事是你不必考虑很多关于代码的架构和组织，因为框架为你做了。 Android强制你将你的屏幕显示放入Activities中，将可重复使用的屏幕材料分解成Fragments，并将后台的东西放入Services中，并使用Broadcast Receivers与其他人交谈，因此它使您的生活变得更加美好。 对？ <strong>没有</strong>。</p>
+<p>首先，不管技术如何，都有一些很好的做法和原则。 例如单一责任原则或依赖倒置原则，面向接口编程，杀死全局状态，试图谋杀所有状态等等。</p>
+<p><strong>框架很少迫使你遵循原则。</strong> 相反，他们以最糟糕的方式违反了原则。 想想Context，你必须在任何地方使用的上帝对象，各种单例，Fragments的生命周期（那是噩梦般的生活），AsyncTasks通常被错误地实现，所以他们吸食记忆，食物，水 ，并从您的APP中散发出来。</p>
+<p>对于没有指南的年轻开发人员来说，制造怪物比制造APP简单。 把它想象成一个意大利面般黑洞般的怪物-它作为一个Pastafarian神只是一个很好的选择，但作为APP并不好。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_2.png" alt="android architecture spagetti monster "></p>
+<p>最后，<strong>技术和框架隐藏了APP的目的。</strong> 好的，这是一个Android应用程序，但是什么样的Android应用程序？ 新闻阅读器？ 音乐播放器？ 语言学习应用程序？ 天气应用？ 也许这是另一个待办事项清单应用程序。 如果所有的东西都捆绑在框架提供的类中，那么你会说不清楚。</p>
+<p>正如Robert Martin, aka Uncle Bob所说：“Your architecture should scream the purpose of the app.”更技术性地说，<strong>业务逻辑应该明确分开，并且独立于框架。</strong></p>
+<h2 id="Android架构的四大黄金规则（或任何架构）"><a href="#Android架构的四大黄金规则（或任何架构）" class="headerlink" title="Android架构的四大黄金规则（或任何架构）"></a>Android架构的四大黄金规则（或任何架构）</h2><p>我希望现在很清楚，<strong>您不能依赖框架来使您的代码整齐有序，特别是在Android里。</strong> 在FIve里，我们很早就意识到这一点，但缺乏立即提出核心的经验。 失败真正显示出来需要很长时间，并且在项目中间无法更改整个架构。 你也无法花时间将旧项目重构为新的酷炫的梦寐以求的最佳架构。 所以，我们采取了渐进式的方法，<strong>逐渐从项目到项目逐步构建我们的架构，并从错误中学习。</strong> 我们认为我们的架构应该满足几个目标，我们可以将我们的方法与这些目标进行比较。 <strong>良好的架构应该做到以下几点：</strong></p>
+<ol>
+<li>Satisfy a multitude of stakeholders.（满足各方利益者）</li>
+<li>Encourage separation of concerns.（鼓励的关注点分离）</li>
+<li>Run away from the real world (Android, DB, Internet…).</li>
+<li>Enable your components to be testable.（使您的组件成为可测试的）</li>
+</ol>
+<h3 id="I-Satisfy-a-multitude-of-stakeholders-满足各方利益者"><a href="#I-Satisfy-a-multitude-of-stakeholders-满足各方利益者" class="headerlink" title="I. Satisfy a multitude of stakeholders.(满足各方利益者)"></a>I. Satisfy a multitude of stakeholders.(满足各方利益者)</h3><p><strong>Stakeholder</strong>（在这篇文章中）是任何对你的APP感兴趣的人。 除开发者外，还有UI设计师，UX设计师，PM，DB管理员，QA等。</p>
+<p>当然，你不能以某种方式组织代码，例如，UX设计人员可以立即打开项目并理解所有内容，甚至可以进行一些更改。 这是一个独角兽。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_3.png" alt="Android Architecture stakeholders"></p>
+<p>我的意思是，你可以组织你的代码，使得当前与UX设计师一起工作的开发人员只能管理与UX相关的东西。 所以，<strong>所有的交互都在classes / modules / components /中分开</strong>，就算他们的工作是交互作用。而且特定的开发人员只在应用的UX部分工作时在这些组件上工作。</p>
+<h3 id="II-Encourage-separation-of-concerns-（鼓励的关注点分离）"><a href="#II-Encourage-separation-of-concerns-（鼓励的关注点分离）" class="headerlink" title="II. Encourage separation of concerns.（鼓励的关注点分离）"></a>II. Encourage separation of concerns.（鼓励的关注点分离）</h3><p>我之前所说的是一个<strong>关注点分离</strong>的例子。 我们鼓励这种特殊的方法，因为它可以很好地映射到团队和项目阶段的组织，但是您的架构也应该鼓励<strong>常规分离关注点</strong>。 分离问题或单一职责原则说，<strong>每个组件都应该只有一个理由需要改变。</strong></p>
+<h3 id="III-Run-away-from-the-real-world-Android-DB-Internet…"><a href="#III-Run-away-from-the-real-world-Android-DB-Internet…" class="headerlink" title="III. Run away from the real world (Android, DB, Internet…)."></a>III. Run away from the real world (Android, DB, Internet…).</h3><p>从现实世界中逃脱出来的这个特殊点已经在之前提到过了。 我们已经说过，我们想要表现APP真正的功能而已。 我们想要强调业务逻辑，并在框架下留下框架细节。 这一点应该更加强烈：我们不仅要隐藏框架细节，还要隐藏与外部世界相关的所有细节。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_4.png" alt="Android Architecture under the hood"></p>
+<p>基本所有的Android的东西如传感器，通知机制，屏幕细节，数据库访问，Internet访问等等都是<strong>nitty gritty dirty</strong>。</p>
+<h3 id="IV-Enable-your-components-to-be-testable"><a href="#IV-Enable-your-components-to-be-testable" class="headerlink" title="IV. Enable your components to be testable."></a>IV. Enable your components to be testable.</h3><p>您应该尽可能单元测试您的APP，并且您的架构应该允许您执行此操作。 如果你不能单元测试一切，你至少应该用测试来覆盖你的业务逻辑。 与现实世界的分离与此相得益彰。 如果它明显与应用程序的其他部分分离，则测试业务逻辑会更容易。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/giphy-5.gif" alt="giphy-5"></p>
+<h2 id="第一次迭代-上帝的活动"><a href="#第一次迭代-上帝的活动" class="headerlink" title="第一次迭代 - 上帝的活动"></a>第一次迭代 - 上帝的活动</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">UsersActivity</span> <span class="keyword">extends</span> <span class="title">ListActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">       <span class="keyword">new</span> ListUsers().execute();</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ListUsers</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(Void... voids)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// final SQLiteOpenHelper sqLiteOpenHelper = ...</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">// JsonObjectRequest jsObjRequest = new JsonObjectRequest</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">// (Request.Method.GET, url, null, new Response.Listener&lt;JSONObject&gt;() &#123;</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">// MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);</span></span><br><span class="line"></span><br><span class="line">           <span class="comment">// showData(user);</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可能在“古代时代”看到过类似的代码。如果你还没有，那么你还很年轻。 这有什么问题？ <strong>Everything!</strong></p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/no.gif" alt="no"></p>
+<p>我们有一个涉及数据库，进入互联网，解析，产生线程和呈现数据的Activity。 所以，<strong>所有的利益相关者都在关注单个类，没有任何问题是分离的，它不是可测试的，业务逻辑与Android的东西混杂在一起。</strong></p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_1-1.png" alt="android architecture part 1 - 1"></p>
+<p>##第二次迭代 - MVP</p>
+<p>第一种方法显然不起作用。 我们尝试的第一件事情之一是MVP，或<strong>model-view-presenter</strong>。 每个人都熟悉MVP。 它是最受欢迎的架构之一。 它看起来像这样：</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_2-1.png" alt="android architecture part 2 - 2 "></p>
+<p>在这里，我们分离了实际上是我们的Android Fragments的视图，我们有代表我们业务的（domain）模型，最后我们有协调所有这些的presenters。 肯定会更好。 关注点有些分离，利益相关者不再困惑，你可以写一些测试。 然而，我们仍然与现实世界混淆，因为presenter直接触及数据库和所有内容。 这是一个神的对象。 它处理模型，它将数据发送到视图，它拥有业务逻辑（业务逻辑是那些齿轮:)），并且它传递到数据库和Internet，获取传感器数据等等。所以，更好，但是 它可以变得更好。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_3-3.png" alt="android architecture part 1 - 3 "></p>
+<h2 id="第三次迭代-MVP-managers"><a href="#第三次迭代-MVP-managers" class="headerlink" title="第三次迭代 - MVP + managers"></a>第三次迭代 - MVP + managers</h2><p>当政府不知道该做什么时，他们做了什么？ 它设置一个机构。 当开发者不知道该怎么做时，他们会做什么？ 他们采用一些managers。 您不必将其命名为“manager”。这些类有很多名称：utils，helper，fooBarBuzz-ator等等。我们统称为managers。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_4-1.png" alt="android architecture part 1 - 4"></p>
+<p>说实话，<strong>这甚至有点奏效。</strong> 业务逻辑包含在manager类中。 利益相关者知道在哪里看，关注是分开的，但他们可能更多，你可以编写更多的测试，但你仍然直接触摸Android，所以你必须编写Android测试用例和预填充数据库来测试业务逻辑，这很慢。 是的，managers往往是巨大的野兽，<strong>很快就很难维持。</strong> 你可以争辩说，它不需要比现在更复杂，你可以通过使用更简单的架构来更快地传递代码，但是这种方法会出现更多的错误，并且可维护性会受到影响。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_5-2.png" alt="android architecture part 1 - 5 "></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在本系列的第一部分中，我们遇到了创建实际可行的Android体系结构的挑战。 良好的Android架构应该满足众多利益相关者的需求，鼓励分离问题，强调业务逻辑，并将框架细节置于隐患之下，并使所有组件都可测试。 在系列的第二部分中，我们将向您展示我们如何管理那些对我们有用的东西。 在此之前，<strong>您对如何创建适当的Android工作流程有任何建议吗？ 你遇到了什么问题？</strong></p>
+<p><a href="http://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">Continue to part 2</a>.</p>
+<p>您还可以查看其他部分：</p>
+<p><a href="http://five.agency/android-architecture-part-5-test-clean-architecture/" target="_blank" rel="noopener">Part 5: How to Test Clean Architecture</a></p>
+<p><a href="http://five.agency/android-architecture-part-4-applying-clean-architecture-on-android-hands-on/" target="_blank" rel="noopener">Part 4: Applying Clean Architecture on Android (Hands-on)</a></p>
+<p><a href="http://five.agency/android-architecture-part-3-applying-clean-architecture-android/" target="_blank" rel="noopener">Part 3: Applying Clean Architecture on Android</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/" rel="prev" title="Android架构：第二部分 - The clean architecture (译)">
+                Android架构：第二部分 - The clean architecture (译) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/"
+           data-title="Android架构:第一部分-每个新的开始都很艰难 (译)" data-url="http://yoursite.com/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dimon" />
+            
+              <p class="site-author-name" itemprop="name">Dimon</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dimon94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#早期Android时代的痛点：谷歌是否关心？"><span class="nav-number">1.</span> <span class="nav-text">早期Android时代的痛点：谷歌是否关心？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android架构的四大黄金规则（或任何架构）"><span class="nav-number">2.</span> <span class="nav-text">Android架构的四大黄金规则（或任何架构）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-Satisfy-a-multitude-of-stakeholders-满足各方利益者"><span class="nav-number">2.1.</span> <span class="nav-text">I. Satisfy a multitude of stakeholders.(满足各方利益者)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-Encourage-separation-of-concerns-（鼓励的关注点分离）"><span class="nav-number">2.2.</span> <span class="nav-text">II. Encourage separation of concerns.（鼓励的关注点分离）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-Run-away-from-the-real-world-Android-DB-Internet…"><span class="nav-number">2.3.</span> <span class="nav-text">III. Run away from the real world (Android, DB, Internet…).</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IV-Enable-your-components-to-be-testable"><span class="nav-number">2.4.</span> <span class="nav-text">IV. Enable your components to be testable.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一次迭代-上帝的活动"><span class="nav-number">3.</span> <span class="nav-text">第一次迭代 - 上帝的活动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三次迭代-MVP-managers"><span class="nav-number">4.</span> <span class="nav-text">第三次迭代 - MVP + managers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Dimon"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

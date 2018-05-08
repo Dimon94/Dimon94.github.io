@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android架构：第二部分 - The clean architecture (译)在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的Clean Architecture. 你在google“clean architecture”中遇到的第一个图像是这样的：  它也被称为洋葱架构，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android架构：第二部分 - The clean architecture (译)">
+<meta property="og:url" content="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Program Basement">
+<meta property="og:description" content="Android架构：第二部分 - The clean architecture (译)在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的Clean Architecture. 你在google“clean architecture”中遇到的第一个图像是这样的：  它也被称为洋葱架构，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-2.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-3.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-4.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-5.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-6.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-7.png">
+<meta property="og:updated_time" content="2018-05-07T14:58:55.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android架构：第二部分 - The clean architecture (译)">
+<meta name="twitter:description" content="Android架构：第二部分 - The clean architecture (译)在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的Clean Architecture. 你在google“clean architecture”中遇到的第一个图像是这样的：  它也被称为洋葱架构，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你">
+<meta name="twitter:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/"/>
+
+
+
+
+
+  <title>Android架构：第二部分 - The clean architecture (译) | Dimon's Program Basement</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dimon's Program Basement</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android架构：第二部分 - The clean architecture (译)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:12+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构：第二部分 - The clean architecture (译)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Android架构：第二部分-The-clean-architecture-译"><a href="#Android架构：第二部分-The-clean-architecture-译" class="headerlink" title="Android架构：第二部分 - The clean architecture (译)"></a>Android架构：第二部分 - The clean architecture (译)</h1><p>在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的<strong>Clean Architecture</strong>.</p>
+<p>你在google“clean architecture”中遇到的第一个图像是这样的：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="the clean architecture "></p>
+<p>它也被称为<strong>洋葱架构</strong>，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你哭泣）; 或端口和适配器，因为您可以看到右下角有一些端口。 <strong>六角形架构</strong>是另一种类似的架构。</p>
+<p><strong>Clean architecture</strong>是前面提到的Bob叔叔的心血结晶，他也写了关于Clean Code和Clean Coder的书籍。 这种方法的主要观点是业务逻辑（也称为domain）处于宇宙的中心。</p>
+<a id="more"></a>
+<h2 id="Domain"><a href="#Domain" class="headerlink" title="Domain"></a>Domain</h2><p>当你打开你的项目，你应该已经知道这个APP是什么。 其他一切都是实现细节。 例如：持久性 - 这是一个细节。 定义一个接口，使内存实现一个快速而肮脏的实现，在业务完成之前不要考虑它。 然后，您可以决定如何确实坚持数据。 数据库，互联网，组合，文件系统 - 也许把它们留在内存中，也许事实证明你根本不必坚持它们。 在一句话中：内层包含业务逻辑，外层包含实现细节。</p>
+<p>这就是说，有一些Clean Architecture可以实现这些功能：</p>
+<ol>
+<li>Dependency rule（依赖规则）</li>
+<li>Abstraction（抽象）</li>
+<li>Communication between layers（层之间的通信）</li>
+</ol>
+<h2 id="I-Dependency-rule（依赖规则）"><a href="#I-Dependency-rule（依赖规则）" class="headerlink" title="I. Dependency rule（依赖规则）"></a>I. Dependency rule（依赖规则）</h2><p>依赖关系规则可以用下图来解释：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="graph-2"></p>
+<p>外层应该取决于内层。 红色方块中的这三个箭头表示相关性。 “依赖”也许这是最好用的术语，如“看”，“知道”，或者“知道的。”没那么好。在这方面，外层看到并了解内层，但内层既不看也不知道外层。 如前所述，内层包含业务逻辑，外层包含实现细节。 结合依赖关系规则，业务逻辑既看不到，也不知道实现细节。 这正是我们正在努力完成的。</p>
+<p>您如何实现依赖关系规则取决于您。 您可以将它放在不同的包中，但要小心不要使用“内部”包装中的“外层”包装。 但是，如果有人没有意识到依赖性原则，没有什么能阻止他们打破它。 例如，更好的方法是将图层分成不同的Android模块，并调整构建文件中的依赖关系，以便内层无法使用外层。 在Five，我们使用了两者之间的东西。</p>
+<p>值得一提的是，尽管没有人可以阻止你跳过图层 ，例如，在蓝色图层组件中使用红色图层组件。我强烈建议您仅访问图层旁边的组件。</p>
+<h2 id="II-Abstraction（抽象）"><a href="#II-Abstraction（抽象）" class="headerlink" title="II. Abstraction（抽象）"></a>II. Abstraction（抽象）</h2><p><strong>抽象原则</strong>已经暗示过。 当你走向图的中间时，东西变得更加抽象。 这是有道理的：正如我们所说的内圈包含业务逻辑，外圈包含实现细节。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean android architecture "></p>
+<p>您甚至可以在多个图层之间划分相同的逻辑组件，如上图所示： 在内层中可以定义更抽象的部分，外层中更具体的部分。</p>
+<p>一个例子会说清楚：我们可以将抽象接口定义为“通知”并将其放入内层，这样，您的业务逻辑就可以使用它来向用户显示通知。 另一方面，我们可以通过实现使用Android通知管理器显示通知的方式来实现该接口，然后将该实现放入外层。</p>
+<p>通过这种方式，业务逻辑可以在我们的示例中使用功能通知 - 但它不知道实现细节的任何内容：实际通知是如何实现的。 而且，业务逻辑甚至不知道实现细节存在。 看看下面的图片：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean android architecture"></p>
+<p>将抽象与依赖规则结合起来时，事实证明，使用通知的抽象业务逻辑既没有看到也没有意识到使用Android通知管理器的具体实现。 这很好，因为我们可以切换具体实现，业务逻辑甚至不会注意到它。</p>
+<p>让我们简单地比较一下使用标准三层体系结构时抽象和依赖关系的外观和工作方式。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="graph-5"></p>
+<p>您可以在图中看到标准三层体系结构中的所有依赖关系都转到数据库。 这意味着抽象和依赖不匹配。 从逻辑上讲，业务层应该是应用程序的中心，但不是，因为依赖关系会转向数据库。</p>
+<p>业务层不应该知道数据库。 而在清洁架构中，依赖关系转到业务层（内层），而抽象层也向业务层上升，因此它们匹配得很好。</p>
+<p>这很重要，因为抽象是理论，依赖是实践。 抽象是应用程序的逻辑布局，依赖关系是它如何组合在一起。 在 clean architecture中，这两者匹配，而在标准的三层架构中则没有; 如果你不小心，这可能会很快导致各种逻辑不一致和混乱。</p>
+<h2 id="III-Communication-between-layers（层之间的通信）"><a href="#III-Communication-between-layers（层之间的通信）" class="headerlink" title="III. Communication between layers（层之间的通信）"></a>III. Communication between layers（层之间的通信）</h2><p>现在我们已经将应用程序划分为模块，很好地分离了所有内容，将业务逻辑放在应用程序的中心和郊区的实现细节中，一切看起来都很棒。 但是你可能很快遇到了一个有趣的问题。</p>
+<p>如果你的UI是一个实现细节，那么internet就是一个实现细节，业务逻辑介于两者之间，<strong>我们如何从internet获取数据，通过业务逻辑传递它，然后将其发送到屏幕？</strong></p>
+<p>业务逻辑处于中间，应该在互联网和用户界面之间进行调解，但它甚至不知道这两个人存在。 这是一个沟通和数据流的问题。</p>
+<p>我们希望数据能够从外层流向内层，反之亦然，但依赖性规则不允许这样做。 让我们将其简化为最简单的例子:</p>
+<p>我们只有两层，绿色和红色。 绿色的是外在的，知道红色的，红色的是内在的，只知道自己。 我们希望数据从绿色流向红色流，然后返回绿色流。 该解决方案之前已经被暗示过，如下图所示：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean android architecture"></p>
+<p>右下角的图部分显示了数据流。 数据从Controller通过Use Case（或用用户选择的组件替换用例）输入端口，然后通过Use Case本身，然后通过Use Case输出端口返回给Presenter。</p>
+<p>图的主要部分上的箭头表示组成和继承 - 组成和继承 - 组成由一个实心箭头表示，继承由一个一个空箭头表示。 组成也被称为<strong>有关系</strong>，而继承是<strong>一种关系</strong>。 圆圈中的“I”和“O”表示输入和输出端口。 可以看出，在绿色层中定义的控制器具有在红色层中定义的输入端口。 Use Case（齿轮，商业逻辑，现在不重要）是（或实现）输入端口并具有输出端口。 最后，在绿色层中定义的Presenter实际上是在红色层中定义的输出端口。</p>
+<p>我们现在可以将其与数据流相匹配。 Controller有一个输入端口 - 它实际上有一个参考。 它调用一个方法，以便数据从Controller传输到输入端口。 但是输入端口是一个接口，实际的实现就是Use Case：所以它在一个Use Case上调用一个方法，数据流向Use Case。 Use Case做了一些事情，并希望将数据返回。 它有一个对输出端口的引用 - 因为输出端口是在同一层定义的 - 所以它可以调用它的方法。 因此，数据进入输出端口。 最后，Presenter是或实现输出端口; 这是神奇的一部分。 由于它实现了输出端口，数据实际上流入了它。</p>
+<p>诀窍是Use Case只知道它的输出端口; 世界在这个输出端口结束。 实施它取决于Presenter， 它可能已经被任何东西实现了，因为用例不知道或关心，并且只知道其层中的小世界。 我们可以看到，通过组合和继承的组合，我们可以使数据在两个方向上流动，尽管内层不知道他们正在与外部世界进行通信。 快速浏览下图：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean android architecture"></p>
+<p>你可以看到两个箭头都指向中间，就像依赖箭头一样。 那么，这是合乎逻辑的。 根据依赖规则，这是唯一可行的方法。 外层可以看到内层，但不是其他方式。 唯一棘手的部分是，这是一种关系，虽然它指向中间，但会颠倒数据流。</p>
+<p>请注意，定义其输入和输出端口是内层的责任，以便外层可以使用它们与之建立通信。 我已经说过这个解决方案已经在之前被暗示了，而且已经有了。 说明抽象的通知示例也是这种通信的一个例子。 我们在内层中定义了一个通知接口，业务逻辑可以使用它向用户显示通知，但我们也有一个在外层中定义的实现。 在这种情况下，通知接口是业务逻辑的输出端口，它用于与外部世界进行通信 - 本例中的具体实现。 您不必为您的类命名FooOutputPort或BarInputPort; 我们命名只是为了解释这个理论。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那么，这是过于复杂，过度模糊的过度工程？ 好吧，当你习惯它时很简单。 这是必要的。 它使我们能够在现实世界中实现良好的抽象/依赖匹配实际交流和工作。 也许这一切都让人联想到弦理论：理论上美观，但是过于复杂，我们仍然不知道它是否有效，但在我们的案例中 - 它确实有效。:)</p>
+<p>这就是这个系列的第二部分。 最后，第三部分，毕竟我们已经了解了理论和体系结构，将涵盖所有你需要了解的关于这些图表上的标签，或者换句话说 - 单独的组件。 我们将向您展示在Android上应用的真实生活Clean Architecture。</p>
+<p>这是Android体系结构博客文章系列的一部分。您还可以查看其他部分：</p>
+<p><a href="http://five.agency/android-architecture-part-5-test-clean-architecture/" target="_blank" rel="noopener">Part 5: How to Test Clean Architecture</a></p>
+<p><a href="http://five.agency/android-architecture-part-4-applying-clean-architecture-on-android-hands-on/" target="_blank" rel="noopener">Part 4: Applying Clean Architecture on Android (Hands-on)</a></p>
+<p><a href="http://five.agency/android-architecture-part-3-applying-clean-architecture-android/" target="_blank" rel="noopener">Part 3: Applying Clean Architecture on Android</a></p>
+<p><a href="http://five.agency/android-architecture-part-1-every-new-beginning-is-hard/" target="_blank" rel="noopener">Part 1: every new beginning is hard</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/" rel="next" title="Android架构:第一部分-每个新的开始都很艰难 (译)">
+                <i class="fa fa-chevron-left"></i> Android架构:第一部分-每个新的开始都很艰难 (译)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /" rel="prev" title="Android架构：第三部分 在Android上应用Clean架构 (译)">
+                Android架构：第三部分 在Android上应用Clean架构 (译) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/05/07/Android架构：第二部分 - The clean architecture (译)/"
+           data-title="Android架构：第二部分 - The clean architecture (译)" data-url="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dimon" />
+            
+              <p class="site-author-name" itemprop="name">Dimon</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dimon94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android架构：第二部分-The-clean-architecture-译"><span class="nav-number">1.</span> <span class="nav-text">Android架构：第二部分 - The clean architecture (译)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Domain"><span class="nav-number">1.1.</span> <span class="nav-text">Domain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-Dependency-rule（依赖规则）"><span class="nav-number">1.2.</span> <span class="nav-text">I. Dependency rule（依赖规则）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#II-Abstraction（抽象）"><span class="nav-number">1.3.</span> <span class="nav-text">II. Abstraction（抽象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#III-Communication-between-layers（层之间的通信）"><span class="nav-number">1.4.</span> <span class="nav-text">III. Communication between layers（层之间的通信）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Dimon"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

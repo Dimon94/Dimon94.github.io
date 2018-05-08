@@ -1,15 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -18,7 +25,6 @@
 
 
 
-  <meta name="google-site-verification" content="-2LgXCRgibkjgRHEHV6qkJDimDy1UXZUXwnRq1tB-l0" />
 
 
 
@@ -29,18 +35,37 @@
 
 
 
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -49,153 +74,137 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Dimon's Program Basement" type="application/atom+xml" />
 
 
 
 
 
-
-
-
-
-<meta name="description" content="We are Infinite.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Dimon's Program Basement">
+<meta property="og:title" content="Dimon&#39;s Program Basement">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Dimon's Program Basement">
-<meta property="og:description" content="We are Infinite.">
+<meta property="og:site_name" content="Dimon&#39;s Program Basement">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dimon's Program Basement">
-<meta name="twitter:description" content="We are Infinite.">
+<meta name="twitter:title" content="Dimon&#39;s Program Basement">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
+<script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
-      userId: 0,
+      userId: '0',
       author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
 
-  <title> Dimon's Program Basement </title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
+  <link rel="canonical" href="http://yoursite.com/"/>
+
+
+
+
+
+  <title>Dimon's Program Basement</title>
   
 
 
 
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?608bd6a153f307b37bc1616a3d4b898e";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
 
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Dimon's Program Basement</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dimon's Program Basement</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
   </div>
-  <p class="site-subtitle"></p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu">
       
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
 
-      
-      
       
     </ul>
   
 
   
 </nav>
+
+
 
  </div>
     </header>
@@ -206,23 +215,31 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
-
-    
-
-    
-    
-
     
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码） /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
 
     
       <header class="post-header">
@@ -230,46 +247,49 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/06/09/2016年5月小结/" itemprop="url">
-                  2016年5月小结
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/05/07/Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码） /" itemprop="url">Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码）(译)</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-09T17:10:00+08:00" content="2016-06-09">
-              2016-06-09
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:15+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/总结/" itemprop="url" rel="index">
-                    <span itemprop="name">总结</span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
                 
                 
-
               
             </span>
           
@@ -277,33 +297,33 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/09/2016年5月小结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/09/2016年5月小结/" itemprop="commentsCount"></span>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码） /#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码） /" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
+          
 
           
+
           
-             <span id="/2016/06/09/2016年5月小结/" class="leancloud_visitors" data-flag-title="2016年5月小结">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+
           
 
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -311,34 +331,32 @@
 
       
         
-          <blockquote>
-<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
-<ul>
-<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
-<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
-</ul>
-</blockquote>
-<hr>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这个月自己的生活，发生了翻天覆地的变化。发生了很多事情，生活过得充实得不想样子，直到今天端午节才有时间坐下来，细细回味这一个月。</p>
-<p>五一回家陪了陪老妈，聊了很多，深感自己要更加努力才能让这个家变得更好。然后在期间，发布了<a href="https://github.com/Dimon94/GanWuMei"><code>Gan物妹</code></a>，现在差不多90个<code>Star</code>了，效果不错，之后有空就要进行<code>MVP</code>的重构。</p>
-<p>告别了母亲，踏上去往深圳的高铁列车，开始了漫长的找工作之旅。精心（只有那么几家招我这个水平的）挑选了几家较靠谱的公司之后，每天默默地在表哥那等待，一天、两天、三天…其实真的是自己出来得太迟了，才导致了现在找工作的尴尬局面，但是最终还是让我找到了一份我比较喜欢、公司文化很好的奋斗处所。第一份工作开始~</p>
-<p>然后一路辛勤工作到月底，设计验收、答辩、论文、查重各种事情砸在我头上，然而无奈我走位飘逸，统统都完美完成,哈哈哈。</p>
-<hr>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/09/2016年5月小结/#more" rel="contents">
+          <h1 id="Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）-译"><a href="#Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）-译" class="headerlink" title="Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码）(译)"></a>Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码）(译)</h1><p><img src="http://five.agency/wp-content/uploads/2017/06/main_image.png" alt="img"></p>
+<p>在Android Architecture系列的最后一部分，我们将Clean Architecture稍微调整到了Android平台。 我们将Android和现实世界从业务逻辑中分离出来，让满意的利益相关者满意，并让所有事情都可以轻松测试。</p>
+<p>这个理论很好，但是当我们创建一个新的Android项目时，我们从哪里开始？ 让我们用干净的代码弄脏我们的手，并将空白的画布变成一个架构。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/07/Android架构：第四部分 在Android上应用Clean架构，实践（包含源代码） /#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
+
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -348,6 +366,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -355,13 +377,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
 
     
       <header class="post-header">
@@ -369,58 +405,49 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/05/09/03-Android中的IPC机制(一)/" itemprop="url">
-                  Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /" itemprop="url">Android架构：第三部分 在Android上应用Clean架构 (译)</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-09T02:09:00+08:00" content="2016-05-09">
-              2016-05-09
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:13+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">Android进阶</span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
                 
                 
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
-                  </a>
-                </span>
-
-                
-                
-
               
             </span>
           
@@ -428,33 +455,33 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/09/03-Android中的IPC机制(一)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/03-Android中的IPC机制(一)/" itemprop="commentsCount"></span>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
+          
 
           
+
           
-             <span id="/2016/05/09/03-Android中的IPC机制(一)/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-03-Android中的IPC机制(一)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+
           
 
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -462,38 +489,33 @@
 
       
         
-          <h1 id="Android开发艺术探索-研读笔记"><a href="#Android开发艺术探索-研读笔记" class="headerlink" title="Android开发艺术探索(研读笔记)"></a>Android开发艺术探索(研读笔记)</h1><blockquote>
-<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
-<ul>
-<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
-</ul>
-</blockquote>
-<h2 id="03-Android中的IPC机制-一"><a href="#03-Android中的IPC机制-一" class="headerlink" title="03-Android中的IPC机制(一)"></a>03-Android中的IPC机制(一)</h2><h3 id="1-Android-IPC-简介"><a href="#1-Android-IPC-简介" class="headerlink" title="1.Android IPC 简介"></a>1.Android IPC 简介</h3><blockquote>
-<p>IPC(Inter-Process-Communication):含义为进程间通信，指两个进程之间进行数据交换的过程。</p>
-</blockquote>
-<p>什么是进程：一般指一个执行单元，在PC和移动设备上的一个程序或者一个应用。<br>什么是线程：线程是CPU调度的最小单元，是一种有限的系统资源。</p>
-<p>而一个进程可以包含多个线程。</p>
-<h3 id="2-Android中的多进程模式"><a href="#2-Android中的多进程模式" class="headerlink" title="2.Android中的多进程模式"></a>2.Android中的多进程模式</h3><p>只需要给四大组件指定 <code>android:process</code> 属性，就可以开启多进程模式。(非常规的方法，<code>JNI</code>在<code>native</code>层去<code>fork</code>一个新的进程)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//没有定义默认进程的进程名为包名：&quot;com.dimon&quot;</span><br><span class="line">android:process=&quot;:remote&quot;  -&gt;  进程名：&quot;com.dimon:remote&quot; 用&quot;:&quot;开头的进程属于当前应用的私有进程</span><br><span class="line">android:process=&quot;com.dimon.remote&quot;  -&gt;  进程名：&quot;com.dimon.remote&quot; 全局进程</span><br></pre></td></tr></table></figure>
-<p>私有进程：其他应用的组件不可以和它跑在同一个进程中。</p>
-<p>全局进程：其他应用通过<code>ShareUID</code>(每个应用都有自己唯一的<code>UID</code>，具有相同<code>UID</code>的应用才能共享数据)方式可以和它跑在同一个进程。同个应用间的多进程可以理解为两个不同的应用采用了ShareUID模式。</p>
-<p>除了<code>DDMS</code>视图查看进程外，还可以用<code>shell</code>来查看，命令为：<code>adb shell ps</code> 或者 <code>adb shell ps|grep com.dimon</code>(<code>com.dimon</code>是包名)</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/09/03-Android中的IPC机制(一)/#more" rel="contents">
+          <h1 id="Android架构：第三部分-在Android上应用Clean架构-译"><a href="#Android架构：第三部分-在Android上应用Clean架构-译" class="headerlink" title="Android架构：第三部分 在Android上应用Clean架构 (译)"></a>Android架构：第三部分 在Android上应用Clean架构 (译)</h1><p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
+<p>首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Graph-1-2.png" alt="clean architecture - 1"></p>
+<p>我会从最抽象的中心走到边缘。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/07/Android架构：第三部分 在Android上应用Clean架构 /#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
+
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -503,6 +525,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -510,13 +536,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
 
     
       <header class="post-header">
@@ -524,46 +564,49 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/05/08/2016年4月小结/" itemprop="url">
-                  2016年4月小结
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/" itemprop="url">Android架构：第二部分 - The clean architecture (译)</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T03:20:00+08:00" content="2016-05-08">
-              2016-05-08
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:12+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/总结/" itemprop="url" rel="index">
-                    <span itemprop="name">总结</span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
                 
                 
-
               
             </span>
           
@@ -571,33 +614,33 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/08/2016年4月小结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/2016年4月小结/" itemprop="commentsCount"></span>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构：第二部分 - The clean architecture (译)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
+          
 
           
+
           
-             <span id="/2016/05/08/2016年4月小结/" class="leancloud_visitors" data-flag-title="2016年4月小结">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+
           
 
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -605,37 +648,34 @@
 
       
         
-          <blockquote>
-<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
-<ul>
-<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
-<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
-</ul>
-</blockquote>
-<hr>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><a href="https://github.com/Dimon94/GanWuMei"><code>Gan物妹</code></a>已经发布，成功获得55个<code>Star</code>,15个<code>Fork</code>,是一个很好的开端。</li>
-<li>上个月在广州，这个月在江门待了整个月，都在充实自己的Android知识，虽然时有去浪，作息非常不规律，但是还是成功地迈开了第一步，加油！！！</li>
-</ul>
-<hr>
-<h3 id="习惯"><a href="#习惯" class="headerlink" title="习惯"></a>习惯</h3><p>根据上个月的规划，开始对网站文章减少涉猎，只对于有用的文章进行阅读，加快了工作效率。</p>
-<p>这个月继续如此，并且来到了大深圳开始找工作（好吧，第一个晚上就睡不着失眠了…）</p>
-<p>因为机缘巧合，了解到德鲁克大师的一些思想，逐步开始对自己的时间进行规划与跟踪记录。现在每天跟随我的不是手机，而是一本绿色的小本本，里面记录的是自己一天中时间到底去哪了，复阅当天的时间记录对比规划，然后不断修订对第二天的规划，将时间用到刀刃上（比如现在失眠，就跑起来码字，呵呵。）</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/08/2016年4月小结/#more" rel="contents">
+          <h1 id="Android架构：第二部分-The-clean-architecture-译"><a href="#Android架构：第二部分-The-clean-architecture-译" class="headerlink" title="Android架构：第二部分 - The clean architecture (译)"></a>Android架构：第二部分 - The clean architecture (译)</h1><p>在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的<strong>Clean Architecture</strong>.</p>
+<p>你在google“clean architecture”中遇到的第一个图像是这样的：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="the clean architecture "></p>
+<p>它也被称为<strong>洋葱架构</strong>，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你哭泣）; 或端口和适配器，因为您可以看到右下角有一些端口。 <strong>六角形架构</strong>是另一种类似的架构。</p>
+<p><strong>Clean architecture</strong>是前面提到的Bob叔叔的心血结晶，他也写了关于Clean Code和Clean Coder的书籍。 这种方法的主要观点是业务逻辑（也称为domain）处于宇宙的中心。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
+
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -645,6 +685,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -652,13 +696,27 @@
       
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
 
     
       <header class="post-header">
@@ -666,58 +724,49 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2016/04/21/02-Activity的启动模式/" itemprop="url">
-                  Android开发艺术探索(研读笔记)-02-Activity的启动模式
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/" itemprop="url">Android架构:第一部分-每个新的开始都很艰难 (译)</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-21T08:05:00+08:00" content="2016-04-21">
-              2016-04-21
-            </time>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:11+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">Android进阶</span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
                 
                 
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
-                  </a>
-                </span>
-
-                
-                
-
               
             </span>
           
@@ -725,33 +774,33 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/21/02-Activity的启动模式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/02-Activity的启动模式/" itemprop="commentsCount"></span>
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
+          
 
           
+
           
-             <span id="/2016/04/21/02-Activity的启动模式/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-02-Activity的启动模式">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+
           
 
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -759,52 +808,34 @@
 
       
         
-          <blockquote>
-<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
-<ul>
-<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
-<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
-</ul>
-</blockquote>
-<h2 id="02-Activity的启动模式"><a href="#02-Activity的启动模式" class="headerlink" title="02-Activity的启动模式"></a>02-Activity的启动模式</h2><h3 id="Activity-的-LaunchMode"><a href="#Activity-的-LaunchMode" class="headerlink" title="Activity 的 LaunchMode"></a>Activity 的 LaunchMode</h3><blockquote>
-<p>复习一点：启动<code>Activity</code>时，系统会创造实例并把他们放入任务栈里，而任务栈是一种“后进先出”的栈结构。</p>
-</blockquote>
-<p><code>Activity</code>的四种启动模式：</p>
-<ul>
-<li><p><strong>standard</strong>：标准模式、默认模式。每次启动一个<code>Activity</code>都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，某个<code>Activity</code>启动了一号<code>Activity</code>，那么一号<code>Activity</code>就运行在启动它的那个<code>Activity</code>所在的栈中。</p>
-</li>
-<li><p><strong>singleTop</strong>：栈顶复用模式。如果新的<code>Activity</code>已经位于任务栈的栈顶，那么此<code>Activity</code>就不会被重新创建，同时它的<code>onNewIntent</code>方法会被回调，并且可以根据此方法的参数获得当前请求的信息。</p>
-</li>
-<li><p><strong>singleTask</strong>：栈内复用模式。在这种单实例模式下，只要<code>Activity</code>在一个栈中存在，那么多次启动此<code>Activity</code>都不会重新创建实例，系统也会调用其<code>onNewIntent</code>。</p>
-</li>
-</ul>
-<p><img src="http://7xs99u.com1.z0.glb.clouddn.com/image/png/singleTask%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png" alt="singleTask 的工作流程"></p>
-<ul>
-<li><strong>singleInstance</strong>：单实例模式。这是一种加强的singleTask模式，除了具有singleTask模式的所有特性外，还加强了一点，那就是<strong>具体此种模式的<code>Activity</code>只能单独地位于一个任务栈中。</strong></li>
-</ul>
-<blockquote>
-<p>注：在任何跳转的时候，首先调用本<code>Activity</code>的<code>onPause</code>，然后跳转。如果被跳转的<code>activity</code>由于启动方式而没创建新的实例，则会先调用<code>onNewIntent</code>，然后按照正常的生命周期调用。</p>
-</blockquote>
-<p>如：</p>
-<ol>
-<li>A→B，A：onPause；B：onCreate，onStart，onResume。</li>
-<li>A(singleTop)→A，A：onPause；A：onSaveInstanceState；A：onResume。</li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/21/02-Activity的启动模式/#more" rel="contents">
+          <p>#Android架构:第一部分-每个新的开始都很艰难 (译)</p>
+<p>本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。</p>
+<p>每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成一些工作。 通常情况下，新社区很小，开发人员之间知识转移的潜力有限，也就是说，由于没有可用的架构指导原则，每个人都从自己的错误中学习。</p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Illustration_1.png" alt="Android architecture part 1 "></p>
+<p>早期的Android并不例外。 这对开发人员来说既酷又有吸引力，它为早期采用者成为围绕这一快速发展技术的社区的一部分提供了机会。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/07/Android架构:第一部分-每个新的开始都很艰难 (译)/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
+          <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
+
+    
+
+    
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -814,187 +845,17 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/19/01-Activity的生命周期/" itemprop="url">
-                  Android开发艺术探索(研读笔记)-01-Activity的生命周期
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-19T15:40:00+08:00" content="2016-04-19">
-              2016-04-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">Android进阶</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android进阶/Android开发艺术探索-研读笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Android开发艺术探索(研读笔记)</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/19/01-Activity的生命周期/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/19/01-Activity的生命周期/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/04/19/01-Activity的生命周期/" class="leancloud_visitors" data-flag-title="Android开发艺术探索(研读笔记)-01-Activity的生命周期">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>作者：<a href="https://dimon94.github.io/">Dimon</a></p>
-<ul>
-<li>微博：<a href="http://weibo.com/dscott/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">@Dimon-喰</a></li>
-<li>LOFTER：<a href="http://dimon.lofter.com/">@Dimon、</a></li>
-<li>GitHub：<a href="https://github.com/Dimon94">@Dimon94</a></li>
-</ul>
-</blockquote>
-<h2 id="01-Activity的生命周期"><a href="#01-Activity的生命周期" class="headerlink" title="01-Activity的生命周期"></a>01-Activity的生命周期</h2><blockquote>
-<p>生命周期和启动模式以及IntentFilter的匹配规则分析。</p>
-</blockquote>
-<p>Activity的生命周期分为两个部分</p>
-<ol>
-<li>典型情况下的生命周期</li>
-<li>异常情况下的生命周期</li>
-</ol>
-<h3 id="典型情况下的生命周期分析"><a href="#典型情况下的生命周期分析" class="headerlink" title="典型情况下的生命周期分析"></a>典型情况下的生命周期分析</h3><ul>
-<li><strong>onCreate</strong> :表示<code>Activity</code>正在被创建。在这里可以做一些初始化的工作。</li>
-<li><strong>onRestart</strong> :表示<code>Activity</code>正在重新启动。当当前<code>Activity</code>从不可见重新变成可见状态。</li>
-<li><strong>onStart</strong> :表示<code>Activity</code>正在被启动。已经可见，但不在前台，无法交互。</li>
-<li><strong>onResume</strong> :表示<code>Activity</code>已经可见，并且出现在前台可以交互。</li>
-<li><strong>onPause</strong> :表示<code>Activity</code>正在停止。在这里可以做一些储存数据，停止动画等工作，<strong>但不能太耗时</strong>，因为必须<code>onPause</code>执行完成之后新的<code>Activity</code>才能<code>Resume</code>。</li>
-<li><strong>onStop</strong> :表示<code>Activity</code>即将停止。可以进行一些稍微重量级的回收工作，不能太耗时。</li>
-<li><strong>onDestroy</strong> :表示<code>Activity</code>即将被销毁。可以进行一些回收工作和最终的资源释放。</li>
-</ul>
-<p><img src="http://img.my.csdn.net/uploads/201007/28/0_12803210018q71.gif" alt="Activity的生命周期"></p>
-<p><strong>注意：</strong></p>
-<ul>
-<li><strong>onStart和onStop是从Activity是否可见这个角度来回调的</strong></li>
-<li><strong>onResum和onPause是从Activity是否在前台这个角度来回调的</strong></li>
-</ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/19/01-Activity的生命周期/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 
 
           </div>
@@ -1016,93 +877,85 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpg"
-               alt="Dimon" />
-          <p class="site-author-name" itemprop="name">Dimon</p>
-          <p class="site-description motion-element" itemprop="description">We are Infinite.</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">8</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dimon" />
+            
+              <p class="site-author-name" itemprop="name">Dimon</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
           
+
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dimon94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  </span>
+                
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
           
 
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Dimon94" target="_blank">
-                  
-                    <i class="fa fa-globe"></i> github
-                  
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/1951749771/profile?topnav=1&wvr=6&is_all=1" target="_blank">
-                  
-                    <i class="fa fa-globe"></i> weibo
-                  
-                </a>
-              </span>
-            
           
+
+          
+
         </div>
-
-        
-        
-          <div class="cc-license motion-element" itemprop="license">
-            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
       </section>
+
+      
 
       
 
@@ -1116,65 +969,122 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2016</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Dimon</span>
-</div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
+  
 </div>
 
 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
       </div>
     </footer>
 
-    <div class="back-to-top"></div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
   </div>
 
   
 
-
-  
-
-
-
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
 
 
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
   
 
   
@@ -1182,7 +1092,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
@@ -1193,7 +1103,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"dimon"};
+    var duoshuoQuery = {short_name:"Dimon"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;
@@ -1207,6 +1117,28 @@
 
   
     
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 
@@ -1214,104 +1146,19 @@
 
 
   
+
+  
+
   
 
   
   
 
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("KtTYmruy40XUzbz614ICkYYa-gzGzoHsz", "xcPlVQXKgSn0EUhX9mAQNnTW");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
+  
 
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
+  
 
 </body>
 </html>
