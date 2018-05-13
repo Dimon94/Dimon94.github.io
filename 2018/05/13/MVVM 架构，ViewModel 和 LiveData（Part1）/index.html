@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Android,Clean架构,译文," />
+  <meta name="keywords" content="Android,译文,MVVM," />
 
 
 
@@ -79,26 +79,26 @@
 
 
 
-<meta name="description" content="到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。 首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：  我会从最抽象的中心走到边缘。">
-<meta name="keywords" content="Android,Clean架构,译文">
+<meta name="description" content="原文：MVVM architecture, ViewModel and LiveData (Part 1) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。">
+<meta name="keywords" content="Android,译文,MVVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android架构：第三部分-在Android上应用Clean架构 (译)">
-<meta property="og:url" content="http://yoursite.com/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /index.html">
+<meta property="og:title" content="MVVM 架构，ViewModel 和LiveData　第一部分(译)">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/index.html">
 <meta property="og:site_name" content="Dimon&#39;s Program Basement">
-<meta property="og:description" content="到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。 首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：  我会从最抽象的中心走到边缘。">
+<meta property="og:description" content="原文：MVVM architecture, ViewModel and LiveData (Part 1) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1-2.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-2-2.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-3-.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-4-1.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-5-1.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-6-1.png">
-<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-7-1.png">
-<meta property="og:updated_time" content="2018-05-13T07:02:48.168Z">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*1oxzCpbMBzG6BU_g8PIk9g.jpeg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*BpxMFh7DdX0_hqX6ABkDgw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uWXunt0A6fKUFU8PsTLkfA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*vt5V03Pe1Va7B0vGfceRpQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7dR3uzZsANvvjJp3twYINg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*2AIrQEjTkInY_BjUW9slSw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*uCmP51XYJCuffo4fXe2KFg.png">
+<meta property="og:updated_time" content="2018-05-13T09:02:44.155Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android架构：第三部分-在Android上应用Clean架构 (译)">
-<meta name="twitter:description" content="到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。 首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：  我会从最抽象的中心走到边缘。">
-<meta name="twitter:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1-2.png">
+<meta name="twitter:title" content="MVVM 架构，ViewModel 和LiveData　第一部分(译)">
+<meta name="twitter:description" content="原文：MVVM architecture, ViewModel and LiveData (Part 1) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1000/1*1oxzCpbMBzG6BU_g8PIk9g.jpeg">
 
 
 
@@ -128,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/"/>
 
 
 
 
 
-  <title>Android架构：第三部分-在Android上应用Clean架构 (译) | Dimon's Program Basement</title>
+  <title>MVVM 架构，ViewModel 和LiveData　第一部分(译) | Dimon's Program Basement</title>
   
 
 
@@ -261,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dimon">
@@ -278,7 +278,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android架构：第三部分-在Android上应用Clean架构 (译)</h1>
+          <h1 class="post-title" itemprop="name headline">MVVM 架构，ViewModel 和LiveData　第一部分(译)</h1>
         
 
         <div class="post-meta">
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:13+08:00">
-                2018-05-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T16:15:00+08:00">
+                2018-05-13
               </time>
             
 
@@ -331,9 +331,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /#comments" itemprop="discussionUrl">
+                <a href="/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -341,7 +341,7 @@
 
           
           
-             <span id="/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /" class="leancloud_visitors" data-flag-title="Android架构：第三部分-在Android上应用Clean架构 (译)">
+             <span id="/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/" class="leancloud_visitors" data-flag-title="MVVM 架构，ViewModel 和LiveData　第一部分(译)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -372,40 +372,92 @@
       
 
       
-        <p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
-<p>首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1-2.png" alt="clean architecture - 1"></p>
-<p>我会从最抽象的中心走到边缘。</p>
+        <p><img src="https://cdn-images-1.medium.com/max/1000/1*1oxzCpbMBzG6BU_g8PIk9g.jpeg" alt="img"></p>
+<p>原文：<a href="https://proandroiddev.com/mvvm-architecture-viewmodel-and-livedata-part-1-604f50cda1" target="_blank" rel="noopener">MVVM architecture, ViewModel and LiveData (Part 1)</a></p>
+<p>在Google I / O期间，Google推出了包含<a href="https://developer.android.com/topic/libraries/architecture/livedata.html" target="_blank" rel="noopener">LiveData</a> 和<a href="https://developer.android.com/topic/libraries/architecture/viewmodel.html" target="_blank" rel="noopener">ViewModel</a> 的<a href="https://developer.android.com/topic/libraries/architecture/index.html" target="_blank" rel="noopener">architecture components</a> ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。</p>
 <a id="more"></a>
-<h2 id="Entities"><a href="#Entities" class="headerlink" title="Entities"></a>Entities</h2><p>Entities，即<strong>Domain 对象</strong>或业务对象，它们是App的核心。 它们代表了APP的主要功能，您应该能够通过查看它们来了解APP的功能。 它们包含业务逻辑，但仅限于它们 - 验证和类似的东西。 他们不会与外在世界的细节进行互动，也不会处理持久性。 例如，如果您有新闻APP，则这些实体将是类别，文章和商业广告。</p>
-<h2 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h2><p>Use case，又名interactors，又名business services，是Entities的扩展，是业务逻辑的延伸，也就是说。 它们包含的逻辑不仅限于一个实体，而是处理更多的实体。 一个好Use case的一个指标是，你可以用一种通用的语言描述它在一个简单的句子中的作用 - 例如，“从一个账户转移到另一个账户”。你甚至可以用这样的命名来命名该类，例如，TransferMoneyUseCase。</p>
-<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><p>Repositories用于坚持Entities。 就这么简单。 它们被定义为接口并用作想要对Entities执行CRUD操作的用例的输出端口。 另外，它们可以公开一些与持久性相关的更复杂的操作，例如过滤，聚合等。 具体的持久性策略，例如数据库或因特网，是在外层实现的。 例如，您可以命名接口AccountRepository。</p>
-<h2 id="Presenters"><a href="#Presenters" class="headerlink" title="Presenters"></a>Presenters</h2><p>如果你熟悉MVP模式，Presenters就会做你期望他们做的事情。 他们处理用户交互，调用适当的业务逻辑，并将数据发送到UI进行渲染。 这里通常有不同类型的模型之间的映射。 有些人会在这里使用Controller，这很好。 我们使用的Presenter正式被称为监督Controller。 我们通常在每个屏幕上定义一个或两个Presenters，具体取决于屏幕，Presenter的生命周期与视图的生命周期相关联。 一条建议：尝试在Presenter上将您的方法命名为技术不可知论者（technology agnostic）。 假设您不知道视图实现的技术。因此，如果您在视图中具有名为onSubmitOrderButtonClicked和onUserListItemSelected的方法，则处理这些事件的相应演示者方法可以命名为submitOrder和selectUser。</p>
-<h2 id="Device"><a href="#Device" class="headerlink" title="Device"></a>Device</h2><p>这个组件在通知（再次）例子中已经被取笑了。它包含了诸如传感器，警报，通知，播放器，各种Managers等Android提供东西的实现。它是一个由两部分组成的部分。第一部分是业务逻辑用作与外部世界进行通信的输出端口的内部圈定义的接口。第二部分，这是在图中绘制的，是这些接口的实现。因此，您可以定义例如名为Gyroscope，Alarm，Notifications和Player的接口。注意名称是抽象的和技术不可知（technology agnostic）的。业务逻辑不关心如何显示通知，玩家如何播放声音，或陀螺仪数据来自何处。您可以制作将通知写入终端，将声音数据写入日志或从预定义文件收集陀螺仪数据的实现。这样的实现对于调试或创建确定性环境是非常有用的。但是，您当然必须制作诸如AndroidAlarm，NativePlayer等实现。在大多数情况下，这些实现只是围绕Android的Manager 类的包装。</p>
-<h2 id="DB-amp-API"><a href="#DB-amp-API" class="headerlink" title="DB &amp; API"></a>DB &amp; API</h2><p>将存储库的实现放在这个组件中。所有这些底层持久化的东西应该在这里：DAO，ORM的东西，Retrofit（或别的东西）的东西，JSON解析等。你也可以在这里实现缓存策略，或者只是使用内存中的持久性，直到完成与应用程序的其余部分。我们最近在团队中进行了一次有趣的讨论。问题是这样的：资源库是否应公开诸如fetchUsersOffline（fetchUsersFromCache）和fetchUsersOnline（fetchUsersFromInternet）之类的方法？换句话说，业务逻辑应该知道数据来自哪里？看过这篇文章的所有内容后，答案很简单：不。但是有一个问题！如果关于数据源的决定是业务逻辑的一部分 - 例如，如果用户可以选择它，或者如果您有明确的离线模式的应用程序，那么您可以添加这样的区别。但是我不会为每个抓取定义两种方法。我可能会在资源库中公开方法，如enterOfflineMode和exitOfflineMode。或者，如果它适用于所有存储库，则可以使用输入和退出方法定义OfflineMode接口，并在业务逻辑端使用它，让存储库查询该模式并在内部进行确定。</p>
-<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>将与Android用户界面相关的所有内容放在这里 Activities，fragments，views，adapters等完成。</p>
-<h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><p>下图显示了我们如何将所有这些组件分成Android Studio模块。 你可能会发现另一个更合适的部门。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2-2.png" alt="clean architecture - 2"></p>
-<p>我们将entities，use cases，repositories和device接口分组到domain模块中。 如果您想获得额外的挑战，并获得永恒的荣耀和完全干净的设计，您可以使该模块成为纯Java模块。 它会阻止你在这里使用快捷方式并将相关的东西放在Android上。</p>
-<p>device模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 正如我们已经说过的，data模块应该包含与数据持久性相关的所有内容。 你不能让这两个人进入Java模块，因为他们需要访问各种Android的东西。 你可以将它们变成Android库。</p>
-<p>最后，我们将与UI相关的所有内容（包括presenters）分组到UI模块中。 您可以明确地命名为UI，但由于Android中的所有东西，我们将其命名为“app”，就像Android Studio在创建项目时命名的那样。</p>
-<h2 id="这样更好些了吗？"><a href="#这样更好些了吗？" class="headerlink" title="这样更好些了吗？"></a>这样更好些了吗？</h2><p>为了回答这个问题，我会抛弃Bob叔叔的图表，并将之前描述的组件扩展到像我们用来评估以前类型的体系结构的图表。 这样做后，我们得到这个：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3-.png" alt="clean architecture - 3"></p>
-<p>现在让我们应用我们在以前的体系结构中使用的相同条件。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4-1.png" alt="clean architecture - 4"></p>
-<p>它完全由模块级别，封装级别和类级别分开。 所以SRP应该得到满足。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5-1.png" alt="clean architecture - 5"></p>
-<p>我们尽可能将Android和现实世界推到了最外面。 业务逻辑不再直接接触Android。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6-1.png" alt="clean architecture - 6"></p>
-<p>我们有很好的分离类，很容易测试。 接触世界的类可以使用Android测试用例进行测试; 可以使用JUnit测试它。 有人恶意可能会称这类爆炸。 我称之为可测试的。:)</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7-1.png" alt="clean architecture - 7"></p>
-<h2 id="Clean架构：它可能很复杂-但它是值得的"><a href="#Clean架构：它可能很复杂-但它是值得的" class="headerlink" title="Clean架构：它可能很复杂 - 但它是值得的"></a>Clean架构：它可能很复杂 - 但它是值得的</h2><p>我希望我精心挑选的标准并不是为了支持Clean架构而编造的，它会让你尝试一下。 这看起来很复杂，而且这里有很多细节，<strong>但它是值得的。</strong> 一旦你将所有东西连接起来，测试就容易得多，错误更容易隔离，新特性易于添加，代码更具可读性和可维护性，一切正常，世界满意。</p>
-<p>所以，就是这样。 如果您还没有这样做，请查看以前的系列文章：<a href="http://five.agency/android-architecture-part-1-every-new-beginning-is-hard/" target="_blank" rel="noopener">Mistakes</a> 和 <a href="http://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">Clean Architecture</a>.。 如果您有任何意见或问题，请在下面留言。 我们总是有兴趣听到你的想法。</p>
-<p>阅读我们的Android Architecture系列的第四部分。</p>
-<p>您还可以查看其他部分：</p>
-<p><a href="http://five.agency/android-architecture-part-5-test-clean-architecture/" target="_blank" rel="noopener">Part 5: How to Test Clean Architecture</a></p>
-<p><a href="http://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">Part 2: The Clean Architecture</a></p>
-<p><a href="http://five.agency/android-architecture-part-1-every-new-beginning-is-hard/" target="_blank" rel="noopener">Part 1: every new beginning is hard</a></p>
+<h4 id="快速定义MVVM"><a href="#快速定义MVVM" class="headerlink" title="快速定义MVVM"></a>快速定义MVVM</h4><p>如果您熟悉MVVM，则可以完全跳过本节。</p>
+<p>MVVM是增强关注点分离的体系结构模式之一，它允许将用户界面逻辑从业务（或后端）逻辑中分离出来。 它的目标（与其他MVC模式目标一致）是为了实现以下原则：“使UI代码简单且不含应用程序逻辑，以便更易于管理”。</p>
+<p>MVVM主要有以下几个层次：</p>
+<ul>
+<li><p>Model</p>
+<p>Model表示应用程序的数据和业务逻辑。 这一层的推荐实施策略之一是通过观测数据并且公开其数据，从而完全从ViewModel或任何其他观察者/消费者（这将在我们的MVVM示例应用程序中进行说明）进行解耦。</p>
+</li>
+<li><p>ViewModel</p>
+<p>ViewModel与Model交互，并且还准备可以被View观察的observable（s）。 ViewModel可以选择性地为View提供钩子（hooks）以将事件传递给Model。</p>
+<p>该层的一个重要实现策略是将其与View分离，即ViewModel不应该意识到与之交互的View。</p>
+</li>
+<li><p>View</p>
+<p>最后，此模式中的View是观察（或订阅）ViewModel，可观察数据以获取数据并且相应地更新UI元素。</p>
+</li>
+</ul>
+<p>下图显示了MVVM组件和基本交互。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BpxMFh7DdX0_hqX6ABkDgw.png" alt="MVVM组件和基本交互"></p>
+<h4 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h4><p>如上所述，LiveData是新引入的体系结构组件之一。 LiveData是一个可观察的数据持有者。 这允许应用程序中的组件能够观察LiveData对象的更改，而无需在它们之间创建明确的和严格的依赖关系路径。 这将完全分离LiveData对象使用者的LiveData对象生产者。</p>
+<p>除此之外，LiveData也有很大的好处，LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理对象生命周期管理，确保LiveData对象不泄漏。</p>
+<blockquote>
+<p>根据Google文档，如果您已经在使用Rx或Agera等Library，则可以继续使用它们而不是LiveData。 但在这种情况下，您有责任处理每个Android组件生命周期的对象分配和解除分配。</p>
+</blockquote>
+<p>由于LiveData尊重Android生命周期，这意味着除非LiveData主机（activity或fragment）处于活动状态（接收onStart()但未收到onStop()），否则它将不会调用其观察者回调。 除此之外，当主机收到onDestroy()时，LiveData也会自动删除观察者。</p>
+<p>LiveData将在下面的MVVM示例应用程序中进行说明。</p>
+<h4 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h4><p>ViewModel也是新引入的体系结构组件之一。 architecture components 提供了一个名为<strong>ViewModel</strong>的新类，它负责为UI / View准备数据。</p>
+<p><strong>ViewModel</strong>为您的MVVM ViewModel层提供了一个很好的基类，因为<strong>ViewModel</strong>（及其子类<strong>AndroidViewModel</strong>）的扩展类在配置更改期间自动保留其保留数据。 这意味着，在配置更改后，此<strong>ViewModel</strong>所有数据立即可用于下一个Activity或Fragment实例。</p>
+<p>下图显示了ViewModel组件的生命周期。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uWXunt0A6fKUFU8PsTLkfA.png" alt="ViewModel组件的生命周期"></p>
+<p><strong>ViewModel</strong>也将在我们的MVVM示例应用程序中进行说明。</p>
+<h4 id="示例应用程序"><a href="#示例应用程序" class="headerlink" title="示例应用程序"></a>示例应用程序</h4><p>现在，让我们来看看最有趣的部分，让我们把所有这些东西放在一个示例应用程序中。 此MVVM示例应用程序主要包含两个屏幕。 下面显示的第一个屏幕显示了Google GitHub项目列表，其中包含一些简要信息，例如标题，编程语言和最终观察者数量。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vt5V03Pe1Va7B0vGfceRpQ.png" alt="Project List"></p>
+<p>一旦应用程序的最终用户触摸任何列表项、GitHub项目的详细信息，屏幕将显示项目描述、编程语言、观察者数量、公开问题、创建和上次更新日期，最后显示克隆URL。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7dR3uzZsANvvjJp3twYINg.png" alt="Project Details"></p>
+<h4 id="示例应用程序交互图"><a href="#示例应用程序交互图" class="headerlink" title="示例应用程序交互图"></a>示例应用程序交互图</h4><p>下图显示了示例应用程序的包结构</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2AIrQEjTkInY_BjUW9slSw.png" alt="示例应用程序的包结构"></p>
+<p>以下交互图显示了检索Google GitHub项目的应用场景之一的示例交互图。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uCmP51XYJCuffo4fXe2KFg.png" alt="Google GitHub项目的应用场景"></p>
+<p>如图所示，每个图层都从其后续图层（Fragment（View） - &gt; ViewModel - &gt; Repository）观察LiveData，最后一旦检索到项目列表，就会使用RecyclerView适配器绑定显示项目列表。</p>
+<blockquote>
+<p>Repository模块负责处理数据操作。 通过确保这一点，Repository模块可以为应用程序的其余部分提供干净的API，并简化使用者ViewModel的工作。 如果需要更新数据，系统信息库模块应该知道从哪里获取数据以及进行哪些API调用。 它们可以被视为不同数据源（REST服务，数据库，XML文件等）之间的中介。</p>
+</blockquote>
+<p>现在，让我们从下往上解释这些图层，从Model，ViewModel开始，最后用View来检索GitHub项目场景。</p>
+<h4 id="示例应用程序模型层"><a href="#示例应用程序模型层" class="headerlink" title="示例应用程序模型层"></a>示例应用程序模型层</h4><p>让我们从业务逻辑层开始，我们有两个模型对象</p>
+<ul>
+<li><strong>Project</strong>，包含GitHub项目的信息，如id，名称，描述，创建日期等等。</li>
+<li><strong>用户</strong>，包含GitHub项目所有者的用户信息。</li>
+</ul>
+<p>为了与GitHub RESTful API进行交互，我使用了我喜欢的Retrofit 2来定义存储库包中的以下简单接口。</p>
+<p>为了便于ViewModel的Job，创建一个<strong>ProjectRepository</strong>类来与GitHub服务交互，并最终为ViewModel提供一个<strong>LiveData</strong>对象。 它也将在以后用于编排服务呼叫。 以下代码片段显示了<strong>getProjectList()</strong>API实现。</p>
+<p><strong>ProjectRepository</strong>是ViewModel的数据提供者，它具有<strong>getProjectList()</strong>，它将响应简单地包装到LiveData Object中。</p>
+<p>为了简化本文的目的，错误处理被省略，并且将在下一篇文章中进行说明。</p>
+<h4 id="示例应用程序ViewModel图层"><a href="#示例应用程序ViewModel图层" class="headerlink" title="示例应用程序ViewModel图层"></a>示例应用程序ViewModel图层</h4><p>为了消费<strong>getProjectList（）</strong>API，创建了ViewModel类（调用Repository API并可以为LiveData执行任何所需的转换）。 以下代码片段显示了<strong>ProjectListViewModel</strong>类。</p>
+<p>如上所示，我们的<strong>ProjectListViewModel</strong>类扩展了<strong>AndroidViewModel</strong>，并在构造函数中调用<strong>getProjectList（“Google”）</strong>来检索Google GitHub项目。</p>
+<p>在现实世界的情况下，在将结果数据传递给观察视图之前可能需要进行转换，为了进行转换，可以使用Transformation类，如下面的文档所示：</p>
+<p><a href="https://developer.android.com/topic/libraries/architecture/livedata.html#transformations_of_livedata" target="_blank" rel="noopener">https://developer.android.com/topic/libraries/architecture/livedata.html#transformations_of_livedata</a></p>
+<h4 id="示例应用视图图层"><a href="#示例应用视图图层" class="headerlink" title="示例应用视图图层"></a>示例应用视图图层</h4><p>最后，让我们快速浏览一下这个应用程序的视图层，我们主要有一个名为<strong>MainActivity</strong>的Activity，它负责处理代表应用程序视图的两个片段的导航：</p>
+<ul>
+<li><strong>ProjectListFragment</strong>，它显示Google GitHub项目的列表。</li>
+<li><strong>ProjectFragment</strong>，它显示所选的GitHub项目细节。</li>
+</ul>
+<blockquote>
+<p>由于Activities和Fragments被视为生命周期所有者，活动需要扩展LifecycleActivity，片段需要扩展LifecycleFragment。 但是，请务必记住LifecycleActivity和LifecycleFragment类都是临时实现，直到Lifecycle与支持库集成为止：<a href="https://developer.android.com/reference/android/arch/lifecycle/LifecycleActivity.html" target="_blank" rel="noopener">https://developer.android.com/reference/android/arch/lifecycle/LifecycleActivity.html</a></p>
+</blockquote>
+<p>现在，让我们继续我们的项目检索方案，查看<strong>ProjectListFragment</strong>，下面的代码片段显示了最重要的集成部分。</p>
+<p>如上所示，<strong>ProjectListFragment</strong>获取<strong>ProjectListViewModel</strong>，然后监听其<strong>getProjectListObservable（）</strong>方法，以便在准备好时获取Github项目列表。 最后，一旦检索到项目列表，它将被传递给<strong>projectAdapter</strong>（RecyclerView适配器），以显示RecyclerView组件中的项目列表。</p>
+<p>这是对项目的一个端到端场景的解释，您可以在这里找到GitHub中提供的完整项目：</p>
+<p><a href="https://github.com/hazems/mvvm-sample-app/tree/part1" target="_blank" rel="noopener">https://github.com/hazems/mvvm-sample-app/tree/part1</a></p>
+<h4 id="MVVM实施的重要指导原则"><a href="#MVVM实施的重要指导原则" class="headerlink" title="MVVM实施的重要指导原则"></a>MVVM实施的重要指导原则</h4><p>现在，重点介绍MVVM实现的一些重要指导原则：</p>
+<ul>
+<li>如示例中所示，ViewModels不会直接引用Views，因为如果这样做，ViewModels可能会超出View的生命周期，并且可能会发生内存泄漏。</li>
+<li>建议使用Model和ViewModel使用LiveData公开其数据，因为LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理确保LiveData对象不泄漏的对象生命周期管理。</li>
+</ul>
+<h4 id="下一篇文章"><a href="#下一篇文章" class="headerlink" title="下一篇文章"></a>下一篇文章</h4><p>故事尚未完成，因为有些事情需要处理，比如：</p>
+<ul>
+<li>依赖注入</li>
+<li>错误处理</li>
+<li>缓存</li>
+<li>在此演示中添加更多功能以查看Room如何促进SQLite数据操作</li>
+<li>单元测试</li>
+<li>其他…</li>
+</ul>
+<p>这将在MVVM的下一系列文章中进行说明，敬请关注。</p>
 
       
     </div>
@@ -425,9 +477,9 @@
           
             <a href="/tags/Android/" rel="tag"># Android</a>
           
-            <a href="/tags/Clean架构/" rel="tag"># Clean架构</a>
-          
             <a href="/tags/译文/" rel="tag"># 译文</a>
+          
+            <a href="/tags/MVVM/" rel="tag"># MVVM</a>
           
         </div>
       
@@ -440,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/" rel="next" title="Android架构：第二部分-The clean architecture (译)">
-                <i class="fa fa-chevron-left"></i> Android架构：第二部分-The clean architecture (译)
+              <a href="/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/" rel="next" title="Android架构：第五部分-Clean架构是如何测试的 (译)">
+                <i class="fa fa-chevron-left"></i> Android架构：第五部分-Clean架构是如何测试的 (译)
               </a>
             
           </div>
@@ -449,10 +501,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/07/Android架构：第四部分 - 在Android上应用Clean架构，实践（包含源代码） /" rel="prev" title="Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)">
-                Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -626,7 +674,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Entities"><span class="nav-number">1.</span> <span class="nav-text">Entities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use-cases"><span class="nav-number">2.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Repositories"><span class="nav-number">3.</span> <span class="nav-text">Repositories</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenters"><span class="nav-number">4.</span> <span class="nav-text">Presenters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Device"><span class="nav-number">5.</span> <span class="nav-text">Device</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DB-amp-API"><span class="nav-number">6.</span> <span class="nav-text">DB &amp; API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI"><span class="nav-number">7.</span> <span class="nav-text">UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modules"><span class="nav-number">8.</span> <span class="nav-text">Modules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#这样更好些了吗？"><span class="nav-number">9.</span> <span class="nav-text">这样更好些了吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clean架构：它可能很复杂-但它是值得的"><span class="nav-number">10.</span> <span class="nav-text">Clean架构：它可能很复杂 - 但它是值得的</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#快速定义MVVM"><span class="nav-number">1.</span> <span class="nav-text">快速定义MVVM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LiveData"><span class="nav-number">2.</span> <span class="nav-text">LiveData</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ViewModel"><span class="nav-number">3.</span> <span class="nav-text">ViewModel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例应用程序"><span class="nav-number">4.</span> <span class="nav-text">示例应用程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例应用程序交互图"><span class="nav-number">5.</span> <span class="nav-text">示例应用程序交互图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例应用程序模型层"><span class="nav-number">6.</span> <span class="nav-text">示例应用程序模型层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例应用程序ViewModel图层"><span class="nav-number">7.</span> <span class="nav-text">示例应用程序ViewModel图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例应用视图图层"><span class="nav-number">8.</span> <span class="nav-text">示例应用视图图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVVM实施的重要指导原则"><span class="nav-number">9.</span> <span class="nav-text">MVVM实施的重要指导原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下一篇文章"><span class="nav-number">10.</span> <span class="nav-text">下一篇文章</span></a></li></ol></div>
             
 
           </div>
@@ -789,9 +837,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /';
-          this.page.identifier = '2018/05/07/Android架构：第三部分 - 在Android上应用Clean架构 /';
-          this.page.title = 'Android架构：第三部分-在Android上应用Clean架构 (译)';
+          this.page.url = 'http://yoursite.com/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/';
+          this.page.identifier = '2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/';
+          this.page.title = 'MVVM 架构，ViewModel 和LiveData　第一部分(译)';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Dimon.disqus.com/embed.js';
