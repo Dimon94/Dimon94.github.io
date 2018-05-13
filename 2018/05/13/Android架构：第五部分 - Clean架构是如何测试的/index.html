@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,Clean架构,译文,单元测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="你为什么要关心测试？ 像任何人一样，程序员犯错误。 我们可能会忘记我们上个月实现的边缘案例，或者我们传递一个空字符串时某些方法的行为方式。 在每次更改后都可以使用APP，并尝试每次可能的点击，点按，手势和方向更改，以确保一切正常。 在旋转设备时，您可能会忘记右上角的三次敲击，因此当用户执行此操作时，所有内容都会崩溃，并引发空指针异常。 用户做的很愚蠢，我们需要确保每个类都能够做到应有的功能，并且A">
+<meta name="keywords" content="Android,Clean架构,译文,单元测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android架构：第五部分-Clean架构是如何测试的 (译)">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Program Basement">
+<meta property="og:description" content="你为什么要关心测试？ 像任何人一样，程序员犯错误。 我们可能会忘记我们上个月实现的边缘案例，或者我们传递一个空字符串时某些方法的行为方式。 在每次更改后都可以使用APP，并尝试每次可能的点击，点按，手势和方向更改，以确保一切正常。 在旋转设备时，您可能会忘记右上角的三次敲击，因此当用户执行此操作时，所有内容都会崩溃，并引发空指针异常。 用户做的很愚蠢，我们需要确保每个类都能够做到应有的功能，并且A">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2017/09/graf_2.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2017/09/graf_1-1.png">
+<meta property="og:updated_time" content="2018-05-13T07:55:00.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android架构：第五部分-Clean架构是如何测试的 (译)">
+<meta name="twitter:description" content="你为什么要关心测试？ 像任何人一样，程序员犯错误。 我们可能会忘记我们上个月实现的边缘案例，或者我们传递一个空字符串时某些方法的行为方式。 在每次更改后都可以使用APP，并尝试每次可能的点击，点按，手势和方向更改，以确保一切正常。 在旋转设备时，您可能会忘记右上角的三次敲击，因此当用户执行此操作时，所有内容都会崩溃，并引发空指针异常。 用户做的很愚蠢，我们需要确保每个类都能够做到应有的功能，并且A">
+<meta name="twitter:image" content="http://five.agency/wp-content/uploads/2017/09/graf_2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/"/>
+
+
+
+
+
+  <title>Android架构：第五部分-Clean架构是如何测试的 (译) | Dimon's Program Basement</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dimon's Program Basement</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android架构：第五部分-Clean架构是如何测试的 (译)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T15:03:00+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android架构/" itemprop="url" rel="index">
+                    <span itemprop="name">Android架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/" class="leancloud_visitors" data-flag-title="Android架构：第五部分-Clean架构是如何测试的 (译)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>你为什么要关心测试？ 像任何人一样，程序员犯错误。 我们可能会忘记我们上个月实现的边缘案例，或者我们传递一个空字符串时某些方法的行为方式。</p>
+<p>在每次更改后都可以使用APP，并尝试每次可能的点击，点按，手势和方向更改，以确保一切正常。 在旋转设备时，您可能会忘记右上角的三次敲击，因此当用户执行此操作时，所有内容都会崩溃，并引发空指针异常。 用户做的很愚蠢，我们需要确保每个类都能够做到应有的功能，并且APP的每个部分都可以处理我们抛出的所有内容。</p>
+<p>这就是我们编写自动化测试的原因。</p>
+<a id="more"></a>
+<h3 id="1-测试-Clean-架构"><a href="#1-测试-Clean-架构" class="headerlink" title="1. 测试 Clean 架构"></a>1. 测试 Clean 架构</h3><p>Clean架构完全关于可维护性和可测试性。 架构的每个部分都有一个目的。 我们只需要指定它并检查它实际上是否每次都做它的工作。</p>
+<p>现在，让我们现实一点。 我们可以测试什么？ 一切。 诚然，如果你正确地构建你的代码，你可以测试一切。 这取决于你要测试什么。 不幸的是，通常没有时间来测试一切。</p>
+<p>可测性。 这是第一步。 第二步是测试正确的方法。 让我们提醒一下<strong>FIRST</strong>的旧规则：</p>
+<p><strong>Fast</strong> – 测试应该非常快。如果需要几分钟或几小时来执行测试，写测试是没有意义的。 没有人会检查测试，如果是这样的话！</p>
+<p><strong>Isolated</strong> – 一次测试APP的一个单元。 安排在该单位的一切行为完全按照你想要的方式，然后执行测试单位并且断言它的行为是正确的。</p>
+<p><strong>Repeatable</strong> – 每次执行测试时都应该有相同的结果。 它不应该依赖于一些不确定的数据。</p>
+<p><strong>Self-validating</strong> – 框架应该知道测试是否通过。 不应该有任何手动检查测试。 只要检查一切是否是绿色，就是这样:)</p>
+<p><strong>Timely</strong> – 测试应该和代码一样写，或者甚至在代码之前写！</p>
+<p>所以，我们制作了一个可测试的APP，我们知道如何测试。 那如何命名单元测试的名字呢？</p>
+<h3 id="2-命名测试"><a href="#2-命名测试" class="headerlink" title="2. 命名测试"></a>2. 命名测试</h3><p>说实话，我们如何命名测试很重要。它直接反映了你对测试的态度，以及你想要测试什么的方式。</p>
+<p>让我们认识我们的受害者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">DeleteFeedUseCase</span> <span class="keyword">implements</span> <span class="title">CompletableUseCaseWithParameter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Completable <span class="title">execute</span><span class="params">(<span class="keyword">final</span> Integer feedId)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//implementation</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，幼稚的方法是编写像这样的测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeWhenDatabaseReturnsTrue</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeWithErrorInDatabase</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这被称为实现式命名。 它与类实现紧密结合。 当我们改变实施时，我们需要改变我们对类的期望。 这些通常是在代码之后编写的，关于它们唯一的好处是它们可以很快写入。</p>
+<p>第二种方式是示例式命名：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomethingWithIdsSmallerThanZero</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ignoreWhenNullIsPassed</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例式测试是系统使用的示例。 它们在测试边缘案例时很好，但不要将它们用于所有事情，它们应该与实现相关联。</p>
+<p>现在，让我们尝试抽象我们对这个类的看法，并从实现中移开。 那这个呢：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldDeleteExistingFeed</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldIgnoreDeletingNonExistingFeed</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们确切地知道我们对这个类的期望。 这个测试类可以用作类的规范，因此可以使用名称规范式的命名。 名称没有说明实现的任何内容，并且从测试的名称 - 规范 - 我们可以编写实际的具体类。 规范样式的名称通常是最好的选择，但如果您认为您无法测试某些特定于实现的边缘案例，则可以随时抛出几个示例样式的测试。</p>
+<p>理论到此为止，我们准备好让我们的手变dirty！</p>
+<h3 id="3-测试Domain"><a href="#3-测试Domain" class="headerlink" title="3. 测试Domain"></a>3. 测试Domain</h3><p>让我们看看我们如何测试用例。 我们的Reedley应用程序中的用例结构如下所示：</p>
+<p><img src="http://five.agency/wp-content/uploads/2017/09/graf_2.png" alt="Reedley App 3.1"></p>
+<p>问题是EnableBackgroundFeedUpdatesUseCase是最终的，如果它是一些其他用例测试所需的模拟，则无法完成。 Mockito不允许嘲笑最终课程。</p>
+<p>用例被其实现引用，所以让我们添加另一层接口：</p>
+<p><img src="http://five.agency/wp-content/uploads/2017/09/graf_1-1.png" alt="Reedley App 3.2"></p>
+<p>现在我们可以模拟EnableBackgroundFeedUpdatesUseCase接口。 但在我们的日常实践中，我们得出结论，这在开发时非常混乱，中间层接口是空的，用例实际上并不需要接口。 用例只做一项工作，它在名称中说得很对 - “启用后台供稿更新用例”，没有什么可以抽象的！</p>
+<p>好的，让我们试试这个 - 我们不需要做最终用例。</p>
+<p>我们尽可能做最后的决定，它使得更多结构化和更优化的代码。 我们可以忍受用例不是最终的，但必须有更好的方法。</p>
+<p>我们找到了使用mockito-inline的解决方案。 它使得unmockable，mockable。 随着Mockito的新版本，可以启用最终classes的模拟。</p>
+<p>以下是用例实现的示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">EnableBackgroundFeedUpdatesUseCase</span> <span class="keyword">implements</span> <span class="title">CompletableUseCase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> SetShouldUpdateFeedsInBackgroundUseCase setShouldUpdateFeedsInBackgroundUseCase;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> FeedsUpdateScheduler feedsUpdateScheduler;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//constructor</span></span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> Completable <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> setShouldUpdateFeedsInBackgroundUseCase.execute(<span class="keyword">true</span>) .concatWith(Completable.fromAction(feedsUpdateScheduler::scheduleBackgroundFeedUpdates));    </span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在测试用例时，我们应该测试该用例调用Repositories中的正确方法或执行其他用例。 我们还应该测试该用例返回适当的回调：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> EnableBackgroundFeedUpdatesUseCase enableBackgroundFeedUpdatesUseCase;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> SetShouldUpdateFeedsInBackgroundUseCase setShouldUpdateFeedsInBackgroundUseCase;</span><br><span class="line"><span class="keyword">private</span> FeedsUpdateScheduler feedUpdateScheduler;</span><br><span class="line"><span class="keyword">private</span> TestSubscriber testSubscriber;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Before</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    setShouldUpdateFeedsInBackgroundUseCase = Mockito.mock(SetShouldUpdateFeedsInBackgroundUseCase.class);</span><br><span class="line">    feedUpdateScheduler = Mockito.mock(FeedsUpdateScheduler.class);</span><br><span class="line">    testSubscriber = <span class="keyword">new</span> TestSubscriber();</span><br><span class="line">    enableBackgroundFeedUpdatesUseCase = <span class="keyword">new</span> EnableBackgroundFeedUpdatesUseCase(setShouldUpdateFeedsInBackgroundUseCase, feedUpdateScheduler);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldEnableBackgroundFeedUpdates</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Mockito.when(setShouldUpdateFeedsInBackgroundUseCase.execute(<span class="keyword">true</span>)).thenReturn(Completable.complete());</span><br><span class="line"></span><br><span class="line">    enableBackgroundFeedUpdatesUseCase.execute().subscribe(testSubscriber);</span><br><span class="line"></span><br><span class="line">    Mockito.verify(setShouldUpdateFeedsInBackgroundUseCase, Mockito.times(<span class="number">1</span>)).execute(<span class="keyword">true</span>);</span><br><span class="line">    Mockito.verifyNoMoreInteractions(setShouldUpdateFeedsInBackgroundUseCase);</span><br><span class="line"></span><br><span class="line">    Mockito.verify(feedUpdateScheduler, Mockito.times(<span class="number">1</span>)).scheduleBackgroundFeedUpdates();    </span><br><span class="line">    Mockito.verifyNoMoreInteractions(feedUpdateScheduler);    </span><br><span class="line"></span><br><span class="line">    testSubscriber.assertCompleted();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用了来自Rx的 <a href="http://reactivex.io/RxJava/javadoc/rx/observers/TestSubscriber.html" target="_blank" rel="noopener">TestSubscriber</a> ，因此可以测试适当的回调。 它可以断言完成，发射值，数值等。</p>
+<h3 id="4-测试Data"><a href="#4-测试Data" class="headerlink" title="4. 测试Data"></a>4. 测试Data</h3><p>这里是非常简单的Repository方法，它只使用一个DAO方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FeedRepositoryImpl</span> <span class="keyword">implements</span> <span class="title">FeedRepository</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> FeedDao feedDao;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Scheduler backgroundScheduler;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//constructor</span></span><br><span class="line">       </span><br><span class="line">        <span class="meta">@Override</span>    </span><br><span class="line">        <span class="function"><span class="keyword">public</span> Single <span class="title">feedExists</span><span class="params">(<span class="keyword">final</span> String feedUrl)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Single.defer(() -&gt; feedDao.doesFeedExist(feedUrl))</span><br><span class="line">                     .subscribeOn(backgroundScheduler);</span><br><span class="line">        &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//more methods</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试Repository时，应该安排DAO - 使它们返回或接收一些虚拟数据，并检查Repository是否以正确的方式处理数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> FeedService feedService;</span><br><span class="line"><span class="keyword">private</span> FeedDao feedDao;</span><br><span class="line"><span class="keyword">private</span> PreferenceUtils preferenceUtils;</span><br><span class="line"><span class="keyword">private</span> Scheduler scheduler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> FeedRepositoryImpl feedRepositoryImpl;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Before</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    feedService = Mockito.mock(FeedService.class);</span><br><span class="line">    feedDao = Mockito.mock(FeedDao.class);</span><br><span class="line">    preferenceUtils = Mockito.mock(PreferenceUtils.class);</span><br><span class="line">    scheduler = Schedulers.immediate();    </span><br><span class="line"></span><br><span class="line">    feedRepositoryImpl = <span class="keyword">new</span> FeedRepositoryImpl(feedService, feedDao, preferenceUtils, scheduler);&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldReturnInfoAboutFeedExistingIfFeedExists</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;    </span><br><span class="line">    Mockito.when(feedDao.doesFeedExist(DataTestData.TEST_COMPLEX_URL_STRING_1)).thenReturn(Single.just(<span class="keyword">true</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">final</span> TestSubscriber testSubscriber = <span class="keyword">new</span> TestSubscriber&lt;&gt;();</span><br><span class="line">    feedRepositoryImpl.feedExists(DataTestData.TEST_COMPLEX_URL_STRING_1).subscribe(testSubscriber);</span><br><span class="line"></span><br><span class="line">    Mockito.verify(feedDao, Mockito.times(<span class="number">1</span>)).doesFeedExist(DataTestData.TEST_COMPLEX_URL_STRING_1);</span><br><span class="line">    Mockito.verifyNoMoreInteractions(feedDao);    </span><br><span class="line">    testSubscriber.assertCompleted();</span><br><span class="line"></span><br><span class="line">    testSubscriber.assertValue(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在测试映射器（转换器）时，指定映射器的输入以及您期望从映射器得到的确切输出，然后声明它们是相等的。 为服务，解析器等做同样的事情</p>
+<h3 id="5-测试-App-module"><a href="#5-测试-App-module" class="headerlink" title="5. 测试 App module"></a>5. 测试 App module</h3><p>在Clean架构之上，我们喜欢使用MVP。 Presenter只是普通的Java对象，不与Android连接，所以测试它们没有什么特别之处。 让我们看看我们可以测试什么：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ArticlesPresenterTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldFetchArticlesAndPassThemToView</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldFetchFavouriteArticlesAndPassThemToView</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldShowArticleDetails</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldMarkArticleAsRead</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldMakeArticleFavourite</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldMakeArticleNotFavorite</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;    </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Presenter通常有很多依赖关系。 我们通过@Inject注释将依赖关系注入Presenter，而不是通过构造函数。 所以在下面的测试中，我们需要使用@Mock和@Spy注释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ArticlesPresenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter</span> <span class="keyword">implements</span> <span class="title">ArticlesContract</span>.<span class="title">Presenter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span>    </span><br><span class="line">    GetArticlesUseCase getArticlesUseCase;  	</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Inject</span>    </span><br><span class="line">    FeedViewModeMapper feedViewModeMapper;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (...) more fields    </span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArticlesPresenter</span><span class="params">(<span class="keyword">final</span> ArticlesContract.View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(view);</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span>    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchArticles</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> feedId)</span> </span>&#123;</span><br><span class="line">		viewActionQueue.subscribeTo(getArticlesUseCase.execute(feedId)</span><br><span class="line">					.map(feedViewModeMapper::mapArticlesToViewModels)                         						.map(<span class="keyword">this</span>::toViewAction),Throwable::printStackTrace);    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (...) more methods</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>@Mock只是简单地模拟出Class。 @Spy让你使用现有的所有方法都可以工作的实例，但是你可以methods一些方法，并且“spy”调用哪些方法。 Mocks通过@InjectMocks注释注入Presenter：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mock</span></span><br><span class="line">GetArticlesUseCase getArticlesUseCase;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mock</span></span><br><span class="line">FeedViewModeMapper feedViewModeMapper;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mock</span></span><br><span class="line">ConnectivityReceiver connectivityReceiver;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Mock</span></span><br><span class="line">ViewActionQueueProvider viewActionQueueProvider;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Spy</span></span><br><span class="line">Scheduler mainThreadScheduler = Schedulers.immediate();</span><br><span class="line"></span><br><span class="line"><span class="meta">@Spy</span></span><br><span class="line">MockViewActionQueue mockViewActionHandler;</span><br><span class="line"></span><br><span class="line"><span class="meta">@InjectMocks</span></span><br><span class="line">ArticlesPresenter articlesPresenter;</span><br></pre></td></tr></table></figure>
+<p>然后一些设置是必需的。 视图是手动模拟的，因为它是通过构造函数注入的，我们调用presenter.start（）和presenter.activate（），因此演示程序已准备好并启动：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Before</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    view = Mockito.mock(ArticlesContract.View.class);</span><br><span class="line">    articlesPresenter = <span class="keyword">new</span> ArticlesPresenter(view);</span><br><span class="line">    MockitoAnnotations.initMocks(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    Mockito.when(connectivityReceiver.getConnectivityStatus()).thenReturn(Observable.just(<span class="keyword">true</span>));    </span><br><span class="line">    Mockito.when(viewActionQueueProvider.queueFor(Mockito.any())).thenReturn(<span class="keyword">new</span> MockViewActionQueue ());</span><br><span class="line"></span><br><span class="line">    articlesPresenter.start();    </span><br><span class="line">    articlesPresenter.activate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一切准备就绪后，我们可以开始编写测试。 准备好所有内容并确保Presenter在需要时调用视图：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shouldFetchArticlesAndPassThemToView</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> feedId = AppTestData.TEST_FEED_ID;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> List&lt;article&gt; articles = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">final</span> Article = <span class="keyword">new</span> Article (AppTestData.TEST_ARTICLE_ID, feedId, AppTestData.TEST_STRING, AppTestData.TEST_LINK, AppTestData.TEST_LONG_DATE,</span><br><span class="line">                        <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">    articles.add(article);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> List&lt;ArticleViewModel articleViewModels = <span class="keyword">new</span> ArrayList &lt;&gt;();</span><br><span class="line">    <span class="keyword">final</span> ArticleViewModel articleViweModel = <span class="keyword">new</span> ArticleViewModel(AppTestData.TEST_ARTICLE_ID, AppTestData.TEST_STRING, AppTestData.TEST_LINK, AppTestDAta.TEST_STRING,</span><br><span class="line">                        <span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">    articleViewModels.add(articleViewModel);</span><br><span class="line"></span><br><span class="line">    Mockito.when(getArticlesUseCase.execute(feedID)).thenReturn(Single.just(articles));</span><br><span class="line">    Mockito.when(feedViewModeMapper.mapArticlesToViewModels(Mockito.anyList())).thenReturn(articleViewModels);</span><br><span class="line"></span><br><span class="line">    articlesPresenter.fetchArticles(feedId);</span><br><span class="line"></span><br><span class="line">    Mockito.verify(getArticlesUseCase, Mockito.times(<span class="number">1</span>)).execute(feedId);</span><br><span class="line">    Moclito.verify(view, Mockito.times(<span class="number">1</span>)).showArticles(articleViewModels);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在编码之前和期间考虑测试，这样你就可以编写可测试和解耦的代码。 使用你的测试作为类的规范，如果可能的话在代码之前写下它们。 不要让你的自我妨碍，我们都会犯错误。 因此，我们需要有一个流程来保护我们自己的应用程序！</p>
+<p>这是Android Architecture系列的一部分。 想查看我们的其他部分可以：</p>
+<p><a href="http://five.agency/android-architecture-part-4-applying-clean-architecture-on-android-hands-on/" target="_blank" rel="noopener">Part 4: Applying Clean Architecture on Android (Hands-on)</a></p>
+<p><a href="http://five.agency/android-architecture-part-3-applying-clean-architecture-android/" target="_blank" rel="noopener">Part 3: Applying Clean Architecture on Android</a></p>
+<p><a href="http://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">Part 2: The Clean Architecture</a></p>
+<p><a href="http://five.agency/android-architecture-part-1-every-new-beginning-is-hard/" target="_blank" rel="noopener">Part 1: every new beginning is hard</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Clean架构/" rel="tag"># Clean架构</a>
+          
+            <a href="/tags/译文/" rel="tag"># 译文</a>
+          
+            <a href="/tags/单元测试/" rel="tag"># 单元测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/07/Android架构：第四部分 - 在Android上应用Clean架构，实践（包含源代码） /" rel="next" title="Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)">
+                <i class="fa fa-chevron-left"></i> Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dimon" />
+            
+              <p class="site-author-name" itemprop="name">Dimon</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dimon94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lovedaih@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/Scott__D" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.instagram.com/dimonhua/" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-测试-Clean-架构"><span class="nav-number">1.</span> <span class="nav-text">1. 测试 Clean 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命名测试"><span class="nav-number">2.</span> <span class="nav-text">2. 命名测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-测试Domain"><span class="nav-number">3.</span> <span class="nav-text">3. 测试Domain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-测试Data"><span class="nav-number">4.</span> <span class="nav-text">4. 测试Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-测试-App-module"><span class="nav-number">5.</span> <span class="nav-text">5. 测试 App module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Dimon.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/';
+          this.page.identifier = '2018/05/13/Android架构：第五部分 - Clean架构是如何测试的/';
+          this.page.title = 'Android架构：第五部分-Clean架构是如何测试的 (译)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Dimon.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("KtTYmruy40XUzbz614ICkYYa-gzGzoHsz", "xcPlVQXKgSn0EUhX9mAQNnTW");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
