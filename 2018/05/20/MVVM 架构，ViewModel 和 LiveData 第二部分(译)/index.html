@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,译文,MVVM,Dagger2," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文：MVVM architecture, ViewModel and LiveData (Part ２) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。 在本系列的第一篇文章中">
+<meta name="keywords" content="Android,译文,MVVM,Dagger2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVVM 架构，ViewModel 和LiveData　第二部分(译)">
+<meta property="og:url" content="http://yoursite.com/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Program Basement">
+<meta property="og:description" content="原文：MVVM architecture, ViewModel and LiveData (Part ２) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。 在本系列的第一篇文章中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*ued7xwa6lGHiGrvGO-8PvA.png">
+<meta property="og:updated_time" content="2018-05-20T03:24:59.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVVM 架构，ViewModel 和LiveData　第二部分(译)">
+<meta name="twitter:description" content="原文：MVVM architecture, ViewModel and LiveData (Part ２) 在Google I / O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。 在本系列的第一篇文章中">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*ued7xwa6lGHiGrvGO-8PvA.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/"/>
+
+
+
+
+
+  <title>MVVM 架构，ViewModel 和LiveData　第二部分(译) | Dimon's Program Basement</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dimon's Program Basement</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MVVM 架构，ViewModel 和LiveData　第二部分(译)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T11:24:00+08:00">
+                2018-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android架构/" itemprop="url" rel="index">
+                    <span itemprop="name">Android架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/" class="leancloud_visitors" data-flag-title="MVVM 架构，ViewModel 和LiveData　第二部分(译)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文：<a href="https://proandroiddev.com/mvvm-architecture-viewmodel-and-livedata-part-2-di-1a6b1f96d84b" target="_blank" rel="noopener">MVVM architecture, ViewModel and LiveData (Part ２)</a></p>
+<p>在Google I / O期间，Google推出了包含<a href="https://developer.android.com/topic/libraries/architecture/livedata.html" target="_blank" rel="noopener">LiveData</a> 和<a href="https://developer.android.com/topic/libraries/architecture/viewmodel.html" target="_blank" rel="noopener">ViewModel</a> 的<a href="https://developer.android.com/topic/libraries/architecture/index.html" target="_blank" rel="noopener">architecture components</a> ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。</p>
+<p>在本系列的<a href="https://dimon94.github.io/2018/05/13/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8C%20LiveData%EF%BC%88Part1%EF%BC%89/" target="_blank" rel="noopener">第一篇文章</a>中，我们讨论了这些组件如何为遵循MVVM的Android应用程序提供服务。 在第二篇文章中，我们将回答在依赖注入的第一篇文章结尾处提出的其中一个问题。</p>
+<p>本文假定您具有Dagger的基本知识，因为我们将专注于在MVVM示例中设置最新的Dagger版本（版本2.11）以实现依赖注入。</p>
+<blockquote>
+<p>如果您需要关于Dagger 2.11的基本信息，请查看<a href="https://google.github.io/dagger//users-guide.html" target="_blank" rel="noopener">Dagger用户指南</a>。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="配置Dagger-2-11"><a href="#配置Dagger-2-11" class="headerlink" title="配置Dagger 2.11"></a>配置Dagger 2.11</h3><p>首先，让我们将Dagger 2.11依赖添加到我们的MVVM Sample。</p>
+<h4 id="指定Dagger版本2-11"><a href="#指定Dagger版本2-11" class="headerlink" title="指定Dagger版本2.11"></a>指定Dagger版本2.11</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">project.ext &#123;</span><br><span class="line">    <span class="comment">// … </span></span><br><span class="line">    dagger_version = <span class="string">"2.11"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">annotationProcessor <span class="string">"com.google.dagger:dagger-compiler:$dagger_version"</span></span><br><span class="line">compile <span class="string">"com.google.dagger:dagger:$project.dagger_version"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">"com.google.dagger:dagger-android:$project.dagger_version"</span></span><br><span class="line">compile <span class="string">"com.google.dagger:dagger-android-support:$project.dagger_version"</span></span><br><span class="line"></span><br><span class="line">annotationProcessor <span class="string">"com.google.dagger:dagger-android-processor:$dagger_version"</span></span><br></pre></td></tr></table></figure>
+<h3 id="Dagger-2-11项目设置"><a href="#Dagger-2-11项目设置" class="headerlink" title="Dagger 2.11项目设置"></a>Dagger 2.11项目设置</h3><p>下图显示了本示例中的主Dagger 2.11设置。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*ued7xwa6lGHiGrvGO-8PvA.png" alt="Dagger 2.11 setup in MVVM Sample"></p>
+<p>我们主要有以下Dagger App类/接口：</p>
+<ol>
+<li><strong>AppModule</strong>是一个Dagger模块，负责在应用程序级别提供单例服务，例如<strong>GitHubService</strong>和<strong>ProjectViewModelFactory</strong>。</li>
+<li><strong>AppComponent</strong>负责注入<strong>AppModule</strong>。</li>
+<li><strong>ViewModelSubComponent</strong>是创建View Model实例的子组件。</li>
+<li><strong>MainActivityModule</strong>和<strong>FragmentBuildersModule</strong>是Activity和Fragment实例提供程序。</li>
+<li><strong>Injectable</strong>只是可注射Fragment的标记接口。</li>
+<li><strong>AppInjector</strong>是一个辅助类，用于在实现<strong>Injectable</strong>接口时自动注入Fragments。</li>
+</ol>
+<p>现在，让我们进入这个设置中每个Dagger项目的细节。</p>
+<h3 id="创建-View-Model-SubComponent"><a href="#创建-View-Model-SubComponent" class="headerlink" title="创建 View Model SubComponent"></a>创建 View Model SubComponent</h3><p>以下代码片断显示了<strong>ViewModelSubComponent</strong>接口，该接口负责创建ViewModel实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Subcomponent</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ViewModelSubComponent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Subcomponent</span>.Builder</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="function">ViewModelSubComponent <span class="title">build</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ProjectListViewModel <span class="title">projectListViewModel</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">ProjectViewModel <span class="title">projectViewModel</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，<strong>ViewModelSubComponent</strong>将被<strong>ProjectViewModelFactory</strong>调用以获取ViewModel实例。</p>
+<blockquote>
+<p>但什么是<em>ProjectViewModelFactory</em>？</p>
+</blockquote>
+<p>下一节回答这个问题。</p>
+<h3 id="创建自定义View-Model-Factory"><a href="#创建自定义View-Model-Factory" class="headerlink" title="创建自定义View Model Factory"></a>创建自定义View Model Factory</h3><p><strong>ProjectViewModelFactory</strong>是一个扩展<strong>ViewModelProvider.Factory</strong>以便将ViewModel实例提供给使用者Fragment类的工厂。</p>
+<p>以下代码片段显示了<strong>ProjectViewModelFactory</strong>，它是一个扩展<strong>ViewModelProvider.Factory</strong>的自解释Factory实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProjectViewModelFactory</span> <span class="keyword">implements</span> <span class="title">ViewModelProvider</span>.<span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayMap&lt;Class, Callable&lt;? extends ViewModel&gt;&gt; creators;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectViewModelFactory</span><span class="params">(ViewModelSubComponent viewModelSubComponent)</span> </span>&#123;</span><br><span class="line">        creators = <span class="keyword">new</span> ArrayMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// View models cannot be injected directly because they won't be bound to the owner's</span></span><br><span class="line">        <span class="comment">// view model scope.</span></span><br><span class="line">        creators.put(ProjectViewModel.class, () -&gt; viewModelSubComponent.projectViewModel());</span><br><span class="line">        creators.put(ProjectListViewModel.class, () -&gt; viewModelSubComponent.projectListViewModel());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T extends ViewModel&gt; <span class="function">T <span class="title">create</span><span class="params">(Class&lt;T&gt; modelClass)</span> </span>&#123;</span><br><span class="line">        Callable&lt;? extends ViewModel&gt; creator = creators.get(modelClass);</span><br><span class="line">        <span class="keyword">if</span> (creator == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;Class, Callable&lt;? extends ViewModel&gt;&gt; entry : creators.entrySet()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (modelClass.isAssignableFrom(entry.getKey())) &#123;</span><br><span class="line">                    creator = entry.getValue();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (creator == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unknown model class "</span> + modelClass);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (T) creator.call();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，让我们看下一节中的主要应用程序模块。</p>
+<h3 id="创建App模块"><a href="#创建App模块" class="headerlink" title="创建App模块"></a>创建App模块</h3><p><strong>AppModule</strong>是一个Dagger模块，负责在应用程序级别为消费者提供单例服务，例如<strong>GitHubService</strong>和<strong>ProjectViewModelFactory</strong>。 以下代码片段显示了<strong>AppModule</strong>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span>(subcomponents = ViewModelSubComponent.class)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Singleton</span> <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">GitHubService <span class="title">provideGithubService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">                .baseUrl(GitHubService.HTTPS_API_GITHUB_URL)</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .build()</span><br><span class="line">                .create(GitHubService.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    ViewModelProvider.<span class="function">Factory <span class="title">provideViewModelFactory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            ViewModelSubComponent.Builder viewModelSubComponent)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ProjectViewModelFactory(viewModelSubComponent.build());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的一点是，不要忘记通过在<strong>@Module</strong>注解的<strong>subcomponents</strong>参数中指定<strong>ViewModelSubComponent</strong>到<strong>AppModule</strong>。</p>
+<h3 id="创建-Injectable和-AppInjector"><a href="#创建-Injectable和-AppInjector" class="headerlink" title="创建 Injectable和 AppInjector"></a>创建 Injectable和 AppInjector</h3><p>可注入接口只是一个普通的空白标记接口，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Injectable</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Injectable</strong>将由可注射的Fragment实施。</p>
+<p>为了在实现<strong>Injectable</strong>接口时自动注入片段，将创建以下<strong>AppInjector</strong>助手类，以在<strong>onFragmentCreated（）</strong>上注入片段实例，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppInjector</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">AppInjector</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(MVVMApplication mvvmApplication)</span> </span>&#123;</span><br><span class="line">        DaggerAppComponent.builder().application(mvvmApplication)</span><br><span class="line">                .build().inject(mvvmApplication);</span><br><span class="line"></span><br><span class="line">        mvvmApplication</span><br><span class="line">                .registerActivityLifecycleCallbacks(<span class="keyword">new</span> Application.ActivityLifecycleCallbacks() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityCreated</span><span class="params">(Activity activity, Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">                        handleActivity(activity);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Other methods are omitted for simplification …</span></span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleActivity</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (activity <span class="keyword">instanceof</span> HasSupportFragmentInjector) &#123;</span><br><span class="line">            AndroidInjection.inject(activity);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (activity <span class="keyword">instanceof</span> FragmentActivity) &#123;</span><br><span class="line">            ((FragmentActivity) activity).getSupportFragmentManager()</span><br><span class="line">                    .registerFragmentLifecycleCallbacks(</span><br><span class="line">                            <span class="keyword">new</span> FragmentManager.FragmentLifecycleCallbacks() &#123;</span><br><span class="line">                                <span class="meta">@Override</span></span><br><span class="line">                                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFragmentCreated</span><span class="params">(FragmentManager fm, Fragment fragment,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                              Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">                                    <span class="keyword">if</span> (fragment <span class="keyword">instanceof</span> Injectable) &#123;</span><br><span class="line">                                        AndroidSupportInjection.inject(fragment);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;, <span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一点需要注意，<strong>AppInjector.init（）</strong>将在应用程序启动时调用（正如我们将在自定义应用程序类部分中展示的那样）。</p>
+<h3 id="创建-Activity-和-Fragment-Modules"><a href="#创建-Activity-和-Fragment-Modules" class="headerlink" title="创建 Activity 和 Fragment Modules"></a>创建 Activity 和 Fragment Modules</h3><p>以下代码片段显示了Fragments Dagger模块：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">FragmentBuildersModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> ProjectFragment <span class="title">contributeProjectFragment</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> ProjectListFragment <span class="title">contributeProjectListFragment</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从Dagger 2.10开始，<strong>@ContributesAndroidInjector</strong>轻松将活动和片段附加到匕首图上。 以下代码片断显示了<strong>MainActivityModule</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivityModule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span>(modules = FragmentBuildersModule.class)</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> MainActivity <span class="title">contributeMainActivity</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，我们来看看Dagger 2.11设置中的最后一项，即<strong>AppComponent</strong>。</p>
+<h3 id="创建AppComponent"><a href="#创建AppComponent" class="headerlink" title="创建AppComponent"></a>创建AppComponent</h3><p>下一个代码片段显示了<strong>AppComponent</strong>接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span>(modules = &#123;</span><br><span class="line">        AndroidInjectionModule.class,</span><br><span class="line">        AppModule.class,</span><br><span class="line">        MainActivityModule.class</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AppComponent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Component</span>.Builder</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="meta">@BindsInstance</span> <span class="function">Builder <span class="title">application</span><span class="params">(Application application)</span></span>;</span><br><span class="line">        <span class="function">AppComponent <span class="title">build</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inject</span><span class="params">(MVVMApplication mvvmApplication)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一件重要的事情要注意，除了包括<strong>AppModule</strong>和<strong>MainActivityModule</strong>之外，我们还根据官方文档向<strong>AppComponent</strong>添加了<strong>AndroidSupportInjectionModule</strong>，该文档声明有必要确保所有必要的绑定都可用。 <strong>AndroidSupportInjectionModule</strong>是dagger-android中的一个内置模块：</p>
+<p><a href="https://github.com/google/dagger/blob/master/java/dagger/android/support/AndroidSupportInjectionModule.java" target="_blank" rel="noopener">https://github.com/google/dagger/blob/master/java/dagger/android/support/AndroidSupportInjectionModule.java</a></p>
+<h3 id="更新存储库层实现"><a href="#更新存储库层实现" class="headerlink" title="更新存储库层实现"></a>更新存储库层实现</h3><p>现在，我们完成了设置Dagger 2.11，让我们更新我们现有的应用程序代码，以便利用Dagger依赖注入。</p>
+<p><strong>ProjectRepository</strong>不再需要手动创建<strong>GitHubService</strong>服务实例，它所需要做的就是在它的<strong>GitHubService</strong>实例的构造函数中使用<strong>@Inject</strong>，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProjectRepository</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GitHubService gitHubService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectRepository</span><span class="params">(GitHubService gitHubService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.gitHubService = gitHubService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Other methods here are omitted for simplicity …</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更新ViewModel层实现"><a href="#更新ViewModel层实现" class="headerlink" title="更新ViewModel层实现"></a>更新ViewModel层实现</h3><p>更新ViewModel图层也是必要的，以避免在此图层内手动从<strong>ProjectRepository</strong>创建实例。</p>
+<p>以下代码片段显示了<strong>ProjectViewModel</strong>的一个示例，该示例使用@inject注释来注入<strong>Application</strong>和<strong>ProjectRepository</strong>实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProjectViewModel</span> <span class="keyword">extends</span> <span class="title">AndroidViewModel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = ProjectViewModel.class.getName();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> MutableLiveData ABSENT = <span class="keyword">new</span> MutableLiveData();</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//noinspection unchecked</span></span><br><span class="line">        ABSENT.setValue(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LiveData&lt;Project&gt; projectObservable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;String&gt; projectID;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ObservableField&lt;Project&gt; project = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ProjectViewModel</span><span class="params">(@NonNull ProjectRepository projectRepository, @NonNull Application application)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(application);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.projectID = <span class="keyword">new</span> MutableLiveData&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        projectObservable = Transformations.switchMap(projectID, input -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (input.isEmpty()) &#123;</span><br><span class="line">                <span class="keyword">return</span> ABSENT;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> projectRepository.getProjectDetails(<span class="string">"Google"</span>, projectID.getValue());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Code is omitted for simplicity …</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更新视图实现（Fragments和主要的Activity）"><a href="#更新视图实现（Fragments和主要的Activity）" class="headerlink" title="更新视图实现（Fragments和主要的Activity）"></a>更新视图实现（Fragments和主要的Activity）</h3><p>更新视图层也是必要的，以避免在该图层内手动创建ViewModel类的实例。</p>
+<p>以下代码片段显示了<strong>ProjectFragment</strong>的一个示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProjectFragment</span> <span class="keyword">extends</span> <span class="title">LifecycleFragment</span> <span class="keyword">implements</span> <span class="title">Injectable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    ViewModelProvider.Factory viewModelFactory;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityCreated</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onActivityCreated(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> ProjectViewModel viewModel = ViewModelProviders.of(<span class="keyword">this</span>, viewModelFactory)</span><br><span class="line">                .get(ProjectViewModel.class);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// …</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// …</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的一些重点：</p>
+<ol>
+<li>现在每个Fragment都必须实现可注入接口。</li>
+<li>Fragment应该引用<strong>ViewModelProvider.Factory</strong>以获取ViewModel实例。</li>
+</ol>
+<h3 id="创建定制-Application类"><a href="#创建定制-Application类" class="headerlink" title="创建定制 Application类"></a>创建定制 Application类</h3><p>最后，我们的自定义application类代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MVVMApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> <span class="keyword">implements</span> <span class="title">HasActivityInjector</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    DispatchingAndroidInjector&lt;Activity&gt; dispatchingAndroidInjector;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        AppInjector.init(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DispatchingAndroidInjector&lt;Activity&gt; <span class="title">activityInjector</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dispatchingAndroidInjector;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意两点：</p>
+<ol>
+<li>Application必须实现<strong>HasActivityInjector</strong>，并<strong>@Inject DispatchingAndroidInjector <activity></activity></strong>才能从<strong>activityInjector（）</strong>方法返回。</li>
+<li>在Application类的<strong>onCreate（）</strong>中，我们初始化<strong>AppInjector</strong>以便在实现<strong>Injectable</strong>接口时自动注入Fragments。</li>
+</ol>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><p>在GitHub中检查更新的应用程序的源代码，随意随意分叉和更新，如你所愿：</p>
+<p><a href="https://github.com/hazems/mvvm-sample-app/tree/part2" target="_blank" rel="noopener">https://github.com/hazems/mvvm-sample-app/tree/part2</a></p>
+<h3 id="下一步是什么"><a href="#下一步是什么" class="headerlink" title="下一步是什么"></a>下一步是什么</h3><p>在本文后，您现在有足够的信息来使用Google Architectural components创建自己的MVVM应用程序。 希望我能为本系列的下一篇文章留有余地，内容包括以下主题：</p>
+<ol>
+<li>错误处理。</li>
+<li>在此演示中添加更多功能，以了解Room如何促进SQLite数据操作，以及如何实现有效的缓存。</li>
+<li>单元测试。</li>
+<li>我们在哪里可以将Rx用于此架构？</li>
+<li>我们如何使用Kotlin简化这个实现？ （旅程真的有很多有趣的东西 : )）。</li>
+</ol>
+<p>如果你喜欢这篇文章，我感谢你的支持与他人分享这篇文章，让伟大的Android社区知道。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/译文/" rel="tag"># 译文</a>
+          
+            <a href="/tags/MVVM/" rel="tag"># MVVM</a>
+          
+            <a href="/tags/Dagger2/" rel="tag"># Dagger2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/13/MVVM 架构，ViewModel 和 LiveData（Part1）/" rel="next" title="MVVM 架构，ViewModel 和LiveData　第一部分(译)">
+                <i class="fa fa-chevron-left"></i> MVVM 架构，ViewModel 和LiveData　第一部分(译)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Dimon" />
+            
+              <p class="site-author-name" itemprop="name">Dimon</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Dimon94" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lovedaih@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/Scott__D" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.instagram.com/dimonhua/" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Dagger-2-11"><span class="nav-number">1.</span> <span class="nav-text">配置Dagger 2.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#指定Dagger版本2-11"><span class="nav-number">1.1.</span> <span class="nav-text">指定Dagger版本2.11</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger-2-11项目设置"><span class="nav-number">2.</span> <span class="nav-text">Dagger 2.11项目设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-View-Model-SubComponent"><span class="nav-number">3.</span> <span class="nav-text">创建 View Model SubComponent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义View-Model-Factory"><span class="nav-number">4.</span> <span class="nav-text">创建自定义View Model Factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建App模块"><span class="nav-number">5.</span> <span class="nav-text">创建App模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Injectable和-AppInjector"><span class="nav-number">6.</span> <span class="nav-text">创建 Injectable和 AppInjector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Activity-和-Fragment-Modules"><span class="nav-number">7.</span> <span class="nav-text">创建 Activity 和 Fragment Modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建AppComponent"><span class="nav-number">8.</span> <span class="nav-text">创建AppComponent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新存储库层实现"><span class="nav-number">9.</span> <span class="nav-text">更新存储库层实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新ViewModel层实现"><span class="nav-number">10.</span> <span class="nav-text">更新ViewModel层实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新视图实现（Fragments和主要的Activity）"><span class="nav-number">11.</span> <span class="nav-text">更新视图实现（Fragments和主要的Activity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建定制-Application类"><span class="nav-number">12.</span> <span class="nav-text">创建定制 Application类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源代码"><span class="nav-number">13.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一步是什么"><span class="nav-number">14.</span> <span class="nav-text">下一步是什么</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Dimon.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/';
+          this.page.identifier = '2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/';
+          this.page.title = 'MVVM 架构，ViewModel 和LiveData　第二部分(译)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Dimon.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("KtTYmruy40XUzbz614ICkYYa-gzGzoHsz", "xcPlVQXKgSn0EUhX9mAQNnTW");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
