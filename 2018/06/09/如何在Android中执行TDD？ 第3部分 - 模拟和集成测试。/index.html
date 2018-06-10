@@ -79,22 +79,29 @@
 
 
 
-<meta name="description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
+<meta name="description" content="原文 很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。 到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。 我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。">
 <meta name="keywords" content="Android,译文,TDD,测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
-<meta property="og:url" content="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/index.html">
+<meta property="og:title" content="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
+<meta property="og:url" content="http://yoursite.com/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/index.html">
 <meta property="og:site_name" content="Dimon&#39;s Program Basement">
-<meta property="og:description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
+<meta property="og:description" content="原文 很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。 到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。 我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png">
-<meta property="og:updated_time" content="2018-06-10T14:29:24.830Z">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*pO5vhPzoIRzosTnL4zwz2w.jpeg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/600/1*pFyDEdZTg8DFVbsIml9OIQ.jpeg">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*zlqvuVohRqCIV2c-5HeVLA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*skbdE-GZsnnpCj-1msPJug.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*B8u3cyg546FopzR2Yc5CbQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*MCKwoXItQiLJzYc9_z3qjQ.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*CqN7YriY3D7NVkkXV2TZ-g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*JO-0qh-ZMd8XONeOBtYZmg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*O5FxqfH3kFGp9qVtq3U_2g.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*3xwuV6prCaZ2kImWZzdLpg.png">
+<meta property="og:updated_time" content="2018-06-10T14:29:19.750Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
-<meta name="twitter:description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
-<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png">
+<meta name="twitter:title" content="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
+<meta name="twitter:description" content="原文 很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。 到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。 我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*pO5vhPzoIRzosTnL4zwz2w.jpeg">
 
 
 
@@ -124,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/"/>
 
 
 
 
 
-  <title>如何在Android中执行TDD？ 第1部分 - 概述(译) | Dimon's Program Basement</title>
+  <title>如何在Android中执行TDD？第3部分 - 模拟和集成测试(译) | Dimon's Program Basement</title>
   
 
 
@@ -257,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dimon">
@@ -274,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何在Android中执行TDD？ 第1部分 - 概述(译)</h1>
+          <h1 class="post-title" itemprop="name headline">如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)</h1>
         
 
         <div class="post-meta">
@@ -286,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T11:24:00+08:00">
-                2018-05-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T23:24:00+08:00">
+                2018-06-09
               </time>
             
 
@@ -327,9 +334,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/27/如何在Android中执行TDD？第1部分 - 概述/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,7 +344,7 @@
 
           
           
-             <span id="/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？ 第1部分 - 概述(译)">
+             <span id="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -368,38 +375,39 @@
       
 
       
-        <p><img src="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png" alt="Android自动化测试教程系列,使用JUnit＆Espresso"></p>
-<p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
-<p>有关TDD的更多信息，请参阅<a href="https://medium.com/@nileshjarad/why-developers-scared-to-refactor-code-47efd1b854e7#.m4ot7zaaq" target="_blank" rel="noopener">此前的教程</a>。</p>
-<p><strong>测试金字塔：</strong></p>
-<p>正如我们可以看到下面的金字塔：</p>
-<p><img src="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png" alt="测试金字塔"></p>
-<p><strong>单元测试</strong>涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。</p>
-<p><strong>集成测试</strong>确保模块的集成是正确的，并覆盖第二大块金字塔。</p>
-<p><strong>功能测试</strong>通常描述系统在三部分中所做的并占据最小的部分。</p>
-<p>有许多测试工具和框架可以在开发应用程序时使用。 其中一些是由Google提供和支持的，其中一些是第三方。</p>
+        <p><img src="https://cdn-images-1.medium.com/max/800/1*pO5vhPzoIRzosTnL4zwz2w.jpeg" alt=""></p>
+<p><a href="https://medium.com/mobility/how-to-do-tdd-in-android-part-2-project-architecture-setup-unit-testing-77cdd1d6aa3a" target="_blank" rel="noopener">原文</a></p>
+<p>很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。</p>
+<p>到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。</p>
+<p>我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。</p>
 <a id="more"></a>
-<h3 id="Android中的测试类型："><a href="#Android中的测试类型：" class="headerlink" title="Android中的测试类型："></a>Android中的测试类型：</h3><h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>单元测试主要针对与其他组件隔离的最小功能（如方法，类，组件或小模块）。</p>
-<p><em>用于单元测试的工具：</em></p>
-<ul>
-<li><a href="http://junit.org/junit4/" target="_blank" rel="noopener">JUnit</a>是编写可重复测试的简单框架。 它是单元测试框架的xUnit体系结构的一个实例。</li>
-<li><a href="http://robolectric.org/" target="_blank" rel="noopener">Robolectric</a>是流行的Android单元测试框架，通过在JVM上运行测试（不需要任何设备或仿真器），可以加快测试的执行速度。</li>
-</ul>
-<h4 id="UI测试"><a href="#UI测试" class="headerlink" title="UI测试"></a>UI测试</h4><p>UI测试是模拟用户交互的测试，如单击按钮，在EditText中输入文本。 Android Instrumentation是Android系统中的一组“挂钩”，它允许您控制Android组件的生命周期（即自己驱动活动生命周期，而不是由系统驱动这些生命周期）。 这些测试需要运行实际的设备或仿真器。</p>
-<p><em>用于UI测试的工具：</em></p>
-<ul>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Espresso" target="_blank" rel="noopener">Espresso</a> - Google提供的Android UI测试框架，可以很好地处理测试同步。</li>
-<li><a href="https://developer.android.com/training/testing/ui-testing/uiautomator-testing.html" target="_blank" rel="noopener">UIAutomator</a> - Google提供的Android UI测试框架，用于同时测试多个应用程序。</li>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Robotium" target="_blank" rel="noopener">Robotium</a> - 第三方Android UI测试框架（<a href="http://stackoverflow.com/a/20487527/5154829" target="_blank" rel="noopener">Robotium vs Espresso</a>）</li>
-<li><a href="http://selendroid.io/" target="_blank" rel="noopener">Selendroid</a> - Selenium for Android</li>
-</ul>
-<h4 id="项目测试目录结构"><a href="#项目测试目录结构" class="headerlink" title="项目测试目录结构"></a>项目测试目录结构</h4><p>在我们的项目中，两个文件夹托管我们的测试，这些测试是测试和androidTest。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png" alt="测试目录结构"></p>
-<p><strong>text</strong>：单元测试托管在此文件夹中。 这些测试在JVM上运行，不需要Android设备或模拟器。 这种类型的测试无法访问任何Android框架特定的组件，如上下文。</p>
-<p><strong>androidTest</strong>： - 所有Instrumentation（Espresso）测试托管在此文件夹中。这些测试需要物理Android设备或模拟器才能运行。</p>
-<p>在下一篇文章中，我们将深入探讨遵循和执行单元测试的体系结构。</p>
-<p>同时，希望听到有关这方面的建议和意见。</p>
-<p>干杯🍻!!!</p>
+<p>如图所示，我们可以创建用于登录的用户界面（我知道你会比这更好的用户界面）。</p>
+<p><img src="https://cdn-images-1.medium.com/max/600/1*pFyDEdZTg8DFVbsIml9OIQ.jpeg" alt=""></p>
+<p>所以我们将编写一些与UI相关的代码。 我们在View和Presenter之间签有合同，即LoginView，如下所示。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zlqvuVohRqCIV2c-5HeVLA.png" alt=""></p>
+<p>现在我们将LoginView实现为我们的Activity，如下所示。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*skbdE-GZsnnpCj-1msPJug.png" alt=""></p>
+<p>我们的Presenter实现如下所示</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*B8u3cyg546FopzR2Yc5CbQ.png" alt=""></p>
+<p>您将在LoginPresenterTest中发生错误，因为我们有构建使用LoginView对象的Presenter的构造函数。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*MCKwoXItQiLJzYc9_z3qjQ.png" alt=""></p>
+<p>为了摆脱这个错误，我们必须在创建演示者对象时将LoginView的对象传递给Presenter。 所以我们必须模拟LoginView.Here来模仿😍。</p>
+<h3 id="什么是模仿？"><a href="#什么是模仿？" class="headerlink" title="什么是模仿？"></a>什么是模仿？</h3><p>你有一个对象，你想要测试的方法，这些方法都依赖于其他对象。 您创建依赖对象的模拟，而不是创建该依赖关系的实际实例。 模拟对象用于单元测试。</p>
+<p>为了模仿，我们将使用Mockito。<br>将以下testCompile依赖项添加到应用程序的build.gradle</p>
+<blockquote>
+<p>testCompile ‘org.mockito:mockito-core:1.10.19’</p>
+</blockquote>
+<p>现在我们模仿我们的LoginView，如下所示</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CqN7YriY3D7NVkkXV2TZ-g.png" alt=""></p>
+<p>Ooho😳，😎我们有我们的模拟（神奇）登录对象，可以传递给Presenter。 所以我们的实现就像下图</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*JO-0qh-ZMd8XONeOBtYZmg.png" alt=""></p>
+<p>运行测试显示绿色信号继续。</p>
+<h3 id="集成测试（Presenter和View之间）"><a href="#集成测试（Presenter和View之间）" class="headerlink" title="集成测试（Presenter和View之间）"></a>集成测试（Presenter和View之间）</h3><p>要验证Presenter调用正确的View方法后，我们使用verify（）。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*O5FxqfH3kFGp9qVtq3U_2g.png" alt=""></p>
+<p>在上面的代码图中，验证方法确保在视图对象上调用showLoginSuccessMessage（），这确保我们的Presenter正确地与View集成。</p>
+<p>其他测试如下</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3xwuV6prCaZ2kImWZzdLpg.png" alt=""></p>
+<p>End</p>
 
       
     </div>
@@ -436,8 +444,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/" rel="next" title="MVVM 架构，ViewModel 和LiveData　第二部分(译)">
-                <i class="fa fa-chevron-left"></i> MVVM 架构，ViewModel 和LiveData　第二部分(译)
+              <a href="/2018/06/03/如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试/" rel="next" title="如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)">
+                <i class="fa fa-chevron-left"></i> 如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)
               </a>
             
           </div>
@@ -446,8 +454,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/03/如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试/" rel="prev" title="如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)">
-                如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译) <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" rel="prev" title="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
+                如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -622,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的测试类型："><span class="nav-number">1.</span> <span class="nav-text">Android中的测试类型：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单元测试"><span class="nav-number">1.1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UI测试"><span class="nav-number">1.2.</span> <span class="nav-text">UI测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目测试目录结构"><span class="nav-number">1.3.</span> <span class="nav-text">项目测试目录结构</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是模仿？"><span class="nav-number">1.</span> <span class="nav-text">什么是模仿？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集成测试（Presenter和View之间）"><span class="nav-number">2.</span> <span class="nav-text">集成测试（Presenter和View之间）</span></a></li></ol></div>
             
 
           </div>
@@ -785,9 +793,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/';
-          this.page.identifier = '2018/05/27/如何在Android中执行TDD？第1部分 - 概述/';
-          this.page.title = '如何在Android中执行TDD？ 第1部分 - 概述(译)';
+          this.page.url = 'http://yoursite.com/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/';
+          this.page.identifier = '2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/';
+          this.page.title = '如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Dimon.disqus.com/embed.js';

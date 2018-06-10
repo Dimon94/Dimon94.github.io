@@ -249,6 +249,528 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/LinkedIn的高效代码检视建议(译)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/LinkedIn的高效代码检视建议(译)/" itemprop="url">LinkedIn对实现高效代码检视的7个Tips</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T23:24:00+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/团队建设/" itemprop="url" rel="index">
+                    <span itemprop="name">团队建设</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/LinkedIn的高效代码检视建议(译)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/LinkedIn的高效代码检视建议(译)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/10/LinkedIn的高效代码检视建议(译)/" class="leancloud_visitors" data-flag-title="LinkedIn对实现高效代码检视的7个Tips">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/fc78d541-jj-ying-253664.jpg" alt=""></p>
+<p><a href="https://thenewstack.io/linkedin-code-review/" target="_blank" rel="noopener">原文：LinkedIn’s Tips for Highly Effective Code Review</a><br><a href="https://thenewstack.io/author/szczepan-faber/" target="_blank" rel="noopener">原著作者：Szczepan Faber</a></p>
+<blockquote>
+<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人<a href="https://thenewstack.io/author/szczepan-faber/" target="_blank" rel="noopener">Szczepan Faber</a>分享的一些经验与教训。</em></p>
+</blockquote>
+<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
+<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了“我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
+<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
+<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/10/LinkedIn的高效代码检视建议(译)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" itemprop="url">如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T18:39:00+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Android测试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://cdn-images-1.medium.com/max/1000/1*CMec9KPXMtY_Xdr0It97ZA.png" alt=""></p>
+<p><a href="https://medium.com/mobility/how-to-do-tdd-in-android-part-4-ui-testing-using-espresso-b381ebede191" target="_blank" rel="noopener">原文</a></p>
+<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
+<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
+<blockquote>
+<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Program Basement">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" itemprop="url">如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T23:24:00+08:00">
+                2018-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Android测试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://cdn-images-1.medium.com/max/800/1*pO5vhPzoIRzosTnL4zwz2w.jpeg" alt=""></p>
+<p><a href="https://medium.com/mobility/how-to-do-tdd-in-android-part-2-project-architecture-setup-unit-testing-77cdd1d6aa3a" target="_blank" rel="noopener">原文</a></p>
+<p>很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。</p>
+<p>到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。</p>
+<p>我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -303,8 +825,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Android测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Android测试</span>
                   </a>
                 </span>
 
@@ -474,8 +996,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Android测试/" itemprop="url" rel="index">
+                    <span itemprop="name">Android测试</span>
                   </a>
                 </span>
 
@@ -534,8 +1056,7 @@
 
       
         
-          
-            <p><img src="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png" alt="Android自动化测试教程系列,使用JUnit＆Espresso"></p>
+          <p><img src="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png" alt="Android自动化测试教程系列,使用JUnit＆Espresso"></p>
 <p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
 <p>有关TDD的更多信息，请参阅<a href="https://medium.com/@nileshjarad/why-developers-scared-to-refactor-code-47efd1b854e7#.m4ot7zaaq" target="_blank" rel="noopener">此前的教程</a>。</p>
 <p><strong>测试金字塔：</strong></p>
@@ -545,29 +1066,13 @@
 <p><strong>集成测试</strong>确保模块的集成是正确的，并覆盖第二大块金字塔。</p>
 <p><strong>功能测试</strong>通常描述系统在三部分中所做的并占据最小的部分。</p>
 <p>有许多测试工具和框架可以在开发应用程序时使用。 其中一些是由Google提供和支持的，其中一些是第三方。</p>
-<h3 id="Android中的测试类型："><a href="#Android中的测试类型：" class="headerlink" title="Android中的测试类型："></a>Android中的测试类型：</h3><h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>单元测试主要针对与其他组件隔离的最小功能（如方法，类，组件或小模块）。</p>
-<p><em>用于单元测试的工具：</em></p>
-<ul>
-<li><a href="http://junit.org/junit4/" target="_blank" rel="noopener">JUnit</a>是编写可重复测试的简单框架。 它是单元测试框架的xUnit体系结构的一个实例。</li>
-<li><a href="http://robolectric.org/" target="_blank" rel="noopener">Robolectric</a>是流行的Android单元测试框架，通过在JVM上运行测试（不需要任何设备或仿真器），可以加快测试的执行速度。</li>
-</ul>
-<h4 id="UI测试"><a href="#UI测试" class="headerlink" title="UI测试"></a>UI测试</h4><p>UI测试是模拟用户交互的测试，如单击按钮，在EditText中输入文本。 Android Instrumentation是Android系统中的一组“挂钩”，它允许您控制Android组件的生命周期（即自己驱动活动生命周期，而不是由系统驱动这些生命周期）。 这些测试需要运行实际的设备或仿真器。</p>
-<p><em>用于UI测试的工具：</em></p>
-<ul>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Espresso" target="_blank" rel="noopener">Espresso</a> - Google提供的Android UI测试框架，可以很好地处理测试同步。</li>
-<li><a href="https://developer.android.com/training/testing/ui-testing/uiautomator-testing.html" target="_blank" rel="noopener">UIAutomator</a> - Google提供的Android UI测试框架，用于同时测试多个应用程序。</li>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Robotium" target="_blank" rel="noopener">Robotium</a> - 第三方Android UI测试框架（<a href="http://stackoverflow.com/a/20487527/5154829" target="_blank" rel="noopener">Robotium vs Espresso</a>）</li>
-<li><a href="http://selendroid.io/" target="_blank" rel="noopener">Selendroid</a> - Selenium for Android</li>
-</ul>
-<h4 id="项目测试目录结构"><a href="#项目测试目录结构" class="headerlink" title="项目测试目录结构"></a>项目测试目录结构</h4><p>在我们的项目中，两个文件夹托管我们的测试，这些测试是测试和androidTest。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png" alt="测试目录结构"></p>
-<p><strong>text</strong>：单元测试托管在此文件夹中。 这些测试在JVM上运行，不需要Android设备或模拟器。 这种类型的测试无法访问任何Android框架特定的组件，如上下文。</p>
-<p><strong>androidTest</strong>： - 所有Instrumentation（Espresso）测试托管在此文件夹中。这些测试需要物理Android设备或模拟器才能运行。</p>
-<p>在下一篇文章中，我们将深入探讨遵循和执行单元测试的体系结构。</p>
-<p>同时，希望听到有关这方面的建议和意见。</p>
-<p>干杯🍻!!!</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1456,352 +1961,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第二部分 - The clean architecture (译)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Dimon">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dimon's Program Basement">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/" itemprop="url">Android架构：第二部分-The clean architecture (译)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:12+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">Android架构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/07/Android架构：第二部分 - The clean architecture (译)/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/" class="leancloud_visitors" data-flag-title="Android架构：第二部分-The clean architecture (译)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的<strong>Clean Architecture</strong>.</p>
-<p>你在google“clean architecture”中遇到的第一个图像是这样的：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="the clean architecture "></p>
-<p>它也被称为<strong>洋葱架构</strong>，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你哭泣）; 或端口和适配器，因为您可以看到右下角有一些端口。 <strong>六角形架构</strong>是另一种类似的架构。</p>
-<p><strong>Clean architecture</strong>是前面提到的Bob叔叔的心血结晶，他也写了关于Clean Code和Clean Coder的书籍。 这种方法的主要观点是业务逻辑（也称为domain）处于宇宙的中心。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/07/Android架构：第二部分 - The clean architecture (译)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Dimon">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dimon's Program Basement">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/" itemprop="url">Android架构：第一部分-每个新的开始都很艰难 (译)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:11+08:00">
-                2018-05-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">Android架构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/" class="leancloud_visitors" data-flag-title="Android架构：第一部分-每个新的开始都很艰难 (译)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。 我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。</p>
-<p>每项技术都有其自然演变。 或者更准确地说，它的社区经历了进化过程。 早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成一些工作。 通常情况下，新社区很小，开发人员之间知识转移的潜力有限，也就是说，由于没有可用的架构指导原则，每个人都从自己的错误中学习。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_1.png" alt="Android architecture part 1 "></p>
-<p>早期的Android并不例外。 这对开发人员来说既酷又有吸引力，它为早期采用者成为围绕这一快速发展技术的社区的一部分提供了机会。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/07/Android架构：第一部分 - 每个新的开始都很艰难 (译)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1849,7 +2015,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1860,7 +2026,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1871,7 +2037,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Android,译文,TDD,测试," />
+  <meta name="keywords" content="译文,CodeReview," />
 
 
 
@@ -79,22 +79,21 @@
 
 
 
-<meta name="description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
-<meta name="keywords" content="Android,译文,TDD,测试">
+<meta name="description" content="原文：LinkedIn’s Tips for Highly Effective Code Review原著作者：Szczepan Faber  最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。  阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求">
+<meta name="keywords" content="译文,CodeReview">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
-<meta property="og:url" content="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/index.html">
+<meta property="og:title" content="LinkedIn对实现高效代码检视的7个Tips">
+<meta property="og:url" content="http://yoursite.com/2018/06/10/LinkedIn的高效代码检视建议(译)/index.html">
 <meta property="og:site_name" content="Dimon&#39;s Program Basement">
-<meta property="og:description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
+<meta property="og:description" content="原文：LinkedIn’s Tips for Highly Effective Code Review原著作者：Szczepan Faber  最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。  阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png">
-<meta property="og:updated_time" content="2018-06-10T14:29:24.830Z">
+<meta property="og:image" content="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/fc78d541-jj-ying-253664.jpg">
+<meta property="og:image" content="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/efa28730-codereviews.png">
+<meta property="og:updated_time" content="2018-06-10T14:28:09.326Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
-<meta name="twitter:description" content="自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔： 正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所做的并占据最小的部分。 有许多测试工具和框架可以在开发应用程序时">
-<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png">
+<meta name="twitter:title" content="LinkedIn对实现高效代码检视的7个Tips">
+<meta name="twitter:description" content="原文：LinkedIn’s Tips for Highly Effective Code Review原著作者：Szczepan Faber  最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。  阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求">
+<meta name="twitter:image" content="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/fc78d541-jj-ying-253664.jpg">
 
 
 
@@ -124,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/10/LinkedIn的高效代码检视建议(译)/"/>
 
 
 
 
 
-  <title>如何在Android中执行TDD？ 第1部分 - 概述(译) | Dimon's Program Basement</title>
+  <title>LinkedIn对实现高效代码检视的7个Tips | Dimon's Program Basement</title>
   
 
 
@@ -257,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/LinkedIn的高效代码检视建议(译)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dimon">
@@ -274,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何在Android中执行TDD？ 第1部分 - 概述(译)</h1>
+          <h1 class="post-title" itemprop="name headline">LinkedIn对实现高效代码检视的7个Tips</h1>
         
 
         <div class="post-meta">
@@ -286,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T11:24:00+08:00">
-                2018-05-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T23:24:00+08:00">
+                2018-06-10
               </time>
             
 
@@ -309,8 +308,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Android测试</span>
+                  <a href="/categories/团队建设/" itemprop="url" rel="index">
+                    <span itemprop="name">团队建设</span>
                   </a>
                 </span>
 
@@ -327,9 +326,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/#comments" itemprop="discussionUrl">
+                <a href="/2018/06/10/LinkedIn的高效代码检视建议(译)/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/27/如何在Android中执行TDD？第1部分 - 概述/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/06/10/LinkedIn的高效代码检视建议(译)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,7 +336,7 @@
 
           
           
-             <span id="/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？ 第1部分 - 概述(译)">
+             <span id="/2018/06/10/LinkedIn的高效代码检视建议(译)/" class="leancloud_visitors" data-flag-title="LinkedIn对实现高效代码检视的7个Tips">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -368,38 +367,26 @@
       
 
       
-        <p><img src="https://cdn-images-1.medium.com/max/800/1*a3eOzdO5B_ej7VXpHk_3Zg.png" alt="Android自动化测试教程系列,使用JUnit＆Espresso"></p>
-<p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
-<p>有关TDD的更多信息，请参阅<a href="https://medium.com/@nileshjarad/why-developers-scared-to-refactor-code-47efd1b854e7#.m4ot7zaaq" target="_blank" rel="noopener">此前的教程</a>。</p>
-<p><strong>测试金字塔：</strong></p>
-<p>正如我们可以看到下面的金字塔：</p>
-<p><img src="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png" alt="测试金字塔"></p>
-<p><strong>单元测试</strong>涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。</p>
-<p><strong>集成测试</strong>确保模块的集成是正确的，并覆盖第二大块金字塔。</p>
-<p><strong>功能测试</strong>通常描述系统在三部分中所做的并占据最小的部分。</p>
-<p>有许多测试工具和框架可以在开发应用程序时使用。 其中一些是由Google提供和支持的，其中一些是第三方。</p>
+        <p><img src="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/fc78d541-jj-ying-253664.jpg" alt=""></p>
+<p><a href="https://thenewstack.io/linkedin-code-review/" target="_blank" rel="noopener">原文：LinkedIn’s Tips for Highly Effective Code Review</a><br><a href="https://thenewstack.io/author/szczepan-faber/" target="_blank" rel="noopener">原著作者：Szczepan Faber</a></p>
+<blockquote>
+<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人<a href="https://thenewstack.io/author/szczepan-faber/" target="_blank" rel="noopener">Szczepan Faber</a>分享的一些经验与教训。</em></p>
+</blockquote>
+<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
+<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了“我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
+<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
+<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
 <a id="more"></a>
-<h3 id="Android中的测试类型："><a href="#Android中的测试类型：" class="headerlink" title="Android中的测试类型："></a>Android中的测试类型：</h3><h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>单元测试主要针对与其他组件隔离的最小功能（如方法，类，组件或小模块）。</p>
-<p><em>用于单元测试的工具：</em></p>
-<ul>
-<li><a href="http://junit.org/junit4/" target="_blank" rel="noopener">JUnit</a>是编写可重复测试的简单框架。 它是单元测试框架的xUnit体系结构的一个实例。</li>
-<li><a href="http://robolectric.org/" target="_blank" rel="noopener">Robolectric</a>是流行的Android单元测试框架，通过在JVM上运行测试（不需要任何设备或仿真器），可以加快测试的执行速度。</li>
-</ul>
-<h4 id="UI测试"><a href="#UI测试" class="headerlink" title="UI测试"></a>UI测试</h4><p>UI测试是模拟用户交互的测试，如单击按钮，在EditText中输入文本。 Android Instrumentation是Android系统中的一组“挂钩”，它允许您控制Android组件的生命周期（即自己驱动活动生命周期，而不是由系统驱动这些生命周期）。 这些测试需要运行实际的设备或仿真器。</p>
-<p><em>用于UI测试的工具：</em></p>
-<ul>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Espresso" target="_blank" rel="noopener">Espresso</a> - Google提供的Android UI测试框架，可以很好地处理测试同步。</li>
-<li><a href="https://developer.android.com/training/testing/ui-testing/uiautomator-testing.html" target="_blank" rel="noopener">UIAutomator</a> - Google提供的Android UI测试框架，用于同时测试多个应用程序。</li>
-<li><a href="https://github.com/codepath/android_guides/wiki/UI-Testing-with-Robotium" target="_blank" rel="noopener">Robotium</a> - 第三方Android UI测试框架（<a href="http://stackoverflow.com/a/20487527/5154829" target="_blank" rel="noopener">Robotium vs Espresso</a>）</li>
-<li><a href="http://selendroid.io/" target="_blank" rel="noopener">Selendroid</a> - Selenium for Android</li>
-</ul>
-<h4 id="项目测试目录结构"><a href="#项目测试目录结构" class="headerlink" title="项目测试目录结构"></a>项目测试目录结构</h4><p>在我们的项目中，两个文件夹托管我们的测试，这些测试是测试和androidTest。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png" alt="测试目录结构"></p>
-<p><strong>text</strong>：单元测试托管在此文件夹中。 这些测试在JVM上运行，不需要Android设备或模拟器。 这种类型的测试无法访问任何Android框架特定的组件，如上下文。</p>
-<p><strong>androidTest</strong>： - 所有Instrumentation（Espresso）测试托管在此文件夹中。这些测试需要物理Android设备或模拟器才能运行。</p>
-<p>在下一篇文章中，我们将深入探讨遵循和执行单元测试的体系结构。</p>
-<p>同时，希望听到有关这方面的建议和意见。</p>
-<p>干杯🍻!!!</p>
+<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
+<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
+<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像“减少重复”，“提高覆盖率”或“使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
+<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用“谢谢”来投入您的代码检视。</p>
+<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
+<p><img src="https://storage.googleapis.com/cdn.thenewstack.io/media/2017/09/efa28730-codereviews.png" alt="Review Request Per Month Created at LinkedIn"></p>
+<h3 id="只要“测试完成”就足够了吗？"><a href="#只要“测试完成”就足够了吗？" class="headerlink" title="只要“测试完成”就足够了吗？"></a>只要“测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性“已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交“测试完成”信息。“测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，“完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在“测试完成”部分非常有用。</p>
+<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
+<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
+<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！</p>
 
       
     </div>
@@ -417,13 +404,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
-          
             <a href="/tags/译文/" rel="tag"># 译文</a>
           
-            <a href="/tags/TDD/" rel="tag"># TDD</a>
-          
-            <a href="/tags/测试/" rel="tag"># 测试</a>
+            <a href="/tags/CodeReview/" rel="tag"># CodeReview</a>
           
         </div>
       
@@ -436,8 +419,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/20/MVVM 架构，ViewModel 和 LiveData 第二部分(译)/" rel="next" title="MVVM 架构，ViewModel 和LiveData　第二部分(译)">
-                <i class="fa fa-chevron-left"></i> MVVM 架构，ViewModel 和LiveData　第二部分(译)
+              <a href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" rel="next" title="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
+                <i class="fa fa-chevron-left"></i> 如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)
               </a>
             
           </div>
@@ -445,10 +428,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/03/如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试/" rel="prev" title="如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)">
-                如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -622,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中的测试类型："><span class="nav-number">1.</span> <span class="nav-text">Android中的测试类型：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单元测试"><span class="nav-number">1.1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UI测试"><span class="nav-number">1.2.</span> <span class="nav-text">UI测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目测试目录结构"><span class="nav-number">1.3.</span> <span class="nav-text">项目测试目录结构</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我了解「为什么」吗？"><span class="nav-number">1.</span> <span class="nav-text">我了解「为什么」吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我是否给予积极的反馈？"><span class="nav-number">2.</span> <span class="nav-text">我是否给予积极的反馈？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我的代码检视评论阐述得好吗？"><span class="nav-number">3.</span> <span class="nav-text">我的代码检视评论阐述得好吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我表扬了提交者的努力吗？"><span class="nav-number">4.</span> <span class="nav-text">我表扬了提交者的努力吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这篇检视评论对我有用吗？"><span class="nav-number">5.</span> <span class="nav-text">这篇检视评论对我有用吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只要“测试完成”就足够了吗？"><span class="nav-number">6.</span> <span class="nav-text">只要“测试完成”就足够了吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我在我的检视中过于迂腐吗？"><span class="nav-number">7.</span> <span class="nav-text">我在我的检视中过于迂腐吗？</span></a></li></ol></div>
             
 
           </div>
@@ -785,9 +764,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/27/如何在Android中执行TDD？第1部分 - 概述/';
-          this.page.identifier = '2018/05/27/如何在Android中执行TDD？第1部分 - 概述/';
-          this.page.title = '如何在Android中执行TDD？ 第1部分 - 概述(译)';
+          this.page.url = 'http://yoursite.com/2018/06/10/LinkedIn的高效代码检视建议(译)/';
+          this.page.identifier = '2018/06/10/LinkedIn的高效代码检视建议(译)/';
+          this.page.title = 'LinkedIn对实现高效代码检视的7个Tips';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Dimon.disqus.com/embed.js';
