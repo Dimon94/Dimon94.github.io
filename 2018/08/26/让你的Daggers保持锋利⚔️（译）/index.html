@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！  与直接注入成员变量相比推荐通过构造函数注入 直接注入成员变量要求为非f">
+<meta name="description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！">
 <meta name="keywords" content="Android,译文,Dagger2,Dependency Injection,Best Practices">
 <meta property="og:type" content="article">
 <meta property="og:title" content="让你的Daggers保持锋利⚔️（译）">
 <meta property="og:url" content="http://yoursite.com/2018/08/26/让你的Daggers保持锋利⚔️（译）/index.html">
 <meta property="og:site_name" content="Dimon&#39;s Program Basement">
-<meta property="og:description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！  与直接注入成员变量相比推荐通过构造函数注入 直接注入成员变量要求为非f">
+<meta property="og:description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/1800/1*5fsp9x_JcuJijFVotF1NQA.png">
-<meta property="og:updated_time" content="2018-08-26T06:59:31.870Z">
+<meta property="og:updated_time" content="2018-08-26T07:07:20.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="让你的Daggers保持锋利⚔️（译）">
-<meta name="twitter:description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！  与直接注入成员变量相比推荐通过构造函数注入 直接注入成员变量要求为非f">
+<meta name="twitter:description" content="原文链接：Keeping the Daggers Sharp ⚔️ 原文作者：Py ⚔ 译文出自：Dimon’s Program Basement 译者：Dimon  Dagger2是一个非常号的依赖注入库，但是其锋利的边缘处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们伤害自己！">
 <meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1800/1*5fsp9x_JcuJijFVotF1NQA.png">
 
 
@@ -374,6 +374,7 @@
 </blockquote>
 <p>Dagger2是一个非常号的依赖注入库，但是其<code>锋利的边缘</code>处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们<code>伤害自己</code>！</p>
 <p><img src="https://cdn-images-1.medium.com/max/1800/1*5fsp9x_JcuJijFVotF1NQA.png" alt="Dagger"></p>
+<a id="more"></a>
 <h3 id="与直接注入成员变量相比推荐通过构造函数注入"><a href="#与直接注入成员变量相比推荐通过构造函数注入" class="headerlink" title="与直接注入成员变量相比推荐通过构造函数注入"></a>与直接注入成员变量相比推荐通过构造函数注入</h3><ul>
 <li><p>直接注入成员变量要求为非<code>final</code>字段且非<code>private</code>字段。</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BAD</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CardConverter</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Inject</span> PublicKeyManager publicKeyManager;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="function"><span class="keyword">public</span> <span class="title">CardConverter</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
