@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Android,译文,TDD,测试," />
+  <meta name="keywords" content="Android,译文,RxAndroid," />
 
 
 
@@ -79,24 +79,20 @@
 
 
 
-<meta name="description" content="原文 在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。 什么是Espresso ?Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。  我知道你现在习惯于为你的代码编写测试（至少这是我对你的期望）。">
-<meta name="keywords" content="Android,译文,TDD,测试">
+<meta name="description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
+<meta name="keywords" content="Android,译文,RxAndroid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
-<meta property="og:url" content="http://yoursite.com/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/index.html">
+<meta property="og:title" content="RxAndroid 新型异步API（译）">
+<meta property="og:url" content="http://yoursite.com/2018/09/02/RxAndroid’s New Async API(译)/index.html">
 <meta property="og:site_name" content="Dimon&#39;s Program Basement">
-<meta property="og:description" content="原文 在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。 什么是Espresso ?Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。  我知道你现在习惯于为你的代码编写测试（至少这是我对你的期望）。">
+<meta property="og:description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*CMec9KPXMtY_Xdr0It97ZA.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png">
-<meta property="og:updated_time" content="2018-06-10T14:29:31.425Z">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png">
+<meta property="og:updated_time" content="2018-09-02T11:01:21.139Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
-<meta name="twitter:description" content="原文 在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。 什么是Espresso ?Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。  我知道你现在习惯于为你的代码编写测试（至少这是我对你的期望）。">
-<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1000/1*CMec9KPXMtY_Xdr0It97ZA.png">
+<meta name="twitter:title" content="RxAndroid 新型异步API（译）">
+<meta name="twitter:description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png">
 
 
 
@@ -126,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/02/RxAndroid’s New Async API(译)/"/>
 
 
 
 
 
-  <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译) | Dimon's Program Basement</title>
+  <title>RxAndroid 新型异步API（译） | Dimon's Program Basement</title>
   
 
 
@@ -259,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/02/RxAndroid’s New Async API(译)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Dimon">
@@ -276,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</h1>
+          <h1 class="post-title" itemprop="name headline">RxAndroid 新型异步API（译）</h1>
         
 
         <div class="post-meta">
@@ -288,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T18:39:00+08:00">
-                2018-06-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T18:55:00+08:00">
+                2018-09-02
               </time>
             
 
@@ -311,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android测试/" itemprop="url" rel="index">
-                    <span itemprop="name">Android测试</span>
+                  <a href="/categories/ReactiveX/" itemprop="url" rel="index">
+                    <span itemprop="name">ReactiveX</span>
                   </a>
                 </span>
 
@@ -329,9 +325,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/#comments" itemprop="discussionUrl">
+                <a href="/2018/09/02/RxAndroid’s New Async API(译)/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/09/02/RxAndroid’s New Async API(译)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -339,7 +335,7 @@
 
           
           
-             <span id="/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/" class="leancloud_visitors" data-flag-title="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
+             <span id="/2018/09/02/RxAndroid’s New Async API(译)/" class="leancloud_visitors" data-flag-title="RxAndroid 新型异步API（译）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -370,39 +366,35 @@
       
 
       
-        <p><img src="https://cdn-images-1.medium.com/max/1000/1*CMec9KPXMtY_Xdr0It97ZA.png" alt=""></p>
-<p><a href="https://medium.com/mobility/how-to-do-tdd-in-android-part-4-ui-testing-using-espresso-b381ebede191" target="_blank" rel="noopener">原文</a></p>
-<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
-<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
-<blockquote>
-<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
+        <blockquote>
+<p>原文链接：<a href="https://medium.com/@sweers/rxandroids-new-async-api-4ab5b3ad3e93" target="_blank" rel="noopener">RxAndroid’s New Async API</a></p>
+<p>原文作者：<a href="https://medium.com/@sweers" target="_blank" rel="noopener">Zac Sweers</a></p>
+<p>译文出自：<a href="https://dimon94.github.io/" target="_blank" rel="noopener">Dimon’s Program Basement</a></p>
+<p>译者：<a href="https://github.com/Dimon94" target="_blank" rel="noopener">Dimon</a></p>
 </blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png" alt="&quot;RxAndroid meets VSYNC rubber&quot; — Icon used with permission from Ray Wenderlich"></p>
+<h3 id="RxAndroid-2-1-0有一个新的API："><a href="#RxAndroid-2-1-0有一个新的API：" class="headerlink" title="RxAndroid 2.1.0有一个新的API："></a>RxAndroid 2.1.0有一个新的API：</h3><blockquote>
+<p>AndroidSchedulers#from(Looper looper, <strong>boolean async</strong>)</p>
+</blockquote>
+<p>这新的<code>async</code>参数将影响Android APIs 16 及其以上版本，如果你的APP高度依赖RxJava+RxAndroid，将这个参数设置为<code>true</code>将能够<strong>显著提升 UI 性能</strong>表现。</p>
 <a id="more"></a>
-<p>Espresso主要的三个类</p>
-<ol>
-<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
-<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
-<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onView(withId(R.id.my_view))<span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())       <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
+<p>由于RxAndroid的主要版本与RxJava绑定，我们不希望在次要版本中默默地引入重要的行为更改，所以这个API默认不启用。</p>
+<p>要安装它，你可以使用<code>RxAndroidPlugins</code>设置此API自定义的<code>scheduler</code>：</p>
 <blockquote>
-<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
+<p>EDIT：由于类加载问题，以下代码在<code>setInitMainThreadSchedulerHandler</code>上有一些错误。为了避免初始化默认值，你应该在传入的 lambda/callable <strong>中(inside)</strong>调用<code>AndroidSchedulers.from(...)</code>，而不是在之前就调用；</p>
 </blockquote>
-<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt=""></p>
-<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要<a href="https://developer.android.com/reference/android/support/test/rule/ActivityTestRule.html" target="_blank" rel="noopener">ActivityTestRule</a>。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt=""></p>
-<p>在<strong>checkUserNameEditTextIsDisplayed（）</strong>中我们检查的是用户名<strong>EditText</strong>显示在UI上。</p>
-<p><em>Espresso 的方法是自我解释的。</em></p>
-<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
-<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
-<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt=""></p>
-<p>运行测试正在通过。</p>
-<p>接下来我们将为登录成功编写测试。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt=""></p>
-<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
-<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。</p>
+<h4 id="Kotlin："><a href="#Kotlin：" class="headerlink" title="Kotlin："></a>Kotlin：</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="keyword">val</span> asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line">Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; asyncMainThreadScheduler);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; asyncMainThreadScheduler);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">   	<span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>这是一个很长的时间。RxAndroid中使用主线程历来都是使用<code>Handler#post()</code>去调度新的<code>Message</code>们。这通常是需要付出代价：默认情况下这个的遵循<a href="https://www.youtube.com/watch?v=1iaHxmfZGGc" target="_blank" rel="noopener">VSYNC</a>锁定并且将导致<strong>等待</strong>直到下一帧运行。对于通过<code>post()</code>的每一个发射，这都将是一个高达16ms的延迟。如果你已经在主线程上，这更是会加剧这种情况的发生（<a href="https://twitter.com/rjrjr" target="_blank" rel="noopener">Ray Ryan</a>曾经在<a href="https://www.youtube.com/watch?v=va1d4MqLUGY" target="_blank" rel="noopener">一个出色的演讲</a>上讲到过这个问题)。</p>
+<p>因此，在2015年，在<a href="https://twitter.com/JakeWharton" target="_blank" rel="noopener">Jake Wharton</a>的<a href="https://github.com/JakeWharton/RxBinding" target="_blank" rel="noopener">RxBinding</a>项目中围绕“快速路径(fastpath)”展开了<a href="https://github.com/JakeWharton/RxBinding/issues/28" target="_blank" rel="noopener">讨论</a>：主线程调度程序如果已经在主线程上并且避免VSYNC成本，则可以立即运行工作。之后这个讨论转移到RxAndroid的一个<a href="https://github.com/ReactiveX/RxAndroid/pull/228" target="_blank" rel="noopener">提案</a>上，并且得到了很好的社区反馈，但是由于担心可能通过直接运行事件和冒着死锁的风险来竞争系统的事件，导致从未达成过共识；所以它受到了抨击，但对于使用者们仍旧是一个摩擦点，并且在RxAndroid2.x中<a href="https://github.com/ReactiveX/RxAndroid/issues/423" target="_blank" rel="noopener">提交</a>了几个<a href="https://github.com/ReactiveX/RxAndroid/issues/365" target="_blank" rel="noopener">issues</a>；</p>
+<p>很快到了2017年年初，在Uber里我们决定尝试在内部进行re-hash，并且发现它<em>基本上</em>是稳定的。我们确实时而会看到死锁，但它们很难被发现，并且看起来很罕见，值得我们换取性能上的提升。上线一年后，我们决定尝试<a href="https://github.com/ReactiveX/RxAndroid/pull/416" target="_blank" rel="noopener">上游化我们的实现，并且重新开启讨论。</a>这一次，Android框架工程师（<a href="https://twitter.com/adamwp" target="_blank" rel="noopener">Adam Powell</a>）看到了这个讨论，并且指出我们使用<code>Message</code>和<code>Handler</code>的异步API。这个API允许消息绕过VSYNC锁定，同时仍让框架在其looper中安全地处理所有调度，这正是我们一直想要的！</p>
+<h3 id="连线API"><a href="#连线API" class="headerlink" title="连线API"></a>连线API</h3><p>虽然异步API自API 16以来就已存在，但它们已经通过<a href="https://android.googlesource.com/platform/frameworks/base/+/jb-release/core/java/android/os/Message.java#395" target="_blank" rel="noopener">@hide</a>隐藏在SDK中。在API22中，<a href="https://android.googlesource.com/platform/frameworks/base/+/lollipop-mr1-release/core/java/android/os/Message.java#457" target="_blank" rel="noopener">Message#setAsynchronous()</a>方法变成了public。在API28中，有一个新的<code>Handler.createAsync（）</code>工厂API，它默认将它处理的所有消息设置为异步。由于这些API为操作系统中一些最关键的部分提供了动力，因此它们不太可能被更改，并且应该可以安全访问。这里有点乐趣。</p>
+<h4 id="API-22"><a href="#API-22" class="headerlink" title="API 22+"></a>API 22+</h4><p>使用上述公共<code>setAsynchronous（）</code>方法。</p>
+<h4 id="API-16-21"><a href="#API-16-21" class="headerlink" title="API[16-21]"></a>API[16-21]</h4><p>仍然使用<code>setAsynchronous（）</code>，但我们抑制了lint错误，表明它只有22+。为了避免删除/更改内部API的任何（不太可能的）OEM情况，我们 try/catch <code>from（）</code>调度程序工厂中的快速<code>Message＃setAsynchronous（）</code>方法调用，以确保它在运行时存在，捕获<code>NoSuchMethodError</code>，如果它丢失并且优雅地回到标准的非异步消息传递。它不是反射，因为我们知道<a href="https://android.googlesource.com/platform/frameworks/base/+/jb-release/core/java/android/os/Message.java#397" target="_blank" rel="noopener">这将在运行时</a>，因为该方法确实存在于运行时。</p>
+<h4 id="API-lt-16"><a href="#API-lt-16" class="headerlink" title="API &lt; 16"></a>API &lt; 16</h4><p>没有行为更改，因为异步API不存在，所以使用标准的非异步消息传递。</p>
+<p>就是这些！我希望在使用主线程调度程序时，这可以让开发人员更加安心。请试一试并报告任何问题。</p>
 
       
     </div>
@@ -424,9 +416,7 @@
           
             <a href="/tags/译文/" rel="tag"># 译文</a>
           
-            <a href="/tags/TDD/" rel="tag"># TDD</a>
-          
-            <a href="/tags/测试/" rel="tag"># 测试</a>
+            <a href="/tags/RxAndroid/" rel="tag"># RxAndroid</a>
           
         </div>
       
@@ -439,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/09/如何在Android中执行TDD？ 第3部分 - 模拟和集成测试。/" rel="next" title="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
-                <i class="fa fa-chevron-left"></i> 如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)
+              <a href="/2018/08/26/让你的Daggers保持锋利⚔️（译）/" rel="next" title="让你的Daggers保持锋利⚔️（译）">
+                <i class="fa fa-chevron-left"></i> 让你的Daggers保持锋利⚔️（译）
               </a>
             
           </div>
@@ -448,10 +438,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/10/LinkedIn的高效代码检视建议(译)/" rel="prev" title="LinkedIn对实现高效代码检视的7个Tips">
-                LinkedIn对实现高效代码检视的7个Tips <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -625,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Espresso"><span class="nav-number">1.</span> <span class="nav-text">什么是Espresso ?</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RxAndroid-2-1-0有一个新的API："><span class="nav-number">1.</span> <span class="nav-text">RxAndroid 2.1.0有一个新的API：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kotlin："><span class="nav-number">1.1.</span> <span class="nav-text">Kotlin：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java："><span class="nav-number">1.2.</span> <span class="nav-text">Java：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连线API"><span class="nav-number">3.</span> <span class="nav-text">连线API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#API-22"><span class="nav-number">3.1.</span> <span class="nav-text">API 22+</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API-16-21"><span class="nav-number">3.2.</span> <span class="nav-text">API[16-21]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API-lt-16"><span class="nav-number">3.3.</span> <span class="nav-text">API &lt; 16</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -788,9 +774,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/';
-          this.page.identifier = '2018/06/10/如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试/';
-          this.page.title = '如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)';
+          this.page.url = 'http://yoursite.com/2018/09/02/RxAndroid’s New Async API(译)/';
+          this.page.identifier = '2018/09/02/RxAndroid’s New Async API(译)/';
+          this.page.title = 'RxAndroid 新型异步API（译）';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Dimon.disqus.com/embed.js';
