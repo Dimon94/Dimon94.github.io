@@ -88,7 +88,7 @@
 <meta property="og:description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png">
-<meta property="og:updated_time" content="2018-09-02T11:01:21.139Z">
+<meta property="og:updated_time" content="2018-09-02T13:46:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxAndroid 新型异步API（译）">
 <meta name="twitter:description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
@@ -386,7 +386,7 @@
 <h4 id="Kotlin："><a href="#Kotlin：" class="headerlink" title="Kotlin："></a>Kotlin：</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="keyword">val</span> asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line">Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; asyncMainThreadScheduler);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; asyncMainThreadScheduler);</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">   	<span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; &#123;</span><br><span class="line">    Scheduler asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>这是一个很长的时间。RxAndroid中使用主线程历来都是使用<code>Handler#post()</code>去调度新的<code>Message</code>们。这通常是需要付出代价：默认情况下这个的遵循<a href="https://www.youtube.com/watch?v=1iaHxmfZGGc" target="_blank" rel="noopener">VSYNC</a>锁定并且将导致<strong>等待</strong>直到下一帧运行。对于通过<code>post()</code>的每一个发射，这都将是一个高达16ms的延迟。如果你已经在主线程上，这更是会加剧这种情况的发生（<a href="https://twitter.com/rjrjr" target="_blank" rel="noopener">Ray Ryan</a>曾经在<a href="https://www.youtube.com/watch?v=va1d4MqLUGY" target="_blank" rel="noopener">一个出色的演讲</a>上讲到过这个问题)。</p>
 <p>因此，在2015年，在<a href="https://twitter.com/JakeWharton" target="_blank" rel="noopener">Jake Wharton</a>的<a href="https://github.com/JakeWharton/RxBinding" target="_blank" rel="noopener">RxBinding</a>项目中围绕“快速路径(fastpath)”展开了<a href="https://github.com/JakeWharton/RxBinding/issues/28" target="_blank" rel="noopener">讨论</a>：主线程调度程序如果已经在主线程上并且避免VSYNC成本，则可以立即运行工作。之后这个讨论转移到RxAndroid的一个<a href="https://github.com/ReactiveX/RxAndroid/pull/228" target="_blank" rel="noopener">提案</a>上，并且得到了很好的社区反馈，但是由于担心可能通过直接运行事件和冒着死锁的风险来竞争系统的事件，导致从未达成过共识；所以它受到了抨击，但对于使用者们仍旧是一个摩擦点，并且在RxAndroid2.x中<a href="https://github.com/ReactiveX/RxAndroid/issues/423" target="_blank" rel="noopener">提交</a>了几个<a href="https://github.com/ReactiveX/RxAndroid/issues/365" target="_blank" rel="noopener">issues</a>；</p>
 <p>很快到了2017年年初，在Uber里我们决定尝试在内部进行re-hash，并且发现它<em>基本上</em>是稳定的。我们确实时而会看到死锁，但它们很难被发现，并且看起来很罕见，值得我们换取性能上的提升。上线一年后，我们决定尝试<a href="https://github.com/ReactiveX/RxAndroid/pull/416" target="_blank" rel="noopener">上游化我们的实现，并且重新开启讨论。</a>这一次，Android框架工程师（<a href="https://twitter.com/adamwp" target="_blank" rel="noopener">Adam Powell</a>）看到了这个讨论，并且指出我们使用<code>Message</code>和<code>Handler</code>的异步API。这个API允许消息绕过VSYNC锁定，同时仍让框架在其looper中安全地处理所有调度，这正是我们一直想要的！</p>
@@ -438,6 +438,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/14/每周分享第１期/" rel="prev" title="每周分享第１期">
+                每周分享第１期 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -528,7 +532,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -539,7 +543,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -550,7 +554,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
