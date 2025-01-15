@@ -410,6 +410,8 @@
     <content><![CDATA[<p>原文</p>
 <p>本教程将通过项目体系结构，从头开始设置，最后我们将编写一些单元测试。</p>
 <p>而本系列的第1部分，我们介绍了什么是自动化测试的重要性，什么是测试金字塔，什么是测试类型，可以使用什么工具在Android中执行TDD以及测试文件夹的位置。</p>
+<span id="more"></span>
+
 <h3 id="项目架构"><a href="#项目架构" class="headerlink" title="项目架构"></a>项目架构</h3><p>根据自动化测试，我们必须遵循某种架构模式，这将有助于我们以清晰，可测试的方式测试和构建应用程序。</p>
 <p>有许多架构模式可轻松支持TDD Model - View - Presenter（MVP），Model - View - Viewmodel（MVVM）。</p>
 <p><strong>我们正在为我们的教程系列选择MVP。</strong></p>
@@ -509,6 +511,8 @@
     <content><![CDATA[<p>Android自动化测试教程系列,使用JUnit＆Espresso</p>
 <p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
 <p>有关TDD的更多信息，请参阅此前的教程。</p>
+<span id="more"></span>
+
 <h3 id="测试金字塔："><a href="#测试金字塔：" class="headerlink" title="测试金字塔："></a>测试金字塔：</h3><p>正如我们可以看到下面的金字塔：</p>
 <p><img src="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png" alt="测试金字塔"></p>
 <p><strong>单元测试</strong>涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。</p>
@@ -557,6 +561,7 @@
 <p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
 </blockquote>
 <span id="more"></span>
+
 <p>Espresso主要的三个类</p>
 <ol>
 <li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
@@ -718,6 +723,8 @@
 <p>我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。</p>
 <p>如图所示，我们可以创建用于登录的用户界面（我知道你会比这更好的用户界面）。</p>
 <p><img src="https://cdn-images-1.medium.com/max/600/1*pFyDEdZTg8DFVbsIml9OIQ.jpeg" alt="登录界面"></p>
+<span id="more"></span>
+
 <p>所以我们将编写一些与UI相关的代码。 我们在View和Presenter之间签有合同，即LoginView，如下所示。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">LoginView</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginSuccessMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginFailedMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginAttemptExceededMessage</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
