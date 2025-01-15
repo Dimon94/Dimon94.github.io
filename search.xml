@@ -1,75 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Android架构：第一部分-每个新的开始都很艰难 (译)</title>
-    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/</url>
-    <content><![CDATA[<p>本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。</p>
-<p>每项技术都有其自然演变。或者更准确地说，它的社区经历了进化过程。早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成一些工作。通常情况下，新社区很小，开发人员之间知识转移的潜力有限，也就是说，由于没有可用的架构指导原则，每个人都从自己的错误中学习。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_1.png" alt="Android architecture part 1"></p>
-<p>早期的Android并不例外。这对开发人员来说既酷又有吸引力，它为早期采用者成为围绕这一快速发展技术的社区的一部分提供了机会。</p>
-<span id="more"></span>
-
-<h2 id="早期Android时代的痛点：谷歌是否关心？"><a href="#早期Android时代的痛点：谷歌是否关心？" class="headerlink" title="早期Android时代的痛点：谷歌是否关心？"></a>早期Android时代的痛点：谷歌是否关心？</h2><p>你可以争辩说，那里有许多资深人士，他们拥有很多不同技术的经验，并且很快就会提出标准。嗯，不一定。如果这个技术背后有一个强大的公司可以赚钱，他们肯定会有自己的技术传播者，他们会传播关于这种新语言如何酷的文字，并且可以用它做很多事情，这很容易学习，扩展并满足数百万客户的需求。</p>
-<p>微软经常用它的技术做到这一点。另一方面，当谷歌购买Android时，我诚实地认为他们将其视为一些其他方面的项目。如果您从一开始就一直处于Android世界，那么您必须记住Google根本不关心您的挫折感和感受。那些拥有更多经验，能力和帮助社区的意愿的家伙现在已经成为Android超级巨星或者小半神 - 例如Jake Wharton。</p>
-<blockquote>
-<p><em>“When Google bought Android, I honestly think they treated it just as some other side project.”</em></p>
-</blockquote>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/xAmvxi.gif" alt="xamvxi"></p>
-<p>你可以说的另一件事是你不必考虑很多关于代码的架构和组织，因为框架为你做了。Android强制你将你的屏幕显示放入Activities中，将可重复使用的屏幕材料分解成Fragments，并将后台的东西放入Services中，并使用Broadcast Receivers与其他人交谈，因此它使您的生活变得更加美好。对？<strong>没有</strong>。</p>
-<p>首先，不管技术如何，都有一些很好的做法和原则。例如单一责任原则或依赖倒置原则，面向接口编程，杀死全局状态，试图谋杀所有状态等等。</p>
-<p>**框架很少迫使你遵循原则。**相反，他们以最糟糕的方式违反了原则。想想Context，你必须在任何地方使用的上帝对象，各种单例，Fragments的生命周期（那是噩梦般的生活），AsyncTasks通常被错误地实现，所以他们吸食记忆，食物，水，并从您的APP中散发出来。</p>
-<p>对于没有指南的年轻开发人员来说，制造怪物比制造APP简单。把它想象成一个意大利面般黑洞般的怪物-它作为一个Pastafarian神只是一个很好的选择，但作为APP并不好。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_2.png" alt="android architecture spaghetti monster"></p>
-<p>最后，**技术和框架隐藏了APP的目的。**好的，这是一个Android应用程序，但是什么样的Android应用程序？新闻阅读器？音乐播放器？语言学习应用程序？天气应用？也许这是另一个待办事项清单应用程序。如果所有的东西都捆绑在框架提供的类中，那么你会说不清楚。</p>
-<p>正如Robert Martin, aka Uncle Bob所说：”Your architecture should scream the purpose of the app.”更技术性地说，<strong>业务逻辑应该明确分开，并且独立于框架。</strong></p>
-<h2 id="Android架构的四大黄金规则（或任何架构）"><a href="#Android架构的四大黄金规则（或任何架构）" class="headerlink" title="Android架构的四大黄金规则（或任何架构）"></a>Android架构的四大黄金规则（或任何架构）</h2><p>我希望现在很清楚，**您不能依赖框架来使您的代码整齐有序，特别是在Android里。**在FIve里，我们很早就意识到这一点，但缺乏立即提出核心的经验。失败真正显示出来需要很长时间，并且在项目中间无法更改整个架构。你也无法花时间将旧项目重构为新的酷炫的梦寐以求的最佳架构。所以，我们采取了渐进式的方法，**逐渐从项目到项目逐步构建我们的架构，并从错误中学习。**我们认为我们的架构应该满足几个目标，我们可以将我们的方法与这些目标进行比较。<strong>良好的架构应该做到以下几点：</strong></p>
-<ol>
-<li>Satisfy a multitude of stakeholders.（满足各方利益者）</li>
-<li>Encourage separation of concerns.（鼓励的关注点分离）</li>
-<li>Run away from the real world (Android, DB, Internet…).</li>
-<li>Enable your components to be testable.（使您的组件成为可测试的）</li>
-</ol>
-<h3 id="I-Satisfy-a-multitude-of-stakeholders-满足各方利益者"><a href="#I-Satisfy-a-multitude-of-stakeholders-满足各方利益者" class="headerlink" title="I. Satisfy a multitude of stakeholders.(满足各方利益者)"></a>I. Satisfy a multitude of stakeholders.(满足各方利益者)</h3><p><strong>Stakeholder</strong>（在这篇文章中）是任何对你的APP感兴趣的人。除开发者外，还有UI设计师，UX设计师，PM，DB管理员，QA等。</p>
-<p>当然，你不能以某种方式组织代码，例如，UX设计人员可以立即打开项目并理解所有内容，甚至可以进行一些更改。这是一个独角兽。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_3.png" alt="Android Architecture stakeholders"></p>
-<p>我的意思是，你可以组织你的代码，使得当前与UX设计师一起工作的开发人员只能管理与UX相关的东西。所以，<strong>所有的交互都在classes &#x2F; modules &#x2F; components &#x2F;中分开</strong>，就算他们的工作是交互作用。而且特定的开发人员只在应用的UX部分工作时在这些组件上工作。</p>
-<h3 id="II-Encourage-separation-of-concerns-（鼓励的关注点分离）"><a href="#II-Encourage-separation-of-concerns-（鼓励的关注点分离）" class="headerlink" title="II. Encourage separation of concerns.（鼓励的关注点分离）"></a>II. Encourage separation of concerns.（鼓励的关注点分离）</h3><p>我之前所说的是一个<strong>关注点分离</strong>的例子。我们鼓励这种特殊的方法，因为它可以很好地映射到团队和项目阶段的组织，但是您的架构也应该鼓励<strong>常规分离关注点</strong>。分离问题或单一职责原则说，<strong>每个组件都应该只有一个理由需要改变。</strong></p>
-<h3 id="III-Run-away-from-the-real-world-Android-DB-Internet…"><a href="#III-Run-away-from-the-real-world-Android-DB-Internet…" class="headerlink" title="III. Run away from the real world (Android, DB, Internet…)."></a>III. Run away from the real world (Android, DB, Internet…).</h3><p>从现实世界中逃脱出来的这个特殊点已经在之前提到过了。我们已经说过，我们想要表现APP真正的功能而已。我们想要强调业务逻辑，并在框架下留下框架细节。这一点应该更加强烈：我们不仅要隐藏框架细节，还要隐藏与外部世界相关的所有细节。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_4.png" alt="Android Architecture under the hood"></p>
-<p>基本所有的Android的东西如传感器，通知机制，屏幕细节，数据库访问，Internet访问等等都是<strong>nitty gritty dirty</strong>。</p>
-<h3 id="IV-Enable-your-components-to-be-testable"><a href="#IV-Enable-your-components-to-be-testable" class="headerlink" title="IV. Enable your components to be testable."></a>IV. Enable your components to be testable.</h3><p>您应该尽可能单元测试您的APP，并且您的架构应该允许您执行此操作。如果你不能单元测试一切，你至少应该用测试来覆盖你的业务逻辑。与现实世界的分离与此相得益彰。如果它明显与应用程序的其他部分分离，则测试业务逻辑会更容易。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/giphy-5.gif" alt="giphy-5"></p>
-<h2 id="第一次迭代-上帝的活动"><a href="#第一次迭代-上帝的活动" class="headerlink" title="第一次迭代 - 上帝的活动"></a>第一次迭代 - 上帝的活动</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">UsersActivity</span> <span class="keyword">extends</span> <span class="title class_">ListActivity</span> &#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">       <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line">       <span class="keyword">new</span> <span class="title class_">ListUsers</span>().execute();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ListUsers</span> <span class="keyword">extends</span> <span class="title class_">AsyncTask</span>&lt;Void, Void, Void&gt; &#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="keyword">protected</span> Void <span class="title function_">doInBackground</span><span class="params">(Void... voids)</span> &#123;</span><br><span class="line">           <span class="comment">// final SQLiteOpenHelper sqLiteOpenHelper = ...</span></span><br><span class="line">           <span class="comment">// JsonObjectRequest jsObjRequest = new JsonObjectRequest</span></span><br><span class="line">           <span class="comment">// (Request.Method.GET, url, null, new Response.Listener&lt;JSONObject&gt;() &#123;</span></span><br><span class="line">           <span class="comment">// MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);</span></span><br><span class="line">           <span class="comment">// showData(user);</span></span><br><span class="line">           <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>你可能在”古代时代”看到过类似的代码。如果你还没有，那么你还很年轻。这有什么问题？<strong>Everything!</strong></p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/no.gif" alt="no"></p>
-<p>我们有一个涉及数据库，进入互联网，解析，产生线程和呈现数据的Activity。所以，<strong>所有的利益相关者都在关注单个类，没有任何问题是分离的，它不是可测试的，业务逻辑与Android的东西混杂在一起。</strong></p>
-<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_1-1.png" alt="android architecture part 1 - 1"></p>
-<h2 id="第二次迭代-MVP"><a href="#第二次迭代-MVP" class="headerlink" title="第二次迭代 - MVP"></a>第二次迭代 - MVP</h2><p>第一种方法显然不起作用。我们尝试的第一件事情之一是MVP，或<strong>model-view-presenter</strong>。每个人都熟悉MVP。它是最受欢迎的架构之一。它看起来像这样：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_1-1.png" alt="android architecture part 2 - 2"></p>
-<p>在这里，我们分离了实际上是我们的Android Fragments的视图，我们有代表我们业务的（domain）模型，最后我们有协调所有这些的presenters。肯定会更好。关注点有些分离，利益相关者不再困惑，你可以写一些测试。然而，我们仍然与现实世界混淆，因为presenter直接触及数据库和所有内容。这是一个神的对象。它处理模型，它将数据发送到视图，它拥有业务逻辑（业务逻辑是那些齿轮:)），并且它传递到数据库和Internet，获取传感器数据等等。所以，更好，但是它可以变得更好。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_2-1.png" alt="android architecture part 1 - 3"></p>
-<h2 id="第三次迭代-MVP-managers"><a href="#第三次迭代-MVP-managers" class="headerlink" title="第三次迭代 - MVP + managers"></a>第三次迭代 - MVP + managers</h2><p>当政府不知道该做什么时，他们做了什么？它设置一个机构。当开发者不知道该怎么做时，他们会做什么？他们采用一些managers。您不必将其命名为”manager”。这些类有很多名称：utils，helper，fooBarBuzz-ator等等。我们统称为managers。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_3-3.png" alt="android architecture part 1 - 4"></p>
-<p>说实话，**这甚至有点奏效。**业务逻辑包含在manager类中。利益相关者知道在哪里看，关注是分开的，但他们可能更多，你可以编写更多的测试，但你仍然直接触摸Android，所以你必须编写Android测试用例和预填充数据库来测试业务逻辑，这很慢。是的，managers往往是巨大的野兽，**很快就很难维持。**你可以争辩说，它不需要比现在更复杂，你可以通过使用更简单的架构来更快地传递代码，但是这种方法会出现更多的错误，并且可维护性会受到影响。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_4-1.png" alt="android architecture part 1 - 5"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在本系列的第一部分中，我们遇到了创建实际可行的Android体系结构的挑战。良好的Android架构应该满足众多利益相关者的需求，鼓励分离问题，强调业务逻辑，并将框架细节置于隐患之下，并使所有组件都可测试。在系列的第二部分中，我们将向您展示我们如何管理那些对我们有用的东西。在此之前，<strong>您对如何创建适当的Android工作流程有任何建议吗？你遇到了什么问题？</strong></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMi1jbGVhbi1hcmNoaXRlY3R1cmUv">Continue to part 2<i class="fa fa-external-link-alt"></i></span>.</p>
-<p>您还可以查看其他部分：</p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">Part 4: Applying Clean Architecture on Android (Hands-on)<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMy1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtYW5kcm9pZC8=">Part 3: Applying Clean Architecture on Android<i class="fa fa-external-link-alt"></i></span> </p>
-]]></content>
-      <categories>
-        <category>Android架构</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Clean架构</tag>
-        <tag>译文</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android架构：第三部分-在Android上应用Clean架构 (译)</title>
     <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/</url>
     <content><![CDATA[<p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
@@ -171,6 +102,75 @@
 <p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">Part 4: Applying Clean Architecture on Android (Hands-on)<i class="fa fa-external-link-alt"></i></span></p>
 <p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMy1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtYW5kcm9pZC8=">Part 3: Applying Clean Architecture on Android<i class="fa fa-external-link-alt"></i></span></p>
 <p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMS1ldmVyeS1uZXctYmVnaW5uaW5nLWlzLWhhcmQv">Part 1: every new beginning is hard<i class="fa fa-external-link-alt"></i></span> </p>
+]]></content>
+      <categories>
+        <category>Android架构</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Clean架构</tag>
+        <tag>译文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android架构：第一部分-每个新的开始都很艰难 (译)</title>
+    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/</url>
+    <content><![CDATA[<p>本系列文章的目标是概述我们与Android应用程序体系结构（Android体系结构）的斗争。我意识到，无论Android应用程序架构的实施可能会如此痛苦，事实证明，这是我一直在努力的每一个优秀应用程序的基础。</p>
+<p>每项技术都有其自然演变。或者更准确地说，它的社区经历了进化过程。早期采用新计算机语言或框架的用户只是希望掌握技术并尽快完成一些工作。通常情况下，新社区很小，开发人员之间知识转移的潜力有限，也就是说，由于没有可用的架构指导原则，每个人都从自己的错误中学习。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_1.png" alt="Android architecture part 1"></p>
+<p>早期的Android并不例外。这对开发人员来说既酷又有吸引力，它为早期采用者成为围绕这一快速发展技术的社区的一部分提供了机会。</p>
+<span id="more"></span>
+
+<h2 id="早期Android时代的痛点：谷歌是否关心？"><a href="#早期Android时代的痛点：谷歌是否关心？" class="headerlink" title="早期Android时代的痛点：谷歌是否关心？"></a>早期Android时代的痛点：谷歌是否关心？</h2><p>你可以争辩说，那里有许多资深人士，他们拥有很多不同技术的经验，并且很快就会提出标准。嗯，不一定。如果这个技术背后有一个强大的公司可以赚钱，他们肯定会有自己的技术传播者，他们会传播关于这种新语言如何酷的文字，并且可以用它做很多事情，这很容易学习，扩展并满足数百万客户的需求。</p>
+<p>微软经常用它的技术做到这一点。另一方面，当谷歌购买Android时，我诚实地认为他们将其视为一些其他方面的项目。如果您从一开始就一直处于Android世界，那么您必须记住Google根本不关心您的挫折感和感受。那些拥有更多经验，能力和帮助社区的意愿的家伙现在已经成为Android超级巨星或者小半神 - 例如Jake Wharton。</p>
+<blockquote>
+<p><em>“When Google bought Android, I honestly think they treated it just as some other side project.”</em></p>
+</blockquote>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/xAmvxi.gif" alt="xamvxi"></p>
+<p>你可以说的另一件事是你不必考虑很多关于代码的架构和组织，因为框架为你做了。Android强制你将你的屏幕显示放入Activities中，将可重复使用的屏幕材料分解成Fragments，并将后台的东西放入Services中，并使用Broadcast Receivers与其他人交谈，因此它使您的生活变得更加美好。对？<strong>没有</strong>。</p>
+<p>首先，不管技术如何，都有一些很好的做法和原则。例如单一责任原则或依赖倒置原则，面向接口编程，杀死全局状态，试图谋杀所有状态等等。</p>
+<p>**框架很少迫使你遵循原则。**相反，他们以最糟糕的方式违反了原则。想想Context，你必须在任何地方使用的上帝对象，各种单例，Fragments的生命周期（那是噩梦般的生活），AsyncTasks通常被错误地实现，所以他们吸食记忆，食物，水，并从您的APP中散发出来。</p>
+<p>对于没有指南的年轻开发人员来说，制造怪物比制造APP简单。把它想象成一个意大利面般黑洞般的怪物-它作为一个Pastafarian神只是一个很好的选择，但作为APP并不好。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_2.png" alt="android architecture spaghetti monster"></p>
+<p>最后，**技术和框架隐藏了APP的目的。**好的，这是一个Android应用程序，但是什么样的Android应用程序？新闻阅读器？音乐播放器？语言学习应用程序？天气应用？也许这是另一个待办事项清单应用程序。如果所有的东西都捆绑在框架提供的类中，那么你会说不清楚。</p>
+<p>正如Robert Martin, aka Uncle Bob所说：”Your architecture should scream the purpose of the app.”更技术性地说，<strong>业务逻辑应该明确分开，并且独立于框架。</strong></p>
+<h2 id="Android架构的四大黄金规则（或任何架构）"><a href="#Android架构的四大黄金规则（或任何架构）" class="headerlink" title="Android架构的四大黄金规则（或任何架构）"></a>Android架构的四大黄金规则（或任何架构）</h2><p>我希望现在很清楚，**您不能依赖框架来使您的代码整齐有序，特别是在Android里。**在FIve里，我们很早就意识到这一点，但缺乏立即提出核心的经验。失败真正显示出来需要很长时间，并且在项目中间无法更改整个架构。你也无法花时间将旧项目重构为新的酷炫的梦寐以求的最佳架构。所以，我们采取了渐进式的方法，**逐渐从项目到项目逐步构建我们的架构，并从错误中学习。**我们认为我们的架构应该满足几个目标，我们可以将我们的方法与这些目标进行比较。<strong>良好的架构应该做到以下几点：</strong></p>
+<ol>
+<li>Satisfy a multitude of stakeholders.（满足各方利益者）</li>
+<li>Encourage separation of concerns.（鼓励的关注点分离）</li>
+<li>Run away from the real world (Android, DB, Internet…).</li>
+<li>Enable your components to be testable.（使您的组件成为可测试的）</li>
+</ol>
+<h3 id="I-Satisfy-a-multitude-of-stakeholders-满足各方利益者"><a href="#I-Satisfy-a-multitude-of-stakeholders-满足各方利益者" class="headerlink" title="I. Satisfy a multitude of stakeholders.(满足各方利益者)"></a>I. Satisfy a multitude of stakeholders.(满足各方利益者)</h3><p><strong>Stakeholder</strong>（在这篇文章中）是任何对你的APP感兴趣的人。除开发者外，还有UI设计师，UX设计师，PM，DB管理员，QA等。</p>
+<p>当然，你不能以某种方式组织代码，例如，UX设计人员可以立即打开项目并理解所有内容，甚至可以进行一些更改。这是一个独角兽。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_3.png" alt="Android Architecture stakeholders"></p>
+<p>我的意思是，你可以组织你的代码，使得当前与UX设计师一起工作的开发人员只能管理与UX相关的东西。所以，<strong>所有的交互都在classes &#x2F; modules &#x2F; components &#x2F;中分开</strong>，就算他们的工作是交互作用。而且特定的开发人员只在应用的UX部分工作时在这些组件上工作。</p>
+<h3 id="II-Encourage-separation-of-concerns-（鼓励的关注点分离）"><a href="#II-Encourage-separation-of-concerns-（鼓励的关注点分离）" class="headerlink" title="II. Encourage separation of concerns.（鼓励的关注点分离）"></a>II. Encourage separation of concerns.（鼓励的关注点分离）</h3><p>我之前所说的是一个<strong>关注点分离</strong>的例子。我们鼓励这种特殊的方法，因为它可以很好地映射到团队和项目阶段的组织，但是您的架构也应该鼓励<strong>常规分离关注点</strong>。分离问题或单一职责原则说，<strong>每个组件都应该只有一个理由需要改变。</strong></p>
+<h3 id="III-Run-away-from-the-real-world-Android-DB-Internet…"><a href="#III-Run-away-from-the-real-world-Android-DB-Internet…" class="headerlink" title="III. Run away from the real world (Android, DB, Internet…)."></a>III. Run away from the real world (Android, DB, Internet…).</h3><p>从现实世界中逃脱出来的这个特殊点已经在之前提到过了。我们已经说过，我们想要表现APP真正的功能而已。我们想要强调业务逻辑，并在框架下留下框架细节。这一点应该更加强烈：我们不仅要隐藏框架细节，还要隐藏与外部世界相关的所有细节。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Illustration_4.png" alt="Android Architecture under the hood"></p>
+<p>基本所有的Android的东西如传感器，通知机制，屏幕细节，数据库访问，Internet访问等等都是<strong>nitty gritty dirty</strong>。</p>
+<h3 id="IV-Enable-your-components-to-be-testable"><a href="#IV-Enable-your-components-to-be-testable" class="headerlink" title="IV. Enable your components to be testable."></a>IV. Enable your components to be testable.</h3><p>您应该尽可能单元测试您的APP，并且您的架构应该允许您执行此操作。如果你不能单元测试一切，你至少应该用测试来覆盖你的业务逻辑。与现实世界的分离与此相得益彰。如果它明显与应用程序的其他部分分离，则测试业务逻辑会更容易。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/giphy-5.gif" alt="giphy-5"></p>
+<h2 id="第一次迭代-上帝的活动"><a href="#第一次迭代-上帝的活动" class="headerlink" title="第一次迭代 - 上帝的活动"></a>第一次迭代 - 上帝的活动</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">UsersActivity</span> <span class="keyword">extends</span> <span class="title class_">ListActivity</span> &#123;</span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">       <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">       <span class="comment">//...</span></span><br><span class="line">       <span class="keyword">new</span> <span class="title class_">ListUsers</span>().execute();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ListUsers</span> <span class="keyword">extends</span> <span class="title class_">AsyncTask</span>&lt;Void, Void, Void&gt; &#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="keyword">protected</span> Void <span class="title function_">doInBackground</span><span class="params">(Void... voids)</span> &#123;</span><br><span class="line">           <span class="comment">// final SQLiteOpenHelper sqLiteOpenHelper = ...</span></span><br><span class="line">           <span class="comment">// JsonObjectRequest jsObjRequest = new JsonObjectRequest</span></span><br><span class="line">           <span class="comment">// (Request.Method.GET, url, null, new Response.Listener&lt;JSONObject&gt;() &#123;</span></span><br><span class="line">           <span class="comment">// MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);</span></span><br><span class="line">           <span class="comment">// showData(user);</span></span><br><span class="line">           <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你可能在”古代时代”看到过类似的代码。如果你还没有，那么你还很年轻。这有什么问题？<strong>Everything!</strong></p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/no.gif" alt="no"></p>
+<p>我们有一个涉及数据库，进入互联网，解析，产生线程和呈现数据的Activity。所以，<strong>所有的利益相关者都在关注单个类，没有任何问题是分离的，它不是可测试的，业务逻辑与Android的东西混杂在一起。</strong></p>
+<p><img src="http://five.agency/2017/wp-content/uploads/2016/11/Diagram_1-1.png" alt="android architecture part 1 - 1"></p>
+<h2 id="第二次迭代-MVP"><a href="#第二次迭代-MVP" class="headerlink" title="第二次迭代 - MVP"></a>第二次迭代 - MVP</h2><p>第一种方法显然不起作用。我们尝试的第一件事情之一是MVP，或<strong>model-view-presenter</strong>。每个人都熟悉MVP。它是最受欢迎的架构之一。它看起来像这样：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_1-1.png" alt="android architecture part 2 - 2"></p>
+<p>在这里，我们分离了实际上是我们的Android Fragments的视图，我们有代表我们业务的（domain）模型，最后我们有协调所有这些的presenters。肯定会更好。关注点有些分离，利益相关者不再困惑，你可以写一些测试。然而，我们仍然与现实世界混淆，因为presenter直接触及数据库和所有内容。这是一个神的对象。它处理模型，它将数据发送到视图，它拥有业务逻辑（业务逻辑是那些齿轮:)），并且它传递到数据库和Internet，获取传感器数据等等。所以，更好，但是它可以变得更好。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_2-1.png" alt="android architecture part 1 - 3"></p>
+<h2 id="第三次迭代-MVP-managers"><a href="#第三次迭代-MVP-managers" class="headerlink" title="第三次迭代 - MVP + managers"></a>第三次迭代 - MVP + managers</h2><p>当政府不知道该做什么时，他们做了什么？它设置一个机构。当开发者不知道该怎么做时，他们会做什么？他们采用一些managers。您不必将其命名为”manager”。这些类有很多名称：utils，helper，fooBarBuzz-ator等等。我们统称为managers。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_3-3.png" alt="android architecture part 1 - 4"></p>
+<p>说实话，**这甚至有点奏效。**业务逻辑包含在manager类中。利益相关者知道在哪里看，关注是分开的，但他们可能更多，你可以编写更多的测试，但你仍然直接触摸Android，所以你必须编写Android测试用例和预填充数据库来测试业务逻辑，这很慢。是的，managers往往是巨大的野兽，**很快就很难维持。**你可以争辩说，它不需要比现在更复杂，你可以通过使用更简单的架构来更快地传递代码，但是这种方法会出现更多的错误，并且可维护性会受到影响。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Diagram_4-1.png" alt="android architecture part 1 - 5"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在本系列的第一部分中，我们遇到了创建实际可行的Android体系结构的挑战。良好的Android架构应该满足众多利益相关者的需求，鼓励分离问题，强调业务逻辑，并将框架细节置于隐患之下，并使所有组件都可测试。在系列的第二部分中，我们将向您展示我们如何管理那些对我们有用的东西。在此之前，<strong>您对如何创建适当的Android工作流程有任何建议吗？你遇到了什么问题？</strong></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMi1jbGVhbi1hcmNoaXRlY3R1cmUv">Continue to part 2<i class="fa fa-external-link-alt"></i></span>.</p>
+<p>您还可以查看其他部分：</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">Part 4: Applying Clean Architecture on Android (Hands-on)<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMy1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtYW5kcm9pZC8=">Part 3: Applying Clean Architecture on Android<i class="fa fa-external-link-alt"></i></span> </p>
 ]]></content>
       <categories>
         <category>Android架构</category>
@@ -374,37 +374,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LinkedIn的高效代码检视建议(译)</title>
-    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
-<blockquote>
-<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
-</blockquote>
-<span id="more"></span>
-
-<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
-<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
-<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
-<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
-<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
-<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
-<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
-<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
-<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
-<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
-<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
-<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
-<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
-]]></content>
-      <categories>
-        <category>团队建设</category>
-      </categories>
-      <tags>
-        <tag>译文</tag>
-        <tag>CodeReview</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MVVM 架构，ViewModel 和LiveData 第一部分(译)</title>
     <url>/2018/05/13/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</url>
     <content><![CDATA[<p>原文：MVVM architecture, ViewModel and LiveData (Part 1)</p>
@@ -505,6 +474,37 @@
         <tag>Android</tag>
         <tag>译文</tag>
         <tag>MVVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LinkedIn的高效代码检视建议(译)</title>
+    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
+<blockquote>
+<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
+</blockquote>
+<span id="more"></span>
+
+<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
+<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
+<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
+<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
+<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
+<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
+<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
+<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
+<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
+<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
+<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
+<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
+<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
+]]></content>
+      <categories>
+        <category>团队建设</category>
+      </categories>
+      <tags>
+        <tag>译文</tag>
+        <tag>CodeReview</tag>
       </tags>
   </entry>
   <entry>
@@ -770,54 +770,6 @@
       </tags>
   </entry>
   <entry>
-    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
-    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文</p>
-<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
-<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
-<blockquote>
-<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
-</blockquote>
-<span id="more"></span>
-
-<p>Espresso主要的三个类</p>
-<ol>
-<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
-<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
-<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
-</blockquote>
-<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
-<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
-<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
-<p><em>Espresso 的方法是自我解释的。</em></p>
-<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
-<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
-<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
-<p>运行测试正在通过。</p>
-<p>接下来我们将为登录成功编写测试。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
-<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
-<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
-]]></content>
-      <categories>
-        <category>Android测试</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>译文</tag>
-        <tag>TDD</tag>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)</title>
     <url>/2018/06/09/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC3%E9%83%A8%E5%88%86%20-%20%E6%A8%A1%E6%8B%9F%E5%92%8C%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
     <content><![CDATA[<p>原文</p>
@@ -974,6 +926,54 @@
         <tag>Dagger2</tag>
         <tag>Dependency Injection</tag>
         <tag>Best Practices</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
+    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文</p>
+<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
+<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
+<blockquote>
+<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<p>Espresso主要的三个类</p>
+<ol>
+<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
+<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
+<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
+</blockquote>
+<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
+<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
+<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
+<p><em>Espresso 的方法是自我解释的。</em></p>
+<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
+<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
+<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
+<p>运行测试正在通过。</p>
+<p>接下来我们将为登录成功编写测试。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
+<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
+<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
+]]></content>
+      <categories>
+        <category>Android测试</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>译文</tag>
+        <tag>TDD</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
 </search>
