@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Android自动化测试教程系列,使用JUnit＆Espresso 自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔：正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
+<meta property="og:url" content="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Blog">
+<meta property="og:description" content="Android自动化测试教程系列,使用JUnit＆Espresso 自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。 测试金字塔：正如我们可以看到下面的金字塔：  单元测试涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。 集成测试确保模块的集成是正确的，并覆盖第二大块金字塔。 功能测试通常描述系统在三部分中所">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png">
+<meta property="article:published_time" content="2018-05-27T14:36:16.000Z">
+<meta property="article:modified_time" content="2025-01-15T13:09:53.257Z">
+<meta property="article:author" content="Dimon">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="译文">
+<meta property="article:tag" content="TDD">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
+
+<link rel="canonical" href="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何在Android中执行TDD？ 第1部分 - 概述(译) | Dimon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Dimon's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Dimon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术分享与生活记录</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="分享技术经验，记录生活点滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在Android中执行TDD？ 第1部分 - 概述(译)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-27 22:36:16" itemprop="dateCreated datePublished" datetime="2018-05-27T22:36:16+08:00">2018-05-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-15 21:09:53" itemprop="dateModified" datetime="2025-01-15T21:09:53+08:00">2025-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Android测试</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Android自动化测试教程系列,使用JUnit＆Espresso</p>
+<p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
+<p>有关TDD的更多信息，请参阅此前的教程。</p>
+<h3 id="测试金字塔："><a href="#测试金字塔：" class="headerlink" title="测试金字塔："></a>测试金字塔：</h3><p>正如我们可以看到下面的金字塔：</p>
+<p><img src="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png" alt="测试金字塔"></p>
+<p><strong>单元测试</strong>涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。</p>
+<p><strong>集成测试</strong>确保模块的集成是正确的，并覆盖第二大块金字塔。</p>
+<p><strong>功能测试</strong>通常描述系统在三部分中所做的并占据最小的部分。</p>
+<p>有许多测试工具和框架可以在开发应用程序时使用。 其中一些是由Google提供和支持的，其中一些是第三方。</p>
+<h3 id="Android中的测试类型："><a href="#Android中的测试类型：" class="headerlink" title="Android中的测试类型："></a>Android中的测试类型：</h3><h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>单元测试主要针对与其他组件隔离的最小功能（如方法，类，组件或小模块）。</p>
+<p><em>用于单元测试的工具：</em></p>
+<ul>
+<li>JUnit是编写可重复测试的简单框架。 它是单元测试框架的xUnit体系结构的一个实例。</li>
+<li>Robolectric是流行的Android单元测试框架，通过在JVM上运行测试（不需要任何设备或仿真器），可以加快测试的执行速度。</li>
+</ul>
+<h4 id="UI测试"><a href="#UI测试" class="headerlink" title="UI测试"></a>UI测试</h4><p>UI测试是模拟用户交互的测试，如单击按钮，在EditText中输入文本。 Android Instrumentation是Android系统中的一组”挂钩”，它允许您控制Android组件的生命周期（即自己驱动活动生命周期，而不是由系统驱动这些生命周期）。 这些测试需要运行实际的设备或仿真器。</p>
+<p><em>用于UI测试的工具：</em></p>
+<ul>
+<li>Espresso - Google提供的Android UI测试框架，可以很好地处理测试同步。</li>
+<li>UIAutomator - Google提供的Android UI测试框架，用于同时测试多个应用程序。</li>
+<li>Robotium - 第三方Android UI测试框架（Robotium vs Espresso）</li>
+<li>Selendroid - Selenium for Android</li>
+</ul>
+<h4 id="项目测试目录结构"><a href="#项目测试目录结构" class="headerlink" title="项目测试目录结构"></a>项目测试目录结构</h4><p>在我们的项目中，两个文件夹托管我们的测试，这些测试是test和androidTest。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png" alt="测试目录结构"></p>
+<p><strong>test</strong>：单元测试托管在此文件夹中。 这些测试在JVM上运行，不需要Android设备或模拟器。 这种类型的测试无法访问任何Android框架特定的组件，如上下文。</p>
+<p><strong>androidTest</strong>： - 所有Instrumentation（Espresso）测试托管在此文件夹中。这些测试需要物理Android设备或模拟器才能运行。</p>
+<p>在下一篇文章中，我们将深入探讨遵循和执行单元测试的体系结构。</p>
+<p>同时，希望听到有关这方面的建议和意见。</p>
+<p>干杯🍻!!! </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%AF%91%E6%96%87/" rel="tag"># 译文</a>
+              <a href="/tags/TDD/" rel="tag"># TDD</a>
+              <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/20/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" rel="prev" title="MVVM 架构，ViewModel 和LiveData 第二部分(译)">
+      <i class="fa fa-chevron-left"></i> MVVM 架构，ViewModel 和LiveData 第二部分(译)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/03/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC2%E9%83%A8%E5%88%86%20-%20%E9%A1%B9%E7%9B%AE%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%EF%BC%8C%E8%AE%BE%E7%BD%AE%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95(%E8%AF%91)/" rel="next" title="如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)">
+      如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%87%91%E5%AD%97%E5%A1%94%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">测试金字塔：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android%E4%B8%AD%E7%9A%84%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">Android中的测试类型：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UI%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">UI测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%B5%8B%E8%AF%95%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">项目测试目录结构</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dimon</p>
+  <div class="site-description" itemprop="description">分享技术经验，记录生活点滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9tdXNlLnRoZW1lLW5leHQub3Jn">NexT.Muse</span> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'your-client-id',
+      clientSecret: 'your-client-secret',
+      repo        : 'Dimon94.github.io',
+      owner       : 'Dimon94',
+      admin       : ['Dimon94'],
+      id          : '81ae545ad24d381d1b898b845473a66c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

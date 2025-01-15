@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxAndroid新型异步API（译）">
+<meta property="og:url" content="https://dimon94.github.io/2018/09/02/RxAndroid%E6%96%B0%E5%9E%8B%E5%BC%82%E6%AD%A5API%EF%BC%88%E8%AF%91%EF%BC%89/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Blog">
+<meta property="og:description" content="原文链接：RxAndroid’s New Async API 原文作者：Zac Sweers 译文出自：Dimon’s Program Basement 译者：Dimon   RxAndroid 2.1.0有一个新的API： AndroidSchedulers#from(Looper looper, boolean async)  这新的async参数将影响Android APIs 16 及其以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png">
+<meta property="article:published_time" content="2018-09-02T14:36:16.000Z">
+<meta property="article:modified_time" content="2025-01-15T13:55:09.838Z">
+<meta property="article:author" content="Dimon">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="译文">
+<meta property="article:tag" content="RxAndroid">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png">
+
+<link rel="canonical" href="https://dimon94.github.io/2018/09/02/RxAndroid%E6%96%B0%E5%9E%8B%E5%BC%82%E6%AD%A5API%EF%BC%88%E8%AF%91%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RxAndroid新型异步API（译） | Dimon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Dimon's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Dimon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术分享与生活记录</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2018/09/02/RxAndroid%E6%96%B0%E5%9E%8B%E5%BC%82%E6%AD%A5API%EF%BC%88%E8%AF%91%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="分享技术经验，记录生活点滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RxAndroid新型异步API（译）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-02 22:36:16" itemprop="dateCreated datePublished" datetime="2018-09-02T22:36:16+08:00">2018-09-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-15 21:55:09" itemprop="dateModified" datetime="2025-01-15T21:55:09+08:00">2025-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ReactiveX/" itemprop="url" rel="index"><span itemprop="name">ReactiveX</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>原文链接：RxAndroid’s New Async API</p>
+<p>原文作者：Zac Sweers</p>
+<p>译文出自：Dimon’s Program Basement</p>
+<p>译者：Dimon</p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/1000/1*VMZbrxTyr3ga00M0mjNwyw.png" alt="RxAndroid"></p>
+<h3 id="RxAndroid-2-1-0有一个新的API："><a href="#RxAndroid-2-1-0有一个新的API：" class="headerlink" title="RxAndroid 2.1.0有一个新的API："></a>RxAndroid 2.1.0有一个新的API：</h3><blockquote>
+<p>AndroidSchedulers#from(Looper looper, <strong>boolean async</strong>)</p>
+</blockquote>
+<p>这新的<code>async</code>参数将影响Android APIs 16 及其以上版本，如果你的APP高度依赖RxJava+RxAndroid，将这个参数设置为<code>true</code>将能够<strong>显著提升 UI 性能</strong>表现。</p>
+<p>由于RxAndroid的主要版本与RxJava绑定，我们不希望在次要版本中默默地引入重要的行为更改，所以这个API默认不启用。</p>
+<p>要安装它，你可以使用<code>RxAndroidPlugins</code>设置此API自定义的<code>scheduler</code>：</p>
+<blockquote>
+<p>EDIT：由于类加载问题，以下代码在<code>setInitMainThreadSchedulerHandler</code>上有一些错误。为了避免初始化默认值，你应该在传入的 lambda&#x2F;callable **中(inside)**调用<code>AndroidSchedulers.from(...)</code>，而不是在之前就调用；</p>
+</blockquote>
+<h4 id="Kotlin："><a href="#Kotlin：" class="headerlink" title="Kotlin："></a>Kotlin：</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="keyword">val</span> asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; asyncMainThreadScheduler);</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; asyncMainThreadScheduler);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; &#123;</span><br><span class="line">    <span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; &#123;</span><br><span class="line">    <span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>这是一个很长的时间。RxAndroid中使用主线程历来都是使用<code>Handler#post()</code>去调度新的<code>Message</code>们。这通常是需要付出代价：默认情况下这个的遵循VSYNC锁定并且将导致<strong>等待</strong>直到下一帧运行。对于通过<code>post()</code>的每一个发射，这都将是一个高达16ms的延迟。如果你已经在主线程上，这更是会加剧这种情况的发生（Ray Ryan曾经在一个出色的演讲上讲到过这个问题)。</p>
+<p>因此，在2015年，在Jake Wharton的RxBinding项目中围绕”快速路径(fastpath)”展开了讨论：主线程调度程序如果已经在主线程上并且避免VSYNC成本，则可以立即运行工作。之后这个讨论转移到RxAndroid的一个提案上，并且得到了很好的社区反馈，但是由于担心可能通过直接运行事件和冒着死锁的风险来竞争系统的事件，导致从未达成过共识；所以它受到了抨击，但对于使用者们仍旧是一个摩擦点，并且在RxAndroid2.x中提交了几个issues；</p>
+<p>很快到了2017年年初，在Uber里我们决定尝试在内部进行re-hash，并且发现它_基本上_是稳定的。我们确实时而会看到死锁，但它们很难被发现，并且看起来很罕见，值得我们换取性能上的提升。上线一年后，我们决定尝试上游化我们的实现，并且重新开启讨论。这一次，Android框架工程师（Adam Powell）看到了这个讨论，并且指出我们使用<code>Message</code>和<code>Handler</code>的异步API。这个API允许消息绕过VSYNC锁定，同时仍让框架在其looper中安全地处理所有调度，这正是我们一直想要的！</p>
+<h3 id="连线API"><a href="#连线API" class="headerlink" title="连线API"></a>连线API</h3><p>虽然异步API自API 16以来就已存在，但它们已经通过@hide隐藏在SDK中。在API22中，Message#setAsynchronous()方法变成了public。在API28中，有一个新的<code>Handler.createAsync（）</code>工厂API，它默认将它处理的所有消息设置为异步。由于这些API为操作系统中一些最关键的部分提供了动力，因此它们不太可能被更改，并且应该可以安全访问。这里有点乐趣。</p>
+<h4 id="API-22"><a href="#API-22" class="headerlink" title="API 22+"></a>API 22+</h4><p>使用上述公共<code>setAsynchronous（）</code>方法。</p>
+<h4 id="API-16-21"><a href="#API-16-21" class="headerlink" title="API[16-21]"></a>API[16-21]</h4><p>仍然使用<code>setAsynchronous（）</code>，但我们抑制了lint错误，表明它只有22+。为了避免删除&#x2F;更改内部API的任何（不太可能的）OEM情况，我们 try&#x2F;catch <code>from（）</code>调度程序工厂中的快速<code>Message＃setAsynchronous（）</code>方法调用，以确保它在运行时存在，捕获<code>NoSuchMethodError</code>，如果它丢失并且优雅地回到标准的非异步消息传递。它不是反射，因为我们知道这将在运行时，因为该方法确实存在于运行时。</p>
+<h4 id="API-16"><a href="#API-16" class="headerlink" title="API &lt; 16"></a>API &lt; 16</h4><p>没有行为更改，因为异步API不存在，所以使用标准的非异步消息传递。</p>
+<p>就是这些！我希望在使用主线程调度程序时，这可以让开发人员更加安心。请试一试并报告任何问题。 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%AF%91%E6%96%87/" rel="tag"># 译文</a>
+              <a href="/tags/RxAndroid/" rel="tag"># RxAndroid</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/26/%E8%AE%A9%E4%BD%A0%E7%9A%84Daggers%E4%BF%9D%E6%8C%81%E9%94%8B%E5%88%A9%E2%9A%94%EF%B8%8F%EF%BC%88%E8%AF%91%EF%BC%89/" rel="prev" title="让你的Daggers保持锋利⚔️（译）">
+      <i class="fa fa-chevron-left"></i> 让你的Daggers保持锋利⚔️（译）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RxAndroid-2-1-0%E6%9C%89%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84API%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">RxAndroid 2.1.0有一个新的API：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kotlin%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">Kotlin：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">Java：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E7%BA%BFAPI"><span class="nav-number">3.</span> <span class="nav-text">连线API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#API-22"><span class="nav-number">3.1.</span> <span class="nav-text">API 22+</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API-16-21"><span class="nav-number">3.2.</span> <span class="nav-text">API[16-21]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API-16"><span class="nav-number">3.3.</span> <span class="nav-text">API &lt; 16</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dimon</p>
+  <div class="site-description" itemprop="description">分享技术经验，记录生活点滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9tdXNlLnRoZW1lLW5leHQub3Jn">NexT.Muse</span> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'your-client-id',
+      clientSecret: 'your-client-secret',
+      repo        : 'Dimon94.github.io',
+      owner       : 'Dimon94',
+      admin       : ['Dimon94'],
+      id          : '4df758b3f9e5a99162ceb113de6e4d5f',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

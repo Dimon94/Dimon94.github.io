@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="原文 在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。 什么是Espresso ?Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。  我知道你现在习惯于为你的代码编写测试（至少这是我对你的期望）。  Espresso主要的三个类  ViewMatcher">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)">
+<meta property="og:url" content="https://dimon94.github.io/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Blog">
+<meta property="og:description" content="原文 在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。 什么是Espresso ?Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。  我知道你现在习惯于为你的代码编写测试（至少这是我对你的期望）。  Espresso主要的三个类  ViewMatcher">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png">
+<meta property="article:published_time" content="2018-06-10T14:36:16.000Z">
+<meta property="article:modified_time" content="2025-01-15T13:42:48.261Z">
+<meta property="article:author" content="Dimon">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="译文">
+<meta property="article:tag" content="TDD">
+<meta property="article:tag" content="测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png">
+
+<link rel="canonical" href="https://dimon94.github.io/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译) | Dimon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Dimon's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Dimon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术分享与生活记录</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="分享技术经验，记录生活点滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-10 22:36:16" itemprop="dateCreated datePublished" datetime="2018-06-10T22:36:16+08:00">2018-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-15 21:42:48" itemprop="dateModified" datetime="2025-01-15T21:42:48+08:00">2025-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Android测试</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文</p>
+<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
+<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
+<blockquote>
+<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
+</blockquote>
+<p>Espresso主要的三个类</p>
+<ol>
+<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
+<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
+<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
+</blockquote>
+<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
+<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
+<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
+<p><em>Espresso 的方法是自我解释的。</em></p>
+<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
+<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
+<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
+<p>运行测试正在通过。</p>
+<p>接下来我们将为登录成功编写测试。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
+<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
+<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%AF%91%E6%96%87/" rel="tag"># 译文</a>
+              <a href="/tags/TDD/" rel="tag"># TDD</a>
+              <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/09/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC3%E9%83%A8%E5%88%86%20-%20%E6%A8%A1%E6%8B%9F%E5%92%8C%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95(%E8%AF%91)/" rel="prev" title="如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)">
+      <i class="fa fa-chevron-left"></i> 如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/" rel="next" title="LinkedIn的高效代码检视建议(译)">
+      LinkedIn的高效代码检视建议(译) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFEspresso"><span class="nav-number">1.</span> <span class="nav-text">什么是Espresso ?</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dimon</p>
+  <div class="site-description" itemprop="description">分享技术经验，记录生活点滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9tdXNlLnRoZW1lLW5leHQub3Jn">NexT.Muse</span> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'your-client-id',
+      clientSecret: 'your-client-secret',
+      repo        : 'Dimon94.github.io',
+      owner       : 'Dimon94',
+      admin       : ['Dimon94'],
+      id          : '77c549c8bcec4c3e9fea2b1aa343775a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

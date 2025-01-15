@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。 首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：  我会从最抽象的中心走到边缘。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android架构：第三部分-在Android上应用Clean架构 (译)">
+<meta property="og:url" content="https://dimon94.github.io/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="Dimon&#39;s Blog">
+<meta property="og:description" content="到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。 首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：  我会从最抽象的中心走到边缘。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-2.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-3.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-4.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-5.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-6.png">
+<meta property="og:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-7.png">
+<meta property="article:published_time" content="2018-05-07T14:36:13.000Z">
+<meta property="article:modified_time" content="2025-01-15T12:53:34.853Z">
+<meta property="article:author" content="Dimon">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Clean架构">
+<meta property="article:tag" content="译文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://five.agency/wp-content/uploads/2016/11/Graph-1.png">
+
+<link rel="canonical" href="https://dimon94.github.io/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android架构：第三部分-在Android上应用Clean架构 (译) | Dimon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Dimon's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Dimon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术分享与生活记录</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dimon">
+      <meta itemprop="description" content="分享技术经验，记录生活点滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dimon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android架构：第三部分-在Android上应用Clean架构 (译)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-07 22:36:13" itemprop="dateCreated datePublished" datetime="2018-05-07T22:36:13+08:00">2018-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-01-15 20:53:34" itemprop="dateModified" datetime="2025-01-15T20:53:34+08:00">2025-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">Android架构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
+<p>首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="clean architecture - 1"></p>
+<p>我会从最抽象的中心走到边缘。</p>
+<span id="more"></span>
+
+<h2 id="Entities"><a href="#Entities" class="headerlink" title="Entities"></a>Entities</h2><p>Entities，即<strong>Domain 对象</strong>或业务对象，它们是App的核心。 它们代表了APP的主要功能，您应该能够通过查看它们来了解APP的功能。 它们包含业务逻辑，但仅限于它们 - 验证和类似的东西。 他们不会与外在世界的细节进行互动，也不会处理持久性。 例如，如果您有新闻APP，则这些实体将是类别，文章和商业广告。</p>
+<h2 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h2><p>Use case，又名interactors，又名business services，是Entities的扩展，是业务逻辑的延伸，也就是说。 它们包含的逻辑不仅限于一个实体，而是处理更多的实体。 一个好Use case的一个指标是，你可以用一种通用的语言描述它在一个简单的句子中的作用 - 例如，”从一个账户转移到另一个账户”。你甚至可以用这样的命名来命名该类，例如，TransferMoneyUseCase。</p>
+<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><p>Repositories用于坚持Entities。 就这么简单。 它们被定义为接口并用作想要对Entities执行CRUD操作的用例的输出端口。 另外，它们可以公开一些与持久性相关的更复杂的操作，例如过滤，聚合等。 具体的持久性策略，例如数据库或因特网，是在外层实现的。 例如，您可以命名接口AccountRepository。</p>
+<h2 id="Presenters"><a href="#Presenters" class="headerlink" title="Presenters"></a>Presenters</h2><p>如果你熟悉MVP模式，Presenters就会做你期望他们做的事情。 他们处理用户交互，调用适当的业务逻辑，并将数据发送到UI进行渲染。 这里通常有不同类型的模型之间的映射。 有些人会在这里使用Controller，这很好。 我们使用的Presenter正式被称为监督Controller。 我们通常在每个屏幕上定义一个或两个Presenters，具体取决于屏幕，Presenter的生命周期与视图的生命周期相关联。 一条建议：尝试在Presenter上将您的方法命名为技术不可知论者（technology agnostic）。 假设您不知道视图实现的技术。因此，如果您在视图中具有名为onSubmitOrderButtonClicked和onUserListItemSelected的方法，则处理这些事件的相应演示者方法可以命名为submitOrder和selectUser。</p>
+<h2 id="Device"><a href="#Device" class="headerlink" title="Device"></a>Device</h2><p>这个组件在通知（再次）例子中已经被取笑了。它包含了诸如传感器，警报，通知，播放器，各种Managers等Android提供东西的实现。它是一个由两部分组成的部分。第一部分是业务逻辑用作与外部世界进行通信的输出端口的内部圈定义的接口。第二部分，这是在图中绘制的，是这些接口的实现。因此，您可以定义例如名为Gyroscope，Alarm，Notifications和Player的接口。注意名称是抽象的和技术不可知（technology agnostic）的。业务逻辑不关心如何显示通知，玩家如何播放声音，或陀螺仪数据来自何处。您可以制作将通知写入终端，将声音数据写入日志或从预定义文件收集陀螺仪数据的实现。这样的实现对于调试或创建确定性环境是非常有用的。但是，您当然必须制作诸如AndroidAlarm，NativePlayer等实现。在大多数情况下，这些实现只是围绕Android的Manager 类的包装。</p>
+<h2 id="DB-API"><a href="#DB-API" class="headerlink" title="DB &amp; API"></a>DB &amp; API</h2><p>将存储库的实现放在这个组件中。所有这些底层持久化的东西应该在这里：DAO，ORM的东西，Retrofit（或别的东西）的东西，JSON解析等。你也可以在这里实现缓存策略，或者只是使用内存中的持久性，直到完成与应用程序的其余部分。我们最近在团队中进行了一次有趣的讨论。问题是这样的：资源库是否应公开诸如fetchUsersOffline（fetchUsersFromCache）和fetchUsersOnline（fetchUsersFromInternet）之类的方法？换句话说，业务逻辑应该知道数据来自哪里？看过这篇文章的所有内容后，答案很简单：不。但是有一个问题！如果关于数据源的决定是业务逻辑的一部分 - 例如，如果用户可以选择它，或者如果您有明确的离线模式的应用程序，那么您可以添加这样的区别。但是我不会为每个抓取定义两种方法。我可能会在资源库中公开方法，如enterOfflineMode和exitOfflineMode。或者，如果它适用于所有存储库，则可以使用输入和退出方法定义OfflineMode接口，并在业务逻辑端使用它，让存储库查询该模式并在内部进行确定。</p>
+<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>将与Android用户界面相关的所有内容放在这里 Activities，fragments，views，adapters等完成。</p>
+<h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><p>下图显示了我们如何将所有这些组件分成Android Studio模块。 你可能会发现另一个更合适的部门。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="clean architecture - 2"></p>
+<p>我们将entities，use cases，repositories和device接口分组到domain模块中。 如果您想获得额外的挑战，并获得永恒的荣耀和完全干净的设计，您可以使该模块成为纯Java模块。 它会阻止你在这里使用快捷方式并将相关的东西放在Android上。</p>
+<p>device模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 正如我们已经说过的，data模块应该包含与数据持久性相关的所有内容。 你不能让这两个人进入Java模块，因为他们需要访问各种Android的东西。 你可以将它们变成Android库。</p>
+<p>最后，我们将与UI相关的所有内容（包括presenters）分组到UI模块中。 您可以明确地命名为UI，但由于Android中的所有东西，我们将其命名为”app”，就像Android Studio在创建项目时命名的那样。</p>
+<h2 id="这样更好些了吗？"><a href="#这样更好些了吗？" class="headerlink" title="这样更好些了吗？"></a>这样更好些了吗？</h2><p>为了回答这个问题，我会抛弃Bob叔叔的图表，并将之前描述的组件扩展到像我们用来评估以前类型的体系结构的图表。 这样做后，我们得到这个：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean architecture - 3"></p>
+<p>现在让我们应用我们在以前的体系结构中使用的相同条件。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean architecture - 4"></p>
+<p>它完全由模块级别，封装级别和类级别分开。 所以SRP应该得到满足。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="clean architecture - 5"></p>
+<p>我们尽可能将Android和现实世界推到了最外面。 业务逻辑不再直接接触Android。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean architecture - 6"></p>
+<p>我们有很好的分离类，很容易测试。 接触世界的类可以使用Android测试用例进行测试; 可以使用JUnit测试它。 有人恶意可能会称这类爆炸。 我称之为可测试的。:)</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean architecture - 7"></p>
+<h2 id="Clean架构：它可能很复杂-但它是值得的"><a href="#Clean架构：它可能很复杂-但它是值得的" class="headerlink" title="Clean架构：它可能很复杂 - 但它是值得的"></a>Clean架构：它可能很复杂 - 但它是值得的</h2><p>我希望我精心挑选的标准并不是为了支持Clean架构而编造的，它会让你尝试一下。 这看起来很复杂，而且这里有很多细节，<strong>但它是值得的。</strong> 一旦你将所有东西连接起来，测试就容易得多，错误更容易隔离，新特性易于添加，代码更具可读性和可维护性，一切正常，世界满意。</p>
+<p>所以，就是这样。 如果您还没有这样做，请查看以前的系列文章：<a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Mistakes</a> 和 <a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Clean Architecture</a>。 如果您有任何意见或问题，请在下面留言。 我们总是有兴趣听到你的想法。</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">阅读我们的Android Architecture系列的第四部分<i class="fa fa-external-link-alt"></i></span>。</p>
+<p>您还可以查看其他部分：</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Part 2: The Clean Architecture</a></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Part 1: every new beginning is hard</a> </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Clean%E6%9E%B6%E6%9E%84/" rel="tag"># Clean架构</a>
+              <a href="/tags/%E8%AF%91%E6%96%87/" rel="tag"># 译文</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/" rel="prev" title="Android架构：第二部分-The clean architecture (译)">
+      <i class="fa fa-chevron-left"></i> Android架构：第二部分-The clean architecture (译)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84%EF%BC%8C%E5%AE%9E%E8%B7%B5%EF%BC%88%E5%8C%85%E5%90%AB%E6%BA%90%E4%BB%A3%E7%A0%81%EF%BC%89/" rel="next" title="Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)">
+      Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Entities"><span class="nav-number">1.</span> <span class="nav-text">Entities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Use-cases"><span class="nav-number">2.</span> <span class="nav-text">Use cases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Repositories"><span class="nav-number">3.</span> <span class="nav-text">Repositories</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenters"><span class="nav-number">4.</span> <span class="nav-text">Presenters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Device"><span class="nav-number">5.</span> <span class="nav-text">Device</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DB-API"><span class="nav-number">6.</span> <span class="nav-text">DB &amp; API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI"><span class="nav-number">7.</span> <span class="nav-text">UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modules"><span class="nav-number">8.</span> <span class="nav-text">Modules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E6%A0%B7%E6%9B%B4%E5%A5%BD%E4%BA%9B%E4%BA%86%E5%90%97%EF%BC%9F"><span class="nav-number">9.</span> <span class="nav-text">这样更好些了吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clean%E6%9E%B6%E6%9E%84%EF%BC%9A%E5%AE%83%E5%8F%AF%E8%83%BD%E5%BE%88%E5%A4%8D%E6%9D%82-%E4%BD%86%E5%AE%83%E6%98%AF%E5%80%BC%E5%BE%97%E7%9A%84"><span class="nav-number">10.</span> <span class="nav-text">Clean架构：它可能很复杂 - 但它是值得的</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dimon</p>
+  <div class="site-description" itemprop="description">分享技术经验，记录生活点滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dimon</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9tdXNlLnRoZW1lLW5leHQub3Jn">NexT.Muse</span> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'your-client-id',
+      clientSecret: 'your-client-secret',
+      repo        : 'Dimon94.github.io',
+      owner       : 'Dimon94',
+      admin       : ['Dimon94'],
+      id          : '9b480b440b63886e8c1c48c1c53f6c82',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
