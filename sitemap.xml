@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://dimon94.github.io/2024/12/18/%E9%9B%AA%E5%B1%B1%E6%9D%A5%E4%BF%A1/</loc>
+    
+    <lastmod>2025-01-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://dimon94.github.io/2024/12/23/%E4%B8%89%E6%9D%AF%E6%9B%BC%E5%93%88%E9%A1%BF/</loc>
+    
+    <lastmod>2025-01-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://dimon94.github.io/categories/index.html</loc>
     
     <lastmod>2025-01-15</lastmod>
@@ -238,6 +256,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://dimon94.github.io/tags/AI%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://dimon94.github.io/tags/AI%E7%94%9F%E6%88%90/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -270,6 +302,13 @@
   
   <url>
     <loc>https://dimon94.github.io/categories/Dependency-Injection/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://dimon94.github.io/categories/%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
