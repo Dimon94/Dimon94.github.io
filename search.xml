@@ -380,6 +380,8 @@
 <blockquote>
 <p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
 </blockquote>
+<span id="more"></span>
+
 <p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
 <p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
 <p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
@@ -634,6 +636,8 @@
 <p>AndroidSchedulers#from(Looper looper, <strong>boolean async</strong>)</p>
 </blockquote>
 <p>这新的<code>async</code>参数将影响Android APIs 16 及其以上版本，如果你的APP高度依赖RxJava+RxAndroid，将这个参数设置为<code>true</code>将能够<strong>显著提升 UI 性能</strong>表现。</p>
+<span id="more"></span>
+
 <p>由于RxAndroid的主要版本与RxJava绑定，我们不希望在次要版本中默默地引入重要的行为更改，所以这个API默认不启用。</p>
 <p>要安装它，你可以使用<code>RxAndroidPlugins</code>设置此API自定义的<code>scheduler</code>：</p>
 <blockquote>
@@ -815,6 +819,7 @@
 <blockquote>
 <p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
 </blockquote>
+<span id="more"></span>
 <p>Espresso主要的三个类</p>
 <ol>
 <li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
@@ -863,6 +868,8 @@
 </blockquote>
 <p>Dagger2是一个非常好的依赖注入库，但是其<code>锋利的边缘</code>处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们<code>伤害自己</code>！</p>
 <p><img src="https://cdn-images-1.medium.com/max/1800/1*5fsp9x_JcuJijFVotF1NQA.png" alt="Dagger2"></p>
+<span id="more"></span>
+
 <h3 id="与直接注入成员变量相比推荐通过构造函数注入"><a href="#与直接注入成员变量相比推荐通过构造函数注入" class="headerlink" title="与直接注入成员变量相比推荐通过构造函数注入"></a>与直接注入成员变量相比推荐通过构造函数注入</h3><ul>
 <li>直接注入成员变量要求为非<code>final</code>字段且非<code>private</code>字段。</li>
 </ul>

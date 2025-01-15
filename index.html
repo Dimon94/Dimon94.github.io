@@ -19,7 +19,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="分享技术经验，记录生活点滴">
@@ -126,6 +126,16 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -208,7 +218,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:55:09" itemprop="dateModified" datetime="2025-01-15T21:55:09+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:00:24" itemprop="dateModified" datetime="2025-01-15T22:00:24+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,24 +252,14 @@
 <p>AndroidSchedulers#from(Looper looper, <strong>boolean async</strong>)</p>
 </blockquote>
 <p>这新的<code>async</code>参数将影响Android APIs 16 及其以上版本，如果你的APP高度依赖RxJava+RxAndroid，将这个参数设置为<code>true</code>将能够<strong>显著提升 UI 性能</strong>表现。</p>
-<p>由于RxAndroid的主要版本与RxJava绑定，我们不希望在次要版本中默默地引入重要的行为更改，所以这个API默认不启用。</p>
-<p>要安装它，你可以使用<code>RxAndroidPlugins</code>设置此API自定义的<code>scheduler</code>：</p>
-<blockquote>
-<p>EDIT：由于类加载问题，以下代码在<code>setInitMainThreadSchedulerHandler</code>上有一些错误。为了避免初始化默认值，你应该在传入的 lambda&#x2F;callable **中(inside)**调用<code>AndroidSchedulers.from(...)</code>，而不是在之前就调用；</p>
-</blockquote>
-<h4 id="Kotlin："><a href="#Kotlin：" class="headerlink" title="Kotlin："></a>Kotlin：</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="keyword">val</span> asyncMainThreadScheduler = AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123; asyncMainThreadScheduler &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler &#123;</span><br><span class="line">    AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Before</span></span><br><span class="line"><span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; asyncMainThreadScheduler);</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; asyncMainThreadScheduler);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Correct usage</span></span><br><span class="line">RxAndroidPlugins.setInitMainThreadSchedulerHandler(callable -&gt; &#123;</span><br><span class="line">    <span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//Or if the default scheduler is already initialiazed</span></span><br><span class="line">RxAndroidPlugins.setMainThreadSchedulerHandler(scheduler -&gt; &#123;</span><br><span class="line">    <span class="type">Scheduler</span> <span class="variable">asyncMainThreadScheduler</span> <span class="operator">=</span> AndroidSchedulers.from(Looper.getMainLooper(), <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">return</span> asyncMainThreadScheduler;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>这是一个很长的时间。RxAndroid中使用主线程历来都是使用<code>Handler#post()</code>去调度新的<code>Message</code>们。这通常是需要付出代价：默认情况下这个的遵循VSYNC锁定并且将导致<strong>等待</strong>直到下一帧运行。对于通过<code>post()</code>的每一个发射，这都将是一个高达16ms的延迟。如果你已经在主线程上，这更是会加剧这种情况的发生（Ray Ryan曾经在一个出色的演讲上讲到过这个问题)。</p>
-<p>因此，在2015年，在Jake Wharton的RxBinding项目中围绕”快速路径(fastpath)”展开了讨论：主线程调度程序如果已经在主线程上并且避免VSYNC成本，则可以立即运行工作。之后这个讨论转移到RxAndroid的一个提案上，并且得到了很好的社区反馈，但是由于担心可能通过直接运行事件和冒着死锁的风险来竞争系统的事件，导致从未达成过共识；所以它受到了抨击，但对于使用者们仍旧是一个摩擦点，并且在RxAndroid2.x中提交了几个issues；</p>
-<p>很快到了2017年年初，在Uber里我们决定尝试在内部进行re-hash，并且发现它_基本上_是稳定的。我们确实时而会看到死锁，但它们很难被发现，并且看起来很罕见，值得我们换取性能上的提升。上线一年后，我们决定尝试上游化我们的实现，并且重新开启讨论。这一次，Android框架工程师（Adam Powell）看到了这个讨论，并且指出我们使用<code>Message</code>和<code>Handler</code>的异步API。这个API允许消息绕过VSYNC锁定，同时仍让框架在其looper中安全地处理所有调度，这正是我们一直想要的！</p>
-<h3 id="连线API"><a href="#连线API" class="headerlink" title="连线API"></a>连线API</h3><p>虽然异步API自API 16以来就已存在，但它们已经通过@hide隐藏在SDK中。在API22中，Message#setAsynchronous()方法变成了public。在API28中，有一个新的<code>Handler.createAsync（）</code>工厂API，它默认将它处理的所有消息设置为异步。由于这些API为操作系统中一些最关键的部分提供了动力，因此它们不太可能被更改，并且应该可以安全访问。这里有点乐趣。</p>
-<h4 id="API-22"><a href="#API-22" class="headerlink" title="API 22+"></a>API 22+</h4><p>使用上述公共<code>setAsynchronous（）</code>方法。</p>
-<h4 id="API-16-21"><a href="#API-16-21" class="headerlink" title="API[16-21]"></a>API[16-21]</h4><p>仍然使用<code>setAsynchronous（）</code>，但我们抑制了lint错误，表明它只有22+。为了避免删除&#x2F;更改内部API的任何（不太可能的）OEM情况，我们 try&#x2F;catch <code>from（）</code>调度程序工厂中的快速<code>Message＃setAsynchronous（）</code>方法调用，以确保它在运行时存在，捕获<code>NoSuchMethodError</code>，如果它丢失并且优雅地回到标准的非异步消息传递。它不是反射，因为我们知道这将在运行时，因为该方法确实存在于运行时。</p>
-<h4 id="API-16"><a href="#API-16" class="headerlink" title="API &lt; 16"></a>API &lt; 16</h4><p>没有行为更改，因为异步API不存在，所以使用标准的非异步消息传递。</p>
-<p>就是这些！我希望在使用主线程调度程序时，这可以让开发人员更加安心。请试一试并报告任何问题。 </p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/02/RxAndroid%E6%96%B0%E5%9E%8B%E5%BC%82%E6%AD%A5API%EF%BC%88%E8%AF%91%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -309,7 +309,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:53:51" itemprop="dateModified" datetime="2025-01-15T21:53:51+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:01:13" itemprop="dateModified" datetime="2025-01-15T22:01:13+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,94 +340,14 @@
 </blockquote>
 <p>Dagger2是一个非常好的依赖注入库，但是其<code>锋利的边缘</code>处理起来也是比较棘手的。这就让我们来看看Square公司通过遵循哪些最佳事件来防止工程师们<code>伤害自己</code>！</p>
 <p><img src="https://cdn-images-1.medium.com/max/1800/1*5fsp9x_JcuJijFVotF1NQA.png" alt="Dagger2"></p>
-<h3 id="与直接注入成员变量相比推荐通过构造函数注入"><a href="#与直接注入成员变量相比推荐通过构造函数注入" class="headerlink" title="与直接注入成员变量相比推荐通过构造函数注入"></a>与直接注入成员变量相比推荐通过构造函数注入</h3><ul>
-<li>直接注入成员变量要求为非<code>final</code>字段且非<code>private</code>字段。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BAD</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CardConverter</span> &#123;</span><br><span class="line">  <span class="meta">@Inject</span> PublicKeyManager publicKeyManager;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">CardConverter</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>忘记加上<code>@Inject</code>会导致<code>NullPointerException</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BAD</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CardConverter</span> &#123;</span><br><span class="line">  <span class="meta">@Inject</span> PublicKeyManager publicKeyManager;</span><br><span class="line">  Analytics analytics; <span class="comment">// Oops, forgot to @Inject</span></span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">CardConverter</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>构造函数注入是更好的方式，因为它允许<code>不可变</code>并且保证<code>线程安全</code>的对象没有部分构造的状态。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GOOD</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CardConverter</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> PublicKeyManager publicKeyManager;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">CardConverter</span><span class="params">(PublicKeyManager publicKeyManager)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.publicKeyManager = publicKeyManager;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Kotlin消除了构造函数的注入样板：</li>
-</ul>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CardConverter</span> <span class="meta">@Inject</span> <span class="keyword">constructor</span>(</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">val</span> publicKeyManager: PublicKeyManager)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>我们依旧对系统构造的对象使用成员变量注入，比如Android Activities:</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">Activity</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Component</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">inject</span><span class="params">(MainActivity activity)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Inject</span> ToastFactory toastFactory;</span><br><span class="line">  <span class="meta">@Override</span> <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    <span class="type">Component</span> <span class="variable">component</span> <span class="operator">=</span> SquareApplication.component(<span class="built_in">this</span>);</span><br><span class="line">    component.inject(<span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="单例应该非常罕见"><a href="#单例应该非常罕见" class="headerlink" title="单例应该非常罕见"></a>单例应该非常罕见</h3><ul>
-<li>当我们需要<strong>集中访问可变状态</strong>时，单例很有用。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GOOD</span></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BadgeCounter</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;Integer&gt; badgeCount;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">BadgeCounter</span><span class="params">(...)</span> &#123;</span><br><span class="line">     badgeCount = ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>如果一个对象没有可变状态时，则不需要是单例。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BAD, should not be a singleton!</span></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RealToastFactory</span> <span class="keyword">implements</span> <span class="title class_">ToastFactory</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Application context;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">RealToastFactory</span><span class="params">(Application context)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.context = context;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span> <span class="keyword">public</span> Toast <span class="title function_">makeText</span><span class="params">(<span class="type">int</span> resId, <span class="type">int</span> duration)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Toast.makeText(context, resId, duration);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在极少数情况下，我们使用作用域来<code>缓存</code>创建成本高昂的实例或者重复创建和丢弃的实例。（译者注：这也是为了让你更少的通过Dagger实现单例，因为实现太简单，可能导致滥用单例。）</li>
-</ul>
-<h3 id="与＠Provides相比更推荐＠Inject"><a href="#与＠Provides相比更推荐＠Inject" class="headerlink" title="与＠Provides相比更推荐＠Inject"></a>与<code>＠Provides</code>相比更推荐<code>＠Inject</code></h3><ul>
-<li><code>@Provides</code>方法不应该复制构造函数样板。</li>
-<li>当所有耦合问题都集中在一个地方的时候，代码更具可读性。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ToastModule</span> &#123;</span><br><span class="line">  <span class="comment">// BAD, remove this binding and add @Inject to RealToastFactory</span></span><br><span class="line">  <span class="meta">@Provides</span> RealToastFactory <span class="title function_">realToastFactory</span><span class="params">(Application context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RealToastFactory</span>(context);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>这对于<code>单例</code>尤为重要，这是你在阅读这个类的时候需要了解的关键实现细节（<strong>implementation detail</strong>）。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GOOD, I have all the details I need in one place.</span></span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BadgeCounter</span> &#123;</span><br><span class="line">  <span class="meta">@Inject</span> <span class="keyword">public</span> <span class="title function_">BadgeCounter</span><span class="params">(...)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="推荐static修饰-Provides方法"><a href="#推荐static修饰-Provides方法" class="headerlink" title="推荐static修饰@Provides方法"></a>推荐<code>static</code>修饰<code>@Provides</code>方法</h3><ul>
-<li>Dagger<code>@Provides</code>方法能够<code>static</code>修饰。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ToastModule</span> &#123;</span><br><span class="line">  <span class="meta">@Provides</span></span><br><span class="line">  <span class="keyword">static</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">(RealToastFactory factory)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> factory;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>生成的代码可以直接调用该方法，而不必创建Module实例。该方法调用可以由编译器内联。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Generated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">DaggerAppComponent</span> <span class="keyword">extends</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="meta">@Override</span> <span class="keyword">public</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ToastModule.toastFactory(realToastFactoryProvider.get())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>一个静态方法不会有太大变化，但所有绑定都是静态的，会导致相当大的性能提升。</li>
-<li>试你的模块变得抽象并且如果其中一个<code>@Provides</code>方法不是静态的，那么在编译时<code>Dagger</code>会失败。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ToastModule</span> &#123;</span><br><span class="line">  <span class="meta">@Provides</span></span><br><span class="line">  <span class="keyword">static</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">(RealToastFactory factory)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> factory;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="与＠Provides相比更推荐＠Binds"><a href="#与＠Provides相比更推荐＠Binds" class="headerlink" title="与＠Provides相比更推荐＠Binds"></a>与<code>＠Provides</code>相比更推荐<code>＠Binds</code></h3><ul>
-<li>当您将一种类型映射到另一种类型时，<code>@Binds</code>会替换<code>@Provides</code>。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ToastModule</span> &#123;</span><br><span class="line">  <span class="meta">@Binds</span></span><br><span class="line">  <span class="keyword">abstract</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">(RealToastFactory factory)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>该方法必须是抽象的。它永远不会被调用；生成的代码将知道直接使用该实现。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Generated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">DaggerAppComponent</span> <span class="keyword">extends</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">private</span> <span class="title function_">DaggerAppComponent</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="built_in">this</span>.toastFactoryProvider = (Provider) realToastFactoryProvider;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@Override</span> <span class="keyword">public</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> toastFactoryProvider.get();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="避免在接口绑定上使用-Singleton"><a href="#避免在接口绑定上使用-Singleton" class="headerlink" title="避免在接口绑定上使用@Singleton"></a>避免在接口绑定上使用<code>@Singleton</code></h3><blockquote>
-<p>Statefulness is an implementation detail</p>
-</blockquote>
-<ul>
-<li>只有实现才知道他们是否需要确保集中访问的可变状态。</li>
-<li>将实现绑定到接口时，不应该有任何作用域注释。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ToastModule</span> &#123;</span><br><span class="line">  <span class="comment">// BAD, remove @Singleton</span></span><br><span class="line">  <span class="meta">@Binds</span> <span class="meta">@Singleton</span></span><br><span class="line">  <span class="keyword">abstract</span> ToastFactory <span class="title function_">toastFactory</span><span class="params">(RealToastFactory factory)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用error-prone"><a href="#启用error-prone" class="headerlink" title="启用error-prone"></a>启用error-prone</h3><p>几个Square团队正在使用它将常见的Dagger错误检查出来。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>这些指导原则适用于我们：小型异构团队在大型共享Android代码库上工作。由于您的背景可能不同，因此您应该应用对您的团队最有意义的内容。</p>
-<p><strong>轮到你了！您遵循哪些良好做法来保持Dagger代码的清晰度？</strong> </p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/26/%E8%AE%A9%E4%BD%A0%E7%9A%84Daggers%E4%BF%9D%E6%8C%81%E9%94%8B%E5%88%A9%E2%9A%94%EF%B8%8F%EF%BC%88%E8%AF%91%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -477,7 +397,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:44:13" itemprop="dateModified" datetime="2025-01-15T21:44:13+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:01:14" itemprop="dateModified" datetime="2025-01-15T22:01:14+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -504,20 +424,14 @@
 <blockquote>
 <p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
 </blockquote>
-<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
-<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
-<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
-<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
-<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
-<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
-<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
-<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
-<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
-<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
-<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
-<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
-<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -567,7 +481,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:42:48" itemprop="dateModified" datetime="2025-01-15T21:42:48+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:00:54" itemprop="dateModified" datetime="2025-01-15T22:00:54+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -596,33 +510,14 @@
 <blockquote>
 <p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
 </blockquote>
-<p>Espresso主要的三个类</p>
-<ol>
-<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
-<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
-<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
-</blockquote>
-<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
-<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
-<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
-<p><em>Espresso 的方法是自我解释的。</em></p>
-<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
-<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
-<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
-<p>运行测试正在通过。</p>
-<p>接下来我们将为登录成功编写测试。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
-<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
-<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -994,7 +889,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:08:22" itemprop="dateModified" datetime="2025-01-15T21:08:22+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:01:15" itemprop="dateModified" datetime="2025-01-15T22:01:15+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1081,7 +976,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 21:06:51" itemprop="dateModified" datetime="2025-01-15T21:06:51+08:00">2025-01-15</time>
+                <time title="修改时间：2025-01-15 22:01:17" itemprop="dateModified" datetime="2025-01-15T22:01:17+08:00">2025-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1285,12 +1180,16 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
         <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">分类</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -1326,6 +1225,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
