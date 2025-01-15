@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>朴哲一的博客</title>
-  
+  <icon>https://dimon94.github.io/images/favicon-16x16.png</icon>
   <subtitle>日日是好日</subtitle>
   <link href="https://dimon94.github.io/atom.xml" rel="self"/>
   

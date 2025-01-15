@@ -229,6 +229,20 @@
   </url>
   
   <url>
+    <loc>https://dimon94.github.io/tags/AI%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://dimon94.github.io/tags/AI%E7%94%9F%E6%88%90/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://dimon94.github.io/tags/TDD/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -251,20 +265,6 @@
   
   <url>
     <loc>https://dimon94.github.io/tags/Best-Practices/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://dimon94.github.io/tags/AI%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://dimon94.github.io/tags/AI%E7%94%9F%E6%88%90/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -294,6 +294,13 @@
   </url>
   
   <url>
+    <loc>https://dimon94.github.io/categories/%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://dimon94.github.io/categories/Android%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -302,13 +309,6 @@
   
   <url>
     <loc>https://dimon94.github.io/categories/Dependency-Injection/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://dimon94.github.io/categories/%E7%9F%AD%E7%AF%87%E5%B0%8F%E8%AF%B4/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
