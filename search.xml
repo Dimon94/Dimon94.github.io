@@ -267,6 +267,144 @@
       </tags>
   </entry>
   <entry>
+    <title>Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)</title>
+    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84%EF%BC%8C%E5%AE%9E%E8%B7%B5%EF%BC%88%E5%8C%85%E5%90%AB%E6%BA%90%E4%BB%A3%E7%A0%81%EF%BC%89/</url>
+    <content><![CDATA[<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="clean architecture"></p>
+<p>在Android Architecture系列的最后一部分，我们将Clean Architecture稍微调整到了Android平台。 我们将Android和现实世界从业务逻辑中分离出来，让满意的利益相关者满意，并让所有事情都可以轻松测试。</p>
+<p>这个理论很好，但是当我们创建一个新的Android项目时，我们从哪里开始？ 让我们用干净的代码弄脏我们的手，并将空白的画布变成一个架构。</p>
+<span id="more"></span>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>我们将首先奠定基础 - 创建模块并建立它们之间的依赖关系，以便与依赖规则保持一致。</p>
+<p>这些将是我们的模块，从最抽象的一个到具体的实现：</p>
+<h3 id="1-domain"><a href="#1-domain" class="headerlink" title="1. domain"></a>1. domain</h3><p>Entities, use cases, repositories interfaces, 和 device interfaces 进入 domain module。</p>
+<p>理想情况下，实体和业务逻辑应该是平台不可知的。 为了安全起见，为了防止我们在这里放置一些Android的东西，我们将使它成为一个纯粹的Java模块。</p>
+<h3 id="2-data"><a href="#2-data" class="headerlink" title="2. data"></a>2. data</h3><p>数据模块应包含与数据持久性和操作相关的所有内容。 在这里，我们将找到DAO，ORM，SharedPreferences，网络相关的东西，例如Retrofit服务和类似的东西。</p>
+<h3 id="3-device"><a href="#3-device" class="headerlink" title="3. device"></a>3. device</h3><p>设备模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 例如，ConnectivityManager，NotificationManager和misc传感器的包装类。</p>
+<p>我们将使数据和设备模块都是Android模块，因为他们必须了解Android并且不能是纯Java。</p>
+<h3 id="4-The-easiest-part-app-module-UI-module"><a href="#4-The-easiest-part-app-module-UI-module" class="headerlink" title="4. The easiest part, app module (UI module)"></a>4. The easiest part, app module (UI module)</h3><p>创建项目时，Android模块已经为您创建了该模块。</p>
+<p>在这里，您可以放置与Android UI相关的所有类，例如presenters，controllers，view models，adapters和views。</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><p>依赖规则定义具体模块依赖于更抽象的模块。</p>
+<p>您可能还记得，从本系列的第三部分可以看出，UI（应用程序），DB-API（数据）和Device（设备）等东西都在外环中。 这意味着它们处于相同的抽象层次。 我们如何将它们连接在一起呢？</p>
+<p>理想情况下，这些模块仅取决于域模块。 在这种情况下，依赖关系看起来有点像明星：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="clean architecture"></p>
+<p>但是，我们在这里与Android打交道，事情并不完美。 因为我们需要创建对象图并初始化事物，所以模块有时依赖于domain以外的其他模块。</p>
+<p>例如，我们正在app模块中创建用于依赖注入的对象图。 这迫使APP模块了解所有其他模块。</p>
+<p>我们调整后的依赖关系图：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean architecture"></p>
+<p>最后，是时候编写一些代码。 为了更容易，我们将以RSS Reader APP为例。 我们的用户应该能够管理他们的RSS提要订阅，从提要中获取文章并阅读它们。</p>
+<h2 id="Domain"><a href="#Domain" class="headerlink" title="Domain"></a>Domain</h2><p>让我们从domain层开始，创建我们的核心业务模型和逻辑。</p>
+<p>我们的商业模式非常简单：</p>
+<ul>
+<li><em>Feed</em> - 持有RSS提要相关数据，如网址，缩略图网址，标题和说明</li>
+<li><em>Article</em> - 保存文章相关数据，如文章标题，网址和发布日期</li>
+</ul>
+<p>而对于我们的逻辑，我们将使用UseCases。 他们在简洁的类中封装了小部分业务逻辑。 他们都将实施通用的UseCase 契约类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们的用户在打开我们的应用时首先要做的就是添加一个新的RSS订阅。 因此，要开始使用我们的Use Case，我们将创建_AddNewFeedUseCase_及其助手来处理Feed的添加和验证逻辑。</p>
+<p>_AddNewFeedUseCase_将使用_FeedValidator_来检查Feed URL的有效性，并且我们还将创建FeedRepository 契约类，这将为我们的业务逻辑提供一些基本的CRUD功能来管理供稿数据：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">FeedRepository</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">createNewFeed</span><span class="params">(String feedUrl)</span>;</span><br><span class="line">  List&lt;Feed&gt; <span class="title function_">getUserFeeds</span><span class="params">()</span>;</span><br><span class="line">  List&lt;Article&gt; <span class="title function_">getFeedArticles</span><span class="params">(<span class="type">int</span> feedId)</span>;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">deleteFeed</span><span class="params">(<span class="type">int</span> feedId)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请注意我们在Domain层的命名是如何清楚地传递我们的APP正在做什么的想法。</p>
+<p>把所有东西放在一起，我们的_AddNewFeedUseCase_看起来像这样：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">AddNewFeedUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;String&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedValidator feedValidator;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> String feedUrl, <span class="keyword">final</span> Callback callback)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (feedValidator.isValid(feedUrl)) &#123;</span><br><span class="line">      onValidFeedUrl(feedUrl, callback);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      callback.onError(<span class="keyword">new</span> <span class="title class_">InvalidFeedUrlException</span>());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onValidFeedUrl</span><span class="params">(<span class="keyword">final</span> String feedUrl, <span class="keyword">final</span> Callback callback)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      feedRepository.createNewFeed(feedUrl);</span><br><span class="line">      callback.onSuccess();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Throwable throwable) &#123;</span><br><span class="line">      callback.onError(throwable);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ps:为简洁起见，省略构造函数。</p>
+<p>现在，您可能想知道，为什么我们的use case以及我们的回调是一个接口？</p>
+<p>为了更好地展示我们的下一个问题，让我们来研究_GetFeedArticlesUseCase_。</p>
+<p>它需要一个feedId -&gt; 通过_FeedRespository_获取提要文章 -&gt; 返回提要文章</p>
+<p>这里是数据流问题，用例介于表示层和数据层之间。 我们如何建立层之间的沟通？ 记住那些输入和输出端口？</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean architecture"></p>
+<p>我们的 Use Case必须实现输入端口（接口）。 Presenter在 Use Case上调用方法，数据流向 Use Case（feedId）。 Use Case映射feedId提供文章并希望将它们发送回表示层。 它有一个对输出端口（回调）的引用，因为输出端口是在同一层定义的，因此它调用了一个方法。 因此，数据发送到输出端口 - Presenter。</p>
+<p>我们将稍微调整我们的UseCase契约类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P, R&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span>&lt;R&gt; &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(R return)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback&lt;R&gt; callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompletableUseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>_UseCase_接口是输入端口，_Callback_接口是输出端口。</p>
+<p>现在我们可以实现我们的_GetFeedArticlesUseCase_：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">GetFeedArticlesUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;Integer, List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Integer feedId, <span class="keyword">final</span> Callback&lt;List&lt;Article&gt;&gt; callback)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      callback.onSuccess(feedRepository.getFeedArticles(feedId));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Throwable throwable) &#123;</span><br><span class="line">      callback.onError(throwable);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>让我们看看表示层如何使用我们的用例。 我们将创建一个_FeedArticlesPresenter_，它将使用我们的用例来获取文章并将它们显示在视图中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">FeedArticlesPresenter</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>.Callback&lt;List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> GetFeedArticlesUseCase getFeedArticlesUseCase;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ViewModelMapper viewModelMapper;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fetchFeedItems</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> feedId)</span> &#123;</span><br><span class="line">    getFeedArticlesUseCase.execute(feedId, <span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(<span class="keyword">final</span> List&lt;Article&gt; articles)</span> &#123;</span><br><span class="line">    getView().showArticles(viewModelMapper.mapArticlesToViewModels(articles));</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="keyword">final</span> Throwable throwable)</span> &#123;</span><br><span class="line">    getView().showErrorMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请注意，_FeedArticlesPresenter_实现了Callback接口，并将其自身传递给use case，它实际上是use case的输出端口，并以这种方式关闭了数据流。 这是我们前面提到的数据流的具体示例，我们可以在流程图上调整标签以匹配此示例：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="clean architecture"></p>
+<p>我们的参数P是feedId，返回类型R是文章列表。</p>
+<p>您不必使用Presenter来处理显示逻辑，我们可以说Clean架构是”前端”不可知的 - 这意味着您可以使用MVP，MVC，MVVM或其他任何东西。</p>
+<h2 id="让我们在混合中抛出一些Rx"><a href="#让我们在混合中抛出一些Rx" class="headerlink" title="让我们在混合中抛出一些Rx"></a>让我们在混合中抛出一些Rx</h2><p>现在，如果你想知道为什么有这样的RxJava，我们将看看我们UseCase的反应式实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P, R&gt; &#123;</span><br><span class="line">  Single&lt;R&gt; <span class="title function_">execute</span><span class="params">(P parameter)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompletableUseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  Completable <span class="title function_">execute</span><span class="params">(P parameter)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回调接口现在不见了，我们使用RxJava Single &#x2F; Completable接口作为我们的输出端口。</p>
+<p>Reactive <em>GetFeedArticlesUseCase</em>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GetFeedArticlesUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;Integer, List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> Single&lt;List&lt;Article&gt;&gt; <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Integer feedId)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> feedRepository.getFeedArticles(feedId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Reactive <em>FeedArticlePresenter</em> 如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FeedArticlesPresenter</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> GetFeedArticlesUseCase getFeedArticlesUseCase;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ViewModeMapper viewModelMapper;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fetchFeedItems</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> feedId)</span> &#123;</span><br><span class="line">    getFeedItemsUseCase.execute(feedId)</span><br><span class="line">      .map(feedViewModeMapper::mapFeedItemsToViewModels)</span><br><span class="line">      .subscribeOn(Schedulers.io())</span><br><span class="line">      .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">      .subscribe(<span class="built_in">this</span>::onSuccess, <span class="built_in">this</span>::onError);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(<span class="keyword">final</span> List articleViewModels)</span> &#123;</span><br><span class="line">    getView().showArticles(articleViewModels);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="keyword">final</span> Throwable throwable)</span> &#123;</span><br><span class="line">    getView().showErrorMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然它有点隐藏，但同样的数据流反演原理仍然存在，因为没有RxJava Presenters实现回调，并且RxJava订阅者也包含在外层 - 在Presenter的某处。</p>
+<h2 id="Data-和-Device"><a href="#Data-和-Device" class="headerlink" title="Data 和 Device"></a>Data 和 Device</h2><p>Data和Device包含业务逻辑不关心的所有实现细节。 它只关心契约类，允许您轻松测试它并在不触及业务逻辑的情况下交换实施。</p>
+<p>在这里，您可以使用自己喜欢的ORM或DAO在本地存储数据，并使用网络服务从网络获取数据。 我们将实现_FeedService_来获取文章，并使用_FeedDao_将文章数据存储在设备上。</p>
+<p>每个数据源（网络和本地存储）都将有自己的模型可供使用。</p>
+<p>在我们的例子中，它们是_ApiFeed_ - <em>ApiArticle_和_DbFeed</em> - <em>DbArticle</em>。</p>
+<p>_FeedRepository_的具体实现也可以在Data模块中找到。</p>
+<p>Device模块将持有作为_NotificationManager_类的包装的通知合同的实现。 我们也许可以使用业务逻辑中的通知来在用户可能感兴趣并推动参与的新文章发布时向用户显示通知。</p>
+<h2 id="Models-models-everywhere"><a href="#Models-models-everywhere" class="headerlink" title="Models, models everywhere."></a>Models, models everywhere.</h2><p>您可能已经注意到我们提到的不仅仅是实体或业务模型，还有更多的模型。</p>
+<p>实际上，我们也有db模型，API模型，View模型，当然还有业务模型。</p>
+<p>对于每个图层来说，都有一个很好的实践，可以使用它自己的模型，因此具体的细节（如View）不依赖于较低层实现的具体细节。 这样，例如，如果您决定从一个ORM更改为另一个，则不必分解不相关的代码。</p>
+<p>为了实现这一点，有必要在每个图层中使用对象映射器。 在示例中，我们使用_ViewModelMapper_将Domain 里的_Article_模型映射到_ArticleViewModel_。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遵循这些准则，我们创建了一个强大且多功能的架构。 起初，它可能看起来像很多代码，它有点像，但请记住，我们正在构建我们的架构以适应未来的变化和功能。 如果你做得对，未来你会感恩。</p>
+<p>在下一部分中，我们将会介绍这个架构中最重要的部分，可测试性以及如何测试它。</p>
+<p>那么，在此期间，您最感兴趣的是架构实现的哪一部分？</p>
+<p>这是Android Architecture系列的一部分。 检查我们的其他部分：</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84-%E8%AF%91/">Part 3: Applying Clean Architecture on Android</a></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Part 2: The Clean Architecture</a></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Part 1: every new beginning is hard</a> </p>
+]]></content>
+      <categories>
+        <category>Android架构</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Clean架构</tag>
+        <tag>译文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LinkedIn的高效代码检视建议(译)</title>
+    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
+<blockquote>
+<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
+</blockquote>
+<span id="more"></span>
+
+<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
+<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
+<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
+<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
+<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
+<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
+<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
+<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
+<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
+<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
+<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
+<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
+<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
+]]></content>
+      <categories>
+        <category>团队建设</category>
+      </categories>
+      <tags>
+        <tag>译文</tag>
+        <tag>CodeReview</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MVVM 架构，ViewModel 和LiveData 第一部分(译)</title>
     <url>/2018/05/13/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</url>
     <content><![CDATA[<p>原文：MVVM architecture, ViewModel and LiveData (Part 1)</p>
@@ -632,141 +770,51 @@
       </tags>
   </entry>
   <entry>
-    <title>LinkedIn的高效代码检视建议(译)</title>
-    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
+    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
+    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文</p>
+<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
+<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
 <blockquote>
-<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
+<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
 </blockquote>
 <span id="more"></span>
 
-<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
-<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
-<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
-<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
-<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
-<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
-<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
-<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
-<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
-<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
-<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
-<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
-<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
+<p>Espresso主要的三个类</p>
+<ol>
+<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
+<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
+<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
+</blockquote>
+<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
+<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
+<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
+<p><em>Espresso 的方法是自我解释的。</em></p>
+<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
+<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
+<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
+<p>运行测试正在通过。</p>
+<p>接下来我们将为登录成功编写测试。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
+<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
+<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
 ]]></content>
       <categories>
-        <category>团队建设</category>
-      </categories>
-      <tags>
-        <tag>译文</tag>
-        <tag>CodeReview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android架构：第四部分-在Android上应用Clean架构，实践（包含源代码）(译)</title>
-    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84%EF%BC%8C%E5%AE%9E%E8%B7%B5%EF%BC%88%E5%8C%85%E5%90%AB%E6%BA%90%E4%BB%A3%E7%A0%81%EF%BC%89/</url>
-    <content><![CDATA[<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="clean architecture"></p>
-<p>在Android Architecture系列的最后一部分，我们将Clean Architecture稍微调整到了Android平台。 我们将Android和现实世界从业务逻辑中分离出来，让满意的利益相关者满意，并让所有事情都可以轻松测试。</p>
-<p>这个理论很好，但是当我们创建一个新的Android项目时，我们从哪里开始？ 让我们用干净的代码弄脏我们的手，并将空白的画布变成一个架构。</p>
-<span id="more"></span>
-
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>我们将首先奠定基础 - 创建模块并建立它们之间的依赖关系，以便与依赖规则保持一致。</p>
-<p>这些将是我们的模块，从最抽象的一个到具体的实现：</p>
-<h3 id="1-domain"><a href="#1-domain" class="headerlink" title="1. domain"></a>1. domain</h3><p>Entities, use cases, repositories interfaces, 和 device interfaces 进入 domain module。</p>
-<p>理想情况下，实体和业务逻辑应该是平台不可知的。 为了安全起见，为了防止我们在这里放置一些Android的东西，我们将使它成为一个纯粹的Java模块。</p>
-<h3 id="2-data"><a href="#2-data" class="headerlink" title="2. data"></a>2. data</h3><p>数据模块应包含与数据持久性和操作相关的所有内容。 在这里，我们将找到DAO，ORM，SharedPreferences，网络相关的东西，例如Retrofit服务和类似的东西。</p>
-<h3 id="3-device"><a href="#3-device" class="headerlink" title="3. device"></a>3. device</h3><p>设备模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 例如，ConnectivityManager，NotificationManager和misc传感器的包装类。</p>
-<p>我们将使数据和设备模块都是Android模块，因为他们必须了解Android并且不能是纯Java。</p>
-<h3 id="4-The-easiest-part-app-module-UI-module"><a href="#4-The-easiest-part-app-module-UI-module" class="headerlink" title="4. The easiest part, app module (UI module)"></a>4. The easiest part, app module (UI module)</h3><p>创建项目时，Android模块已经为您创建了该模块。</p>
-<p>在这里，您可以放置与Android UI相关的所有类，例如presenters，controllers，view models，adapters和views。</p>
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><p>依赖规则定义具体模块依赖于更抽象的模块。</p>
-<p>您可能还记得，从本系列的第三部分可以看出，UI（应用程序），DB-API（数据）和Device（设备）等东西都在外环中。 这意味着它们处于相同的抽象层次。 我们如何将它们连接在一起呢？</p>
-<p>理想情况下，这些模块仅取决于域模块。 在这种情况下，依赖关系看起来有点像明星：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="clean architecture"></p>
-<p>但是，我们在这里与Android打交道，事情并不完美。 因为我们需要创建对象图并初始化事物，所以模块有时依赖于domain以外的其他模块。</p>
-<p>例如，我们正在app模块中创建用于依赖注入的对象图。 这迫使APP模块了解所有其他模块。</p>
-<p>我们调整后的依赖关系图：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean architecture"></p>
-<p>最后，是时候编写一些代码。 为了更容易，我们将以RSS Reader APP为例。 我们的用户应该能够管理他们的RSS提要订阅，从提要中获取文章并阅读它们。</p>
-<h2 id="Domain"><a href="#Domain" class="headerlink" title="Domain"></a>Domain</h2><p>让我们从domain层开始，创建我们的核心业务模型和逻辑。</p>
-<p>我们的商业模式非常简单：</p>
-<ul>
-<li><em>Feed</em> - 持有RSS提要相关数据，如网址，缩略图网址，标题和说明</li>
-<li><em>Article</em> - 保存文章相关数据，如文章标题，网址和发布日期</li>
-</ul>
-<p>而对于我们的逻辑，我们将使用UseCases。 他们在简洁的类中封装了小部分业务逻辑。 他们都将实施通用的UseCase 契约类：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们的用户在打开我们的应用时首先要做的就是添加一个新的RSS订阅。 因此，要开始使用我们的Use Case，我们将创建_AddNewFeedUseCase_及其助手来处理Feed的添加和验证逻辑。</p>
-<p>_AddNewFeedUseCase_将使用_FeedValidator_来检查Feed URL的有效性，并且我们还将创建FeedRepository 契约类，这将为我们的业务逻辑提供一些基本的CRUD功能来管理供稿数据：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">FeedRepository</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="title function_">createNewFeed</span><span class="params">(String feedUrl)</span>;</span><br><span class="line">  List&lt;Feed&gt; <span class="title function_">getUserFeeds</span><span class="params">()</span>;</span><br><span class="line">  List&lt;Article&gt; <span class="title function_">getFeedArticles</span><span class="params">(<span class="type">int</span> feedId)</span>;</span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">deleteFeed</span><span class="params">(<span class="type">int</span> feedId)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>请注意我们在Domain层的命名是如何清楚地传递我们的APP正在做什么的想法。</p>
-<p>把所有东西放在一起，我们的_AddNewFeedUseCase_看起来像这样：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">AddNewFeedUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;String&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedValidator feedValidator;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> String feedUrl, <span class="keyword">final</span> Callback callback)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (feedValidator.isValid(feedUrl)) &#123;</span><br><span class="line">      onValidFeedUrl(feedUrl, callback);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      callback.onError(<span class="keyword">new</span> <span class="title class_">InvalidFeedUrlException</span>());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onValidFeedUrl</span><span class="params">(<span class="keyword">final</span> String feedUrl, <span class="keyword">final</span> Callback callback)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      feedRepository.createNewFeed(feedUrl);</span><br><span class="line">      callback.onSuccess();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Throwable throwable) &#123;</span><br><span class="line">      callback.onError(throwable);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ps:为简洁起见，省略构造函数。</p>
-<p>现在，您可能想知道，为什么我们的use case以及我们的回调是一个接口？</p>
-<p>为了更好地展示我们的下一个问题，让我们来研究_GetFeedArticlesUseCase_。</p>
-<p>它需要一个feedId -&gt; 通过_FeedRespository_获取提要文章 -&gt; 返回提要文章</p>
-<p>这里是数据流问题，用例介于表示层和数据层之间。 我们如何建立层之间的沟通？ 记住那些输入和输出端口？</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean architecture"></p>
-<p>我们的 Use Case必须实现输入端口（接口）。 Presenter在 Use Case上调用方法，数据流向 Use Case（feedId）。 Use Case映射feedId提供文章并希望将它们发送回表示层。 它有一个对输出端口（回调）的引用，因为输出端口是在同一层定义的，因此它调用了一个方法。 因此，数据发送到输出端口 - Presenter。</p>
-<p>我们将稍微调整我们的UseCase契约类：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P, R&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span>&lt;R&gt; &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(R return)</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback&lt;R&gt; callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompletableUseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable throwable)</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(P parameter, Callback callback)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>_UseCase_接口是输入端口，_Callback_接口是输出端口。</p>
-<p>现在我们可以实现我们的_GetFeedArticlesUseCase_：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">GetFeedArticlesUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;Integer, List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Integer feedId, <span class="keyword">final</span> Callback&lt;List&lt;Article&gt;&gt; callback)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      callback.onSuccess(feedRepository.getFeedArticles(feedId));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Throwable throwable) &#123;</span><br><span class="line">      callback.onError(throwable);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>让我们看看表示层如何使用我们的用例。 我们将创建一个_FeedArticlesPresenter_，它将使用我们的用例来获取文章并将它们显示在视图中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">FeedArticlesPresenter</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>.Callback&lt;List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> GetFeedArticlesUseCase getFeedArticlesUseCase;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ViewModelMapper viewModelMapper;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fetchFeedItems</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> feedId)</span> &#123;</span><br><span class="line">    getFeedArticlesUseCase.execute(feedId, <span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(<span class="keyword">final</span> List&lt;Article&gt; articles)</span> &#123;</span><br><span class="line">    getView().showArticles(viewModelMapper.mapArticlesToViewModels(articles));</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="keyword">final</span> Throwable throwable)</span> &#123;</span><br><span class="line">    getView().showErrorMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>请注意，_FeedArticlesPresenter_实现了Callback接口，并将其自身传递给use case，它实际上是use case的输出端口，并以这种方式关闭了数据流。 这是我们前面提到的数据流的具体示例，我们可以在流程图上调整标签以匹配此示例：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="clean architecture"></p>
-<p>我们的参数P是feedId，返回类型R是文章列表。</p>
-<p>您不必使用Presenter来处理显示逻辑，我们可以说Clean架构是”前端”不可知的 - 这意味着您可以使用MVP，MVC，MVVM或其他任何东西。</p>
-<h2 id="让我们在混合中抛出一些Rx"><a href="#让我们在混合中抛出一些Rx" class="headerlink" title="让我们在混合中抛出一些Rx"></a>让我们在混合中抛出一些Rx</h2><p>现在，如果你想知道为什么有这样的RxJava，我们将看看我们UseCase的反应式实现：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UseCase</span>&lt;P, R&gt; &#123;</span><br><span class="line">  Single&lt;R&gt; <span class="title function_">execute</span><span class="params">(P parameter)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompletableUseCase</span>&lt;P&gt; &#123;</span><br><span class="line">  Completable <span class="title function_">execute</span><span class="params">(P parameter)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>回调接口现在不见了，我们使用RxJava Single &#x2F; Completable接口作为我们的输出端口。</p>
-<p>Reactive <em>GetFeedArticlesUseCase</em>：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GetFeedArticlesUseCase</span> <span class="keyword">implements</span> <span class="title class_">UseCase</span>&lt;Integer, List&lt;Article&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> FeedRepository feedRepository;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> Single&lt;List&lt;Article&gt;&gt; <span class="title function_">execute</span><span class="params">(<span class="keyword">final</span> Integer feedId)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> feedRepository.getFeedArticles(feedId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Reactive <em>FeedArticlePresenter</em> 如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FeedArticlesPresenter</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> GetFeedArticlesUseCase getFeedArticlesUseCase;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> ViewModeMapper viewModelMapper;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fetchFeedItems</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> feedId)</span> &#123;</span><br><span class="line">    getFeedItemsUseCase.execute(feedId)</span><br><span class="line">      .map(feedViewModeMapper::mapFeedItemsToViewModels)</span><br><span class="line">      .subscribeOn(Schedulers.io())</span><br><span class="line">      .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">      .subscribe(<span class="built_in">this</span>::onSuccess, <span class="built_in">this</span>::onError);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(<span class="keyword">final</span> List articleViewModels)</span> &#123;</span><br><span class="line">    getView().showArticles(articleViewModels);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="keyword">final</span> Throwable throwable)</span> &#123;</span><br><span class="line">    getView().showErrorMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>虽然它有点隐藏，但同样的数据流反演原理仍然存在，因为没有RxJava Presenters实现回调，并且RxJava订阅者也包含在外层 - 在Presenter的某处。</p>
-<h2 id="Data-和-Device"><a href="#Data-和-Device" class="headerlink" title="Data 和 Device"></a>Data 和 Device</h2><p>Data和Device包含业务逻辑不关心的所有实现细节。 它只关心契约类，允许您轻松测试它并在不触及业务逻辑的情况下交换实施。</p>
-<p>在这里，您可以使用自己喜欢的ORM或DAO在本地存储数据，并使用网络服务从网络获取数据。 我们将实现_FeedService_来获取文章，并使用_FeedDao_将文章数据存储在设备上。</p>
-<p>每个数据源（网络和本地存储）都将有自己的模型可供使用。</p>
-<p>在我们的例子中，它们是_ApiFeed_ - <em>ApiArticle_和_DbFeed</em> - <em>DbArticle</em>。</p>
-<p>_FeedRepository_的具体实现也可以在Data模块中找到。</p>
-<p>Device模块将持有作为_NotificationManager_类的包装的通知合同的实现。 我们也许可以使用业务逻辑中的通知来在用户可能感兴趣并推动参与的新文章发布时向用户显示通知。</p>
-<h2 id="Models-models-everywhere"><a href="#Models-models-everywhere" class="headerlink" title="Models, models everywhere."></a>Models, models everywhere.</h2><p>您可能已经注意到我们提到的不仅仅是实体或业务模型，还有更多的模型。</p>
-<p>实际上，我们也有db模型，API模型，View模型，当然还有业务模型。</p>
-<p>对于每个图层来说，都有一个很好的实践，可以使用它自己的模型，因此具体的细节（如View）不依赖于较低层实现的具体细节。 这样，例如，如果您决定从一个ORM更改为另一个，则不必分解不相关的代码。</p>
-<p>为了实现这一点，有必要在每个图层中使用对象映射器。 在示例中，我们使用_ViewModelMapper_将Domain 里的_Article_模型映射到_ArticleViewModel_。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遵循这些准则，我们创建了一个强大且多功能的架构。 起初，它可能看起来像很多代码，它有点像，但请记住，我们正在构建我们的架构以适应未来的变化和功能。 如果你做得对，未来你会感恩。</p>
-<p>在下一部分中，我们将会介绍这个架构中最重要的部分，可测试性以及如何测试它。</p>
-<p>那么，在此期间，您最感兴趣的是架构实现的哪一部分？</p>
-<p>这是Android Architecture系列的一部分。 检查我们的其他部分：</p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
-<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84-%E8%AF%91/">Part 3: Applying Clean Architecture on Android</a></p>
-<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Part 2: The Clean Architecture</a></p>
-<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Part 1: every new beginning is hard</a> </p>
-]]></content>
-      <categories>
-        <category>Android架构</category>
+        <category>Android测试</category>
       </categories>
       <tags>
         <tag>Android</tag>
-        <tag>Clean架构</tag>
         <tag>译文</tag>
+        <tag>TDD</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -805,54 +853,6 @@
 <p>End</p>
 <p>同时，希望听到有关这方面的建议和意见。</p>
 <p>干杯🍻!!! </p>
-]]></content>
-      <categories>
-        <category>Android测试</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>译文</tag>
-        <tag>TDD</tag>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
-    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文</p>
-<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
-<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
-<blockquote>
-<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
-</blockquote>
-<span id="more"></span>
-
-<p>Espresso主要的三个类</p>
-<ol>
-<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
-<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
-<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
-</blockquote>
-<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
-<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
-<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
-<p><em>Espresso 的方法是自我解释的。</em></p>
-<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
-<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
-<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
-<p>运行测试正在通过。</p>
-<p>接下来我们将为登录成功编写测试。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
-<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
-<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
 ]]></content>
       <categories>
         <category>Android测试</category>
