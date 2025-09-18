@@ -4,7 +4,7 @@
   <subtitle>日日是好日</subtitle>
   <link href="https://dimon94.github.io/atom.xml" rel="self"/>
   <link href="https://dimon94.github.io/"/>
-  <updated>2025-09-18T13:39:53.033Z</updated>
+  <updated>2025-09-18T13:53:13.279Z</updated>
   <id>https://dimon94.github.io/</id>
   
   <author>
@@ -23,7 +23,7 @@
     <link href="https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/"/>
     <id>https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/</id>
     <published>2025-09-18T13:37:16.000Z</published>
-    <updated>2025-09-18T13:39:53.033Z</updated>
+    <updated>2025-09-18T13:53:13.279Z</updated>
     
     <content type="html"><![CDATA[&lt;h2 id=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;a href=&quot;#那个让我热血沸腾的下午&quot; class=&quot;headerlink&quot; title=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;/a&gt;那个让我热血沸腾的下午&lt;/h2&gt;&lt;p&gt;我至今还记得第一次看到 CCPM (&lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL2F1dG9tYXplaW8vY2NwbQ==&quot;&gt;https://github.com/automazeio/ccpm&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;) 项目的那个下午。&lt;/p&gt;
 &lt;p&gt;看到这个项目 GitHub 上 4.7K 个 star，心想：妥了！&lt;/p&gt;
@@ -66,7 +66,7 @@
 &lt;h3 id=&quot;不怕掉线的安全感：-flow-restart&quot;&gt;&lt;a href=&quot;#不怕掉线的安全感：-flow-restart&quot; class=&quot;headerlink&quot; title=&quot;不怕掉线的安全感：/flow-restart&quot;&gt;&lt;/a&gt;不怕掉线的安全感：&lt;code&gt;/flow-restart&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;最让我安心的是这个功能。就算开发过程中电脑蓝屏了、网络断了，你都不用慌。回来后，只需对“老王”说一声：&lt;br&gt;&lt;code&gt;/flow-restart &amp;quot;REQ-100&lt;/code&gt;”&lt;br&gt;他就能立刻从上次中断的地方接着干，绝不会把做过的工作再做一遍，更不会忘记自己干到哪了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/81392339-353C-49EC-B8E7-F718C93DEBFF_2/2cKAn5I1kSRcKyAvUdBKhOzdiIbXbQq8Zb1mxMbCeUwz/Image.png&quot; alt=&quot;Image.png&quot;&gt;&lt;/p&gt;
 &lt;p&gt;当我终于用&lt;code&gt;cc-devflow&lt;/code&gt;完整地跑通第一个需求，看着屏幕上自动弹出的GitHub Pull Request创建成功的通知时，我知道，我成功了。&lt;/p&gt;
-&lt;p&gt;五、我的新角色：从“码农”到AI“产品经理”&lt;br&gt;这次经历，彻底改变了我对未来工作的看法。我意识到，我的工作性质，可能永远地改变了。&lt;/p&gt;
+&lt;h2 id=&quot;我的新角色：从“码农”到AI“产品经理”&quot;&gt;&lt;a href=&quot;#我的新角色：从“码农”到AI“产品经理”&quot; class=&quot;headerlink&quot; title=&quot;我的新角色：从“码农”到AI“产品经理”&quot;&gt;&lt;/a&gt;我的新角色：从“码农”到AI“产品经理”&lt;/h2&gt;&lt;p&gt;这次经历，彻底改变了我对未来工作的看法。我意识到，我的工作性质，可能永远地改变了。&lt;/p&gt;
 &lt;p&gt;我不再是那个埋头写每一行代码的人了。&lt;/p&gt;
 &lt;p&gt;我的价值，不再是“写得快不快”，而是“想得清不清楚”。我需要把需求定义得无比清晰，这样我的AI团队才能正确地理解和执行。&lt;/p&gt;
 &lt;p&gt;我大部分的时间，开始花在设计和优化&lt;code&gt;.claude/agents/&lt;/code&gt;目录下的那些提示词（Prompt）和工作流程（SOP）上，就像在为我的AI员工们编写岗位说明书和培训手册。&lt;/p&gt;
