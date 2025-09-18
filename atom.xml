@@ -4,7 +4,7 @@
   <subtitle>日日是好日</subtitle>
   <link href="https://dimon94.github.io/atom.xml" rel="self"/>
   <link href="https://dimon94.github.io/"/>
-  <updated>2025-01-15T16:47:52.468Z</updated>
+  <updated>2025-09-18T13:28:35.426Z</updated>
   <id>https://dimon94.github.io/</id>
   
   <author>
@@ -17,6 +17,75 @@
     <feedId>102401408877157380</feedId>
     <userId>71048939542365180</userId>
   </follow_challenge>
+  
+  <entry>
+    <title>我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了</title>
+    <link href="https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/"/>
+    <id>https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/</id>
+    <published>2025-09-18T13:37:16.000Z</published>
+    <updated>2025-09-18T13:28:35.426Z</updated>
+    
+    <content type="html"><![CDATA[&lt;h1 id=&quot;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot;&gt;&lt;a href=&quot;#我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot; class=&quot;headerlink&quot; title=&quot;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot;&gt;&lt;/a&gt;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&lt;/h1&gt;&lt;h2 id=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;a href=&quot;#那个让我热血沸腾的下午&quot; class=&quot;headerlink&quot; title=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;/a&gt;那个让我热血沸腾的下午&lt;/h2&gt;&lt;p&gt;我至今还记得第一次看到 CCPM (&lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL2F1dG9tYXplaW8vY2NwbQ==&quot;&gt;https://github.com/automazeio/ccpm&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;) 项目的那个下午。&lt;/p&gt;
+&lt;p&gt;看到这个项目 GitHub 上 4.7K 个 star，心想：妥了！&lt;/p&gt;
+&lt;p&gt;屏幕上，一行行命令被敲下，AI智能体（Agent）像一支训练有素的特种部队，自动分析需求、创建任务、并行处理开发……一切井然有序，充满了未来感。&lt;/p&gt;
+&lt;p&gt;我当时的感觉，就像是寻觅多年的屠龙刀终于现世。我激动地拍着大腿，告诉自己：就是它了，敏捷开发的终极答案！纯 AI 口喷代码要升级为自动化开发了！！！&lt;/p&gt;
+&lt;p&gt;我摩拳擦掌，立刻在自己的项目里部署了这套系统，准备大干一场。我幻想着，从此以后，我只需要提出需求，我的“AI军团”就会夜以继日地为我工作，交付完美的代码。&lt;/p&gt;
+&lt;p&gt;然而，我没高兴太久。两天后，一个残酷的现实几乎把我从云端拽回了地面。&lt;/p&gt;
+&lt;h2 id=&quot;踩坑实录：我的“AI军团”怎么成了一群“金鱼”？&quot;&gt;&lt;a href=&quot;#踩坑实录：我的“AI军团”怎么成了一群“金鱼”？&quot; class=&quot;headerlink&quot; title=&quot;踩坑实录：我的“AI军团”怎么成了一群“金鱼”？&quot;&gt;&lt;/a&gt;踩坑实录：我的“AI军团”怎么成了一群“金鱼”？&lt;/h2&gt;&lt;p&gt;一开始还算顺利，但很快，问题就一个接一个地冒了出来。&lt;/p&gt;
+&lt;p&gt;我让Claude Code 开发一个AI 小说编译器，一开始用 GPT-5 生成的 PRD（大家都说 GPT-5 计划能力比 Claude 强，适合做架构师），CCPM一顿输出，在 GitHub 项目里生成了一堆 Issue，开始生成一堆开发流的子代理开始深入开发，我发现每个开发流开发的代码都比较差强人意。&lt;/p&gt;
+&lt;p&gt;更要命的是，它们好像都患上了“短期失忆症”，记忆力跟金鱼差不多，只有7秒。&lt;/p&gt;
+&lt;p&gt;每一次启动一个子任务，它都得把所有的项目资料、代码规范、需求文档重新读一遍。&lt;/p&gt;
+&lt;p&gt;我感觉自己不像个运筹帷幄的指挥官，倒像个絮絮叨叨的老妈子，跟在一群健忘的机器人屁股后面，一遍遍重复着：“这是需求文档，拿去看！”，“这是代码规范，别忘了！”，“刚刚那个API是这么定义的，你倒是记一下啊！”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/1E4C54A8-9397-435E-84A1-A1E463DC6021_2/wYwBOru9vegZRsTkf1stplWG9CDenzQE5ekNcIlc1ycz/Image.png&quot; alt=&quot;Image.png&quot;&gt;&lt;/p&gt;
+&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+
+&lt;p&gt;这种“失忆”的代价是巨大的。&lt;/p&gt;
+&lt;p&gt;那天，我怀着忐忑的心情点开了我的Token账单，心瞬间凉了半截。那串不断跳动的数字狠狠地告诉我：我的“AI军团”主要工作不是在写代码，而是在烧钱。&lt;/p&gt;
+&lt;p&gt;每一次“失忆”，都是一次昂贵得离谱的上下文重复加载。&lt;/p&gt;
+&lt;p&gt;我第一次对AI自动化的前景产生了怀疑。这条路，真的走得通吗？至少以这种方式，肯定走不通。&lt;/p&gt;
+&lt;p&gt;后面我查到，Claude Code 子代理（Sub-agent）与主代理的上下文不共享。为了完成任务，子代理需要反复查询和加载项目资料，导致上下文信息重复、混乱且极易丢失。&lt;/p&gt;
+&lt;p&gt;上下文的反复加载，使得每一次调用都成本高昂，让自动化流程在经济上变得不可行。&lt;/p&gt;
+&lt;h2 id=&quot;坑底的思考：问题不在AI，在“管理模式”&quot;&gt;&lt;a href=&quot;#坑底的思考：问题不在AI，在“管理模式”&quot; class=&quot;headerlink&quot; title=&quot;坑底的思考：问题不在AI，在“管理模式”&quot;&gt;&lt;/a&gt;坑底的思考：问题不在AI，在“管理模式”&lt;/h2&gt;&lt;p&gt;碰壁之后，我冷静了一下。我关掉IDE，开始复盘。&lt;/p&gt;
+&lt;p&gt;我问自己一个问题：如果这是一个真人团队，我会怎么管理？&lt;/p&gt;
+&lt;p&gt;我绝不会找来10个刚毕业的实习生，把他们关在一个会议室里，扔给他们一堆文档，然后说“你们开始干活吧，自由发挥”。那只会是一场灾难。&lt;/p&gt;
+&lt;p&gt;一个高效的团队，必然有清晰的层级和分工。&lt;/p&gt;
+&lt;p&gt;这时，我脑子里闪过一道光，瞬间想通了。&lt;/p&gt;
+&lt;p&gt;CCPM那一套并行模式，像什么呢？&lt;/p&gt;
+&lt;p&gt;虽然项目名称叫做 PM，但是它却像一个没有项目经理的“扁平化委员会”。每个AI Agent都是平等的成员，信息共享基本靠吼（反复读取公共资料），最终导致信息过载、责任不清、效率低下。&lt;/p&gt;
+&lt;p&gt;我真正需要的，应该是什么呢？&lt;/p&gt;
+&lt;p&gt;我需要一个“高效指挥部”！必须有一个唯一的项目经理（PM），他掌握所有信息和最终决策权。团队其他成员都是领域专家（前端、后端、测试等）。专家们接任务、做研究、写分析报告，然后把报告统一交给PM来整合和执行。专家不需要、也不应该知道项目的全部细节，那只会干扰他们的专业判断。&lt;/p&gt;
+&lt;p&gt;这个“指挥官-专家”模式，就是我找到的答案！我立刻为我的AI团队重新制定了铁律：&lt;/p&gt;
+&lt;p&gt;唯一的“指挥官”: 必须有一个主Agent，它独占所有“写”权限，是唯一的代码“操盘手”，手握最终代码库的写入权限。&lt;br&gt;专注的“专家们”: 其他所有子Agent，都降级为“研究员”和“规划师”。它们只负责思考和写文档（比如需求分析、技术方案），然后把报告交上来。它们不准碰代码。&lt;br&gt;这样一来，上下文永远是统一的，“指挥官”拥有最完整的记忆。Token成本也瞬间降低，因为不再需要反复加载那昂贵的基础信息了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/CFF5F8C2-5C09-4775-81D9-94BF6ACD00BE_2/4ODCvczKXZoDb62fm5yic9EXb31MbxgvsTZyjxfBTE4z/Image.png&quot; alt=&quot;Image.png&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;动手开干：打造我的“AI开发流水线”cc-devflow&quot;&gt;&lt;a href=&quot;#动手开干：打造我的“AI开发流水线”cc-devflow&quot; class=&quot;headerlink&quot; title=&quot;动手开干：打造我的“AI开发流水线”cc-devflow&quot;&gt;&lt;/a&gt;动手开干：打造我的“AI开发流水线”&lt;code&gt;cc-devflow&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;有了新思路，我立刻开始敲代码。&lt;/p&gt;
+&lt;p&gt;这一次，我的目标不再是造一个更聪明的AI，而是设计一套更聪明的“工作流程”。我要让开发者真正成为指挥官，只需要下达一个命令，剩下的交给这条自动流水线。&lt;/p&gt;
+&lt;p&gt;我把它命名为&lt;code&gt;cc-devflow&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;它的核心，就是那套“指挥部”规矩，我把它变成了真实可用的代码：&lt;/p&gt;
+&lt;h3 id=&quot;一行命令的魔法：-flow-new&quot;&gt;&lt;a href=&quot;#一行命令的魔法：-flow-new&quot; class=&quot;headerlink&quot; title=&quot;一行命令的魔法：/flow-new&quot;&gt;&lt;/a&gt;一行命令的魔法：&lt;code&gt;/flow-new&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;过去，启动一个复杂任务需要敲一连串命令。现在，你只需要在终端输入：&lt;br&gt;&lt;code&gt;/flow-new &amp;quot;REQ-123|用户下单支持&amp;quot;&lt;/code&gt;&lt;br&gt;这就像你走到AI项目经理“老王”的工位，把需求文档拍在他桌上说：“老王，这个需求你跟一下，从头到尾。” 简单、直接。&lt;/p&gt;
+&lt;h3 id=&quot;透明的进度条：-flow-status&quot;&gt;&lt;a href=&quot;#透明的进度条：-flow-status&quot; class=&quot;headerlink&quot; title=&quot;透明的进度条：/flow-status&quot;&gt;&lt;/a&gt;透明的进度条：&lt;code&gt;/flow-status&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;项目开始后，你随时可以像老板一样，问一句：“老王，那事儿到哪一步了？”&lt;br&gt;&lt;code&gt;/flow-status REQ-100 --detailed&lt;/code&gt;&lt;br&gt;他会立刻给你一份清晰的进度报告，告诉你需求分析、任务拆解、编码、测试分别进行到哪个阶段了，绝不藏着掖着。&lt;/p&gt;
+&lt;h3 id=&quot;不怕掉线的安全感：-flow-restart&quot;&gt;&lt;a href=&quot;#不怕掉线的安全感：-flow-restart&quot; class=&quot;headerlink&quot; title=&quot;不怕掉线的安全感：/flow-restart&quot;&gt;&lt;/a&gt;不怕掉线的安全感：&lt;code&gt;/flow-restart&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;最让我安心的是这个功能。就算开发过程中电脑蓝屏了、网络断了，你都不用慌。回来后，只需对“老王”说一声：&lt;br&gt;&lt;code&gt;/flow-restart &amp;quot;REQ-100&lt;/code&gt;”&lt;br&gt;他就能立刻从上次中断的地方接着干，绝不会把做过的工作再做一遍，更不会忘记自己干到哪了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/81392339-353C-49EC-B8E7-F718C93DEBFF_2/2cKAn5I1kSRcKyAvUdBKhOzdiIbXbQq8Zb1mxMbCeUwz/Image.png&quot; alt=&quot;Image.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;当我终于用&lt;code&gt;cc-devflow&lt;/code&gt;完整地跑通第一个需求，看着屏幕上自动弹出的GitHub Pull Request创建成功的通知时，我知道，我成功了。&lt;/p&gt;
+&lt;p&gt;五、我的新角色：从“码农”到AI“产品经理”&lt;br&gt;这次经历，彻底改变了我对未来工作的看法。我意识到，我的工作性质，可能永远地改变了。&lt;/p&gt;
+&lt;p&gt;我不再是那个埋头写每一行代码的人了。&lt;/p&gt;
+&lt;p&gt;我的价值，不再是“写得快不快”，而是“想得清不清楚”。我需要把需求定义得无比清晰，这样我的AI团队才能正确地理解和执行。&lt;/p&gt;
+&lt;p&gt;我大部分的时间，开始花在设计和优化&lt;code&gt;.claude/agents/&lt;/code&gt;目录下的那些提示词（Prompt）和工作流程（SOP）上，就像在为我的AI员工们编写岗位说明书和培训手册。&lt;/p&gt;
+&lt;p&gt;我成为了我自己的AI团队的“产品经理”和“流程架构师”。&lt;/p&gt;
+&lt;p&gt;这并不可怕，相反，这很酷。它把我们从重复的、机械的体力劳动中解放出来，去做更具创造性和战略性的思考。你，准备好成为AI的管理者了吗？&lt;/p&gt;
+&lt;h2 id=&quot;写在最后：这不是终点，而是我们共同的起点&quot;&gt;&lt;a href=&quot;#写在最后：这不是终点，而是我们共同的起点&quot; class=&quot;headerlink&quot; title=&quot;写在最后：这不是终点，而是我们共同的起点&quot;&gt;&lt;/a&gt;写在最后：这不是终点，而是我们共同的起点&lt;/h2&gt;&lt;p&gt;故事讲到这里，也该结尾了。&lt;/p&gt;
+&lt;p&gt;我把&lt;code&gt;cc-devflow&lt;/code&gt;这个项目，连同我所有的思考和踩坑经验，都开源了。&lt;/p&gt;
+&lt;p&gt;GitHub链接：&lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL0RpbW9uOTQvY2MtZGV2Zmxvdw==&quot;&gt;https://github.com/Dimon94/cc-devflow&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;因为我踩过的坑，不希望你再踩一遍。这条探索之路，我一个人走很辛苦，但如果有一群志同道合的人一起走，或许能走得更快、更远。&lt;/p&gt;
+&lt;p&gt;你可以通过下面这行简单的命令，立刻“认领”你自己的AI开发团队：&lt;br&gt;&lt;code&gt;npx tiged Dimon94/cc-devflow/.claude .claude&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果你对这个项目有任何想法，或者你也有自己的“踩坑故事”，都非常欢迎来GitHub的Issue里分享。&lt;code&gt;cc-devflow&lt;/code&gt;不是一个完美的终点，而是我们共同探索AI协作新范式的起点。&lt;/p&gt;
+]]></content>
+    
+      <category term="Dependency Injection"/>
+    
+    
+      <category term="AI"/>
+    
+  </entry>
   
   <entry>
     <title>三杯曼哈顿</title>

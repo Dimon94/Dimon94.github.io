@@ -70,118 +70,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Android架构：第三部分-在Android上应用Clean架构 (译)</title>
-    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/</url>
-    <content><![CDATA[<p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
-<p>首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="clean architecture - 1"></p>
-<p>我会从最抽象的中心走到边缘。</p>
-<span id="more"></span>
-
-<h2 id="Entities"><a href="#Entities" class="headerlink" title="Entities"></a>Entities</h2><p>Entities，即<strong>Domain 对象</strong>或业务对象，它们是App的核心。 它们代表了APP的主要功能，您应该能够通过查看它们来了解APP的功能。 它们包含业务逻辑，但仅限于它们 - 验证和类似的东西。 他们不会与外在世界的细节进行互动，也不会处理持久性。 例如，如果您有新闻APP，则这些实体将是类别，文章和商业广告。</p>
-<h2 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h2><p>Use case，又名interactors，又名business services，是Entities的扩展，是业务逻辑的延伸，也就是说。 它们包含的逻辑不仅限于一个实体，而是处理更多的实体。 一个好Use case的一个指标是，你可以用一种通用的语言描述它在一个简单的句子中的作用 - 例如，”从一个账户转移到另一个账户”。你甚至可以用这样的命名来命名该类，例如，TransferMoneyUseCase。</p>
-<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><p>Repositories用于坚持Entities。 就这么简单。 它们被定义为接口并用作想要对Entities执行CRUD操作的用例的输出端口。 另外，它们可以公开一些与持久性相关的更复杂的操作，例如过滤，聚合等。 具体的持久性策略，例如数据库或因特网，是在外层实现的。 例如，您可以命名接口AccountRepository。</p>
-<h2 id="Presenters"><a href="#Presenters" class="headerlink" title="Presenters"></a>Presenters</h2><p>如果你熟悉MVP模式，Presenters就会做你期望他们做的事情。 他们处理用户交互，调用适当的业务逻辑，并将数据发送到UI进行渲染。 这里通常有不同类型的模型之间的映射。 有些人会在这里使用Controller，这很好。 我们使用的Presenter正式被称为监督Controller。 我们通常在每个屏幕上定义一个或两个Presenters，具体取决于屏幕，Presenter的生命周期与视图的生命周期相关联。 一条建议：尝试在Presenter上将您的方法命名为技术不可知论者（technology agnostic）。 假设您不知道视图实现的技术。因此，如果您在视图中具有名为onSubmitOrderButtonClicked和onUserListItemSelected的方法，则处理这些事件的相应演示者方法可以命名为submitOrder和selectUser。</p>
-<h2 id="Device"><a href="#Device" class="headerlink" title="Device"></a>Device</h2><p>这个组件在通知（再次）例子中已经被取笑了。它包含了诸如传感器，警报，通知，播放器，各种Managers等Android提供东西的实现。它是一个由两部分组成的部分。第一部分是业务逻辑用作与外部世界进行通信的输出端口的内部圈定义的接口。第二部分，这是在图中绘制的，是这些接口的实现。因此，您可以定义例如名为Gyroscope，Alarm，Notifications和Player的接口。注意名称是抽象的和技术不可知（technology agnostic）的。业务逻辑不关心如何显示通知，玩家如何播放声音，或陀螺仪数据来自何处。您可以制作将通知写入终端，将声音数据写入日志或从预定义文件收集陀螺仪数据的实现。这样的实现对于调试或创建确定性环境是非常有用的。但是，您当然必须制作诸如AndroidAlarm，NativePlayer等实现。在大多数情况下，这些实现只是围绕Android的Manager 类的包装。</p>
-<h2 id="DB-API"><a href="#DB-API" class="headerlink" title="DB &amp; API"></a>DB &amp; API</h2><p>将存储库的实现放在这个组件中。所有这些底层持久化的东西应该在这里：DAO，ORM的东西，Retrofit（或别的东西）的东西，JSON解析等。你也可以在这里实现缓存策略，或者只是使用内存中的持久性，直到完成与应用程序的其余部分。我们最近在团队中进行了一次有趣的讨论。问题是这样的：资源库是否应公开诸如fetchUsersOffline（fetchUsersFromCache）和fetchUsersOnline（fetchUsersFromInternet）之类的方法？换句话说，业务逻辑应该知道数据来自哪里？看过这篇文章的所有内容后，答案很简单：不。但是有一个问题！如果关于数据源的决定是业务逻辑的一部分 - 例如，如果用户可以选择它，或者如果您有明确的离线模式的应用程序，那么您可以添加这样的区别。但是我不会为每个抓取定义两种方法。我可能会在资源库中公开方法，如enterOfflineMode和exitOfflineMode。或者，如果它适用于所有存储库，则可以使用输入和退出方法定义OfflineMode接口，并在业务逻辑端使用它，让存储库查询该模式并在内部进行确定。</p>
-<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>将与Android用户界面相关的所有内容放在这里 Activities，fragments，views，adapters等完成。</p>
-<h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><p>下图显示了我们如何将所有这些组件分成Android Studio模块。 你可能会发现另一个更合适的部门。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="clean architecture - 2"></p>
-<p>我们将entities，use cases，repositories和device接口分组到domain模块中。 如果您想获得额外的挑战，并获得永恒的荣耀和完全干净的设计，您可以使该模块成为纯Java模块。 它会阻止你在这里使用快捷方式并将相关的东西放在Android上。</p>
-<p>device模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 正如我们已经说过的，data模块应该包含与数据持久性相关的所有内容。 你不能让这两个人进入Java模块，因为他们需要访问各种Android的东西。 你可以将它们变成Android库。</p>
-<p>最后，我们将与UI相关的所有内容（包括presenters）分组到UI模块中。 您可以明确地命名为UI，但由于Android中的所有东西，我们将其命名为”app”，就像Android Studio在创建项目时命名的那样。</p>
-<h2 id="这样更好些了吗？"><a href="#这样更好些了吗？" class="headerlink" title="这样更好些了吗？"></a>这样更好些了吗？</h2><p>为了回答这个问题，我会抛弃Bob叔叔的图表，并将之前描述的组件扩展到像我们用来评估以前类型的体系结构的图表。 这样做后，我们得到这个：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean architecture - 3"></p>
-<p>现在让我们应用我们在以前的体系结构中使用的相同条件。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean architecture - 4"></p>
-<p>它完全由模块级别，封装级别和类级别分开。 所以SRP应该得到满足。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="clean architecture - 5"></p>
-<p>我们尽可能将Android和现实世界推到了最外面。 业务逻辑不再直接接触Android。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean architecture - 6"></p>
-<p>我们有很好的分离类，很容易测试。 接触世界的类可以使用Android测试用例进行测试; 可以使用JUnit测试它。 有人恶意可能会称这类爆炸。 我称之为可测试的。:)</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean architecture - 7"></p>
-<h2 id="Clean架构：它可能很复杂-但它是值得的"><a href="#Clean架构：它可能很复杂-但它是值得的" class="headerlink" title="Clean架构：它可能很复杂 - 但它是值得的"></a>Clean架构：它可能很复杂 - 但它是值得的</h2><p>我希望我精心挑选的标准并不是为了支持Clean架构而编造的，它会让你尝试一下。 这看起来很复杂，而且这里有很多细节，<strong>但它是值得的。</strong> 一旦你将所有东西连接起来，测试就容易得多，错误更容易隔离，新特性易于添加，代码更具可读性和可维护性，一切正常，世界满意。</p>
-<p>所以，就是这样。 如果您还没有这样做，请查看以前的系列文章：<a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Mistakes</a> 和 <a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Clean Architecture</a>。 如果您有任何意见或问题，请在下面留言。 我们总是有兴趣听到你的想法。</p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">阅读我们的Android Architecture系列的第四部分<i class="fa fa-external-link-alt"></i></span>。</p>
-<p>您还可以查看其他部分：</p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
-<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Part 2: The Clean Architecture</a></p>
-<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Part 1: every new beginning is hard</a> </p>
-]]></content>
-      <categories>
-        <category>Android架构</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Clean架构</tag>
-        <tag>译文</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android架构：第二部分-The clean architecture (译)</title>
-    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/</url>
-    <content><![CDATA[<p>在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的<strong>Clean Architecture</strong>.</p>
-<p>你在google”clean architecture”中遇到的第一个图像是这样的：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="the clean architecture "></p>
-<p>它也被称为<strong>洋葱架构</strong>，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你哭泣）; 或端口和适配器，因为您可以看到右下角有一些端口。 <strong>六角形架构</strong>是另一种类似的架构。</p>
-<p><strong>Clean architecture</strong>是前面提到的Bob叔叔的心血结晶，他也写了关于Clean Code和Clean Coder的书籍。 这种方法的主要观点是业务逻辑（也称为domain）处于宇宙的中心。</p>
-<span id="more"></span>
-
-<h2 id="Domain"><a href="#Domain" class="headerlink" title="Domain"></a>Domain</h2><p>当你打开你的项目，你应该已经知道这个APP是什么。 其他一切都是实现细节。 例如：持久性 - 这是一个细节。 定义一个接口，使内存实现一个快速而肮脏的实现，在业务完成之前不要考虑它。 然后，您可以决定如何确实坚持数据。 数据库，互联网，组合，文件系统 - 也许把它们留在内存中，也许事实证明你根本不必坚持它们。 在一句话中：内层包含业务逻辑，外层包含实现细节。</p>
-<p>这就是说，有一些Clean Architecture可以实现这些功能：</p>
-<ol>
-<li>Dependency rule（依赖规则）</li>
-<li>Abstraction（抽象）</li>
-<li>Communication between layers（层之间的通信）</li>
-</ol>
-<h2 id="I-Dependency-rule（依赖规则）"><a href="#I-Dependency-rule（依赖规则）" class="headerlink" title="I. Dependency rule（依赖规则）"></a>I. Dependency rule（依赖规则）</h2><p>依赖关系规则可以用下图来解释：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="graph-2"></p>
-<p>外层应该取决于内层。 红色方块中的这三个箭头表示相关性。 “依赖”也许这是最好用的术语，如”看”，”知道”，或者”知道的。”没那么好。在这方面，外层看到并了解内层，但内层既不看也不知道外层。 如前所述，内层包含业务逻辑，外层包含实现细节。 结合依赖关系规则，业务逻辑既看不到，也不知道实现细节。 这正是我们正在努力完成的。</p>
-<p>您如何实现依赖关系规则取决于您。 您可以将它放在不同的包中，但要小心不要使用”内部”包装中的”外层”包装。 但是，如果有人没有意识到依赖性原则，没有什么能阻止他们打破它。 例如，更好的方法是将图层分成不同的Android模块，并调整构建文件中的依赖关系，以便内层无法使用外层。 在Five，我们使用了两者之间的东西。</p>
-<p>值得一提的是，尽管没有人可以阻止你跳过图层 ，例如，在蓝色图层组件中使用红色图层组件。我强烈建议您仅访问图层旁边的组件。</p>
-<h2 id="II-Abstraction（抽象）"><a href="#II-Abstraction（抽象）" class="headerlink" title="II. Abstraction（抽象）"></a>II. Abstraction（抽象）</h2><p><strong>抽象原则</strong>已经暗示过。 当你走向图的中间时，东西变得更加抽象。 这是有道理的：正如我们所说的内圈包含业务逻辑，外圈包含实现细节。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean android architecture "></p>
-<p>您甚至可以在多个图层之间划分相同的逻辑组件，如上图所示： 在内层中可以定义更抽象的部分，外层中更具体的部分。</p>
-<p>一个例子会说清楚：我们可以将抽象接口定义为”通知”并将其放入内层，这样，您的业务逻辑就可以使用它来向用户显示通知。 另一方面，我们可以通过实现使用Android通知管理器显示通知的方式来实现该接口，然后将该实现放入外层。</p>
-<p>通过这种方式，业务逻辑可以在我们的示例中使用功能通知 - 但它不知道实现细节的任何内容：实际通知是如何实现的。 而且，业务逻辑甚至不知道实现细节存在。 看看下面的图片：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean android architecture"></p>
-<p>将抽象与依赖规则结合起来时，事实证明，使用通知的抽象业务逻辑既没有看到也没有意识到使用Android通知管理器的具体实现。 这很好，因为我们可以切换具体实现，业务逻辑甚至不会注意到它。</p>
-<p>让我们简单地比较一下使用标准三层体系结构时抽象和依赖关系的外观和工作方式。</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="graph-5"></p>
-<p>您可以在图中看到标准三层体系结构中的所有依赖关系都转到数据库。 这意味着抽象和依赖不匹配。 从逻辑上讲，业务层应该是应用程序的中心，但不是，因为依赖关系会转向数据库。</p>
-<p>业务层不应该知道数据库。 而在清洁架构中，依赖关系转到业务层（内层），而抽象层也向业务层上升，因此它们匹配得很好。</p>
-<p>这很重要，因为抽象是理论，依赖是实践。 抽象是应用程序的逻辑布局，依赖关系是它如何组合在一起。 在 clean architecture中，这两者匹配，而在标准的三层架构中则没有; 如果你不小心，这可能会很快导致各种逻辑不一致和混乱。</p>
-<h2 id="III-Communication-between-layers（层之间的通信）"><a href="#III-Communication-between-layers（层之间的通信）" class="headerlink" title="III. Communication between layers（层之间的通信）"></a>III. Communication between layers（层之间的通信）</h2><p>现在我们已经将应用程序划分为模块，很好地分离了所有内容，将业务逻辑放在应用程序的中心和郊区的实现细节中，一切看起来都很棒。 但是你可能很快遇到了一个有趣的问题。</p>
-<p>如果你的UI是一个实现细节，那么internet就是一个实现细节，业务逻辑介于两者之间，<strong>我们如何从internet获取数据，通过业务逻辑传递它，然后将其发送到屏幕？</strong></p>
-<p>业务逻辑处于中间，应该在互联网和用户界面之间进行调解，但它甚至不知道这两个人存在。 这是一个沟通和数据流的问题。</p>
-<p>我们希望数据能够从外层流向内层，反之亦然，但依赖性规则不允许这样做。 让我们将其简化为最简单的例子:</p>
-<p>我们只有两层，绿色和红色。 绿色的是外在的，知道红色的，红色的是内在的，只知道自己。 我们希望数据从绿色流向红色流，然后返回绿色流。 该解决方案之前已经被暗示过，如下图所示：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean android architecture"></p>
-<p>右下角的图部分显示了数据流。 数据从Controller通过Use Case（或用用户选择的组件替换用例）输入端口，然后通过Use Case本身，然后通过Use Case输出端口返回给Presenter。</p>
-<p>图的主要部分上的箭头表示组成和继承 - 组成和继承 - 组成由一个实心箭头表示，继承由一个一个空箭头表示。 组成也被称为<strong>有关系</strong>，而继承是<strong>一种关系</strong>。 圆圈中的”I”和”O”表示输入和输出端口。 可以看出，在绿色层中定义的控制器具有在红色层中定义的输入端口。 Use Case（齿轮，商业逻辑，现在不重要）是（或实现）输入端口并具有输出端口。 最后，在绿色层中定义的Presenter实际上是在红色层中定义的输出端口。</p>
-<p>我们现在可以将其与数据流相匹配。 Controller有一个输入端口 - 它实际上有一个参考。 它调用一个方法，以便数据从Controller传输到输入端口。 但是输入端口是一个接口，实际的实现就是Use Case：所以它在一个Use Case上调用一个方法，数据流向Use Case。 Use Case做了一些事情，并希望将数据返回。 它有一个对输出端口的引用 - 因为输出端口是在同一层定义的 - 所以它可以调用它的方法。 因此，数据进入输出端口。 最后，Presenter是或实现输出端口; 这是神奇的一部分。 由于它实现了输出端口，数据实际上流入了它。</p>
-<p>诀窍是Use Case只知道它的输出端口; 世界在这个输出端口结束。 实施它取决于Presenter， 它可能已经被任何东西实现了，因为用例不知道或关心，并且只知道其层中的小世界。 我们可以看到，通过组合和继承的组合，我们可以使数据在两个方向上流动，尽管内层不知道他们正在与外部世界进行通信。 快速浏览下图：</p>
-<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean android architecture"></p>
-<p>你可以看到两个箭头都指向中间，就像依赖箭头一样。 那么，这是合乎逻辑的。 根据依赖规则，这是唯一可行的方法。 外层可以看到内层，但不是其他方式。 唯一棘手的部分是，这是一种关系，虽然它指向中间，但会颠倒数据流。</p>
-<p>请注意，定义其输入和输出端口是内层的责任，以便外层可以使用它们与之建立通信。 我已经说过这个解决方案已经在之前被暗示了，而且已经有了。 说明抽象的通知示例也是这种通信的一个例子。 我们在内层中定义了一个通知接口，业务逻辑可以使用它向用户显示通知，但我们也有一个在外层中定义的实现。 在这种情况下，通知接口是业务逻辑的输出端口，它用于与外部世界进行通信 - 本例中的具体实现。 您不必为您的类命名FooOutputPort或BarInputPort; 我们命名只是为了解释这个理论。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那么，这是过于复杂，过度模糊的过度工程？ 好吧，当你习惯它时很简单。 这是必要的。 它使我们能够在现实世界中实现良好的抽象&#x2F;依赖匹配实际交流和工作。 也许这一切都让人联想到弦理论：理论上美观，但是过于复杂，我们仍然不知道它是否有效，但在我们的案例中 - 它确实有效。:)</p>
-<p>这就是这个系列的第二部分。 最后，第三部分，毕竟我们已经了解了理论和体系结构，将涵盖所有你需要了解的关于这些图表上的标签，或者换句话说 - 单独的组件。 我们将向您展示在Android上应用的真实生活Clean Architecture。</p>
-<p>这是Android体系结构博客文章系列的一部分。您还可以查看其他部分：</p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">Part 4: Applying Clean Architecture on Android (Hands-on)<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMy1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtYW5kcm9pZC8=">Part 3: Applying Clean Architecture on Android<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMS1ldmVyeS1uZXctYmVnaW5uaW5nLWlzLWhhcmQv">Part 1: every new beginning is hard<i class="fa fa-external-link-alt"></i></span> </p>
-]]></content>
-      <categories>
-        <category>Android架构</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>Clean架构</tag>
-        <tag>译文</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android架构：第五部分-Clean架构是如何测试的 (译)</title>
     <url>/2018/05/13/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%94%E9%83%A8%E5%88%86-Clean%E6%9E%B6%E6%9E%84%E6%98%AF%E5%A6%82%E4%BD%95%E6%B5%8B%E8%AF%95%E7%9A%84/</url>
     <content><![CDATA[<p>你为什么要关心测试？ 像任何人一样，程序员犯错误。 我们可能会忘记我们上个月实现的边缘案例，或者我们传递一个空字符串时某些方法的行为方式。</p>
@@ -264,6 +152,149 @@
         <tag>Clean架构</tag>
         <tag>译文</tag>
         <tag>单元测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android架构：第三部分-在Android上应用Clean架构 (译)</title>
+    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E5%9C%A8Android%E4%B8%8A%E5%BA%94%E7%94%A8Clean%E6%9E%B6%E6%9E%84/</url>
+    <content><![CDATA[<p>到目前为止，在这个系列中，我们已经介绍了一些初学者的错误，并通过了Clean架构。 在最后一部分中，我们将介绍拼图的最后一部分：标签，或者更确切地说：组件。</p>
+<p>首先，我将删除我们在Android项目中不使用的东西，然后添加一些我们使用的东西，但在原始的Bob叔叔图中找不到。 它看起来像这样：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="clean architecture - 1"></p>
+<p>我会从最抽象的中心走到边缘。</p>
+<span id="more"></span>
+
+<h2 id="Entities"><a href="#Entities" class="headerlink" title="Entities"></a>Entities</h2><p>Entities，即<strong>Domain 对象</strong>或业务对象，它们是App的核心。 它们代表了APP的主要功能，您应该能够通过查看它们来了解APP的功能。 它们包含业务逻辑，但仅限于它们 - 验证和类似的东西。 他们不会与外在世界的细节进行互动，也不会处理持久性。 例如，如果您有新闻APP，则这些实体将是类别，文章和商业广告。</p>
+<h2 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h2><p>Use case，又名interactors，又名business services，是Entities的扩展，是业务逻辑的延伸，也就是说。 它们包含的逻辑不仅限于一个实体，而是处理更多的实体。 一个好Use case的一个指标是，你可以用一种通用的语言描述它在一个简单的句子中的作用 - 例如，”从一个账户转移到另一个账户”。你甚至可以用这样的命名来命名该类，例如，TransferMoneyUseCase。</p>
+<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><p>Repositories用于坚持Entities。 就这么简单。 它们被定义为接口并用作想要对Entities执行CRUD操作的用例的输出端口。 另外，它们可以公开一些与持久性相关的更复杂的操作，例如过滤，聚合等。 具体的持久性策略，例如数据库或因特网，是在外层实现的。 例如，您可以命名接口AccountRepository。</p>
+<h2 id="Presenters"><a href="#Presenters" class="headerlink" title="Presenters"></a>Presenters</h2><p>如果你熟悉MVP模式，Presenters就会做你期望他们做的事情。 他们处理用户交互，调用适当的业务逻辑，并将数据发送到UI进行渲染。 这里通常有不同类型的模型之间的映射。 有些人会在这里使用Controller，这很好。 我们使用的Presenter正式被称为监督Controller。 我们通常在每个屏幕上定义一个或两个Presenters，具体取决于屏幕，Presenter的生命周期与视图的生命周期相关联。 一条建议：尝试在Presenter上将您的方法命名为技术不可知论者（technology agnostic）。 假设您不知道视图实现的技术。因此，如果您在视图中具有名为onSubmitOrderButtonClicked和onUserListItemSelected的方法，则处理这些事件的相应演示者方法可以命名为submitOrder和selectUser。</p>
+<h2 id="Device"><a href="#Device" class="headerlink" title="Device"></a>Device</h2><p>这个组件在通知（再次）例子中已经被取笑了。它包含了诸如传感器，警报，通知，播放器，各种Managers等Android提供东西的实现。它是一个由两部分组成的部分。第一部分是业务逻辑用作与外部世界进行通信的输出端口的内部圈定义的接口。第二部分，这是在图中绘制的，是这些接口的实现。因此，您可以定义例如名为Gyroscope，Alarm，Notifications和Player的接口。注意名称是抽象的和技术不可知（technology agnostic）的。业务逻辑不关心如何显示通知，玩家如何播放声音，或陀螺仪数据来自何处。您可以制作将通知写入终端，将声音数据写入日志或从预定义文件收集陀螺仪数据的实现。这样的实现对于调试或创建确定性环境是非常有用的。但是，您当然必须制作诸如AndroidAlarm，NativePlayer等实现。在大多数情况下，这些实现只是围绕Android的Manager 类的包装。</p>
+<h2 id="DB-API"><a href="#DB-API" class="headerlink" title="DB &amp; API"></a>DB &amp; API</h2><p>将存储库的实现放在这个组件中。所有这些底层持久化的东西应该在这里：DAO，ORM的东西，Retrofit（或别的东西）的东西，JSON解析等。你也可以在这里实现缓存策略，或者只是使用内存中的持久性，直到完成与应用程序的其余部分。我们最近在团队中进行了一次有趣的讨论。问题是这样的：资源库是否应公开诸如fetchUsersOffline（fetchUsersFromCache）和fetchUsersOnline（fetchUsersFromInternet）之类的方法？换句话说，业务逻辑应该知道数据来自哪里？看过这篇文章的所有内容后，答案很简单：不。但是有一个问题！如果关于数据源的决定是业务逻辑的一部分 - 例如，如果用户可以选择它，或者如果您有明确的离线模式的应用程序，那么您可以添加这样的区别。但是我不会为每个抓取定义两种方法。我可能会在资源库中公开方法，如enterOfflineMode和exitOfflineMode。或者，如果它适用于所有存储库，则可以使用输入和退出方法定义OfflineMode接口，并在业务逻辑端使用它，让存储库查询该模式并在内部进行确定。</p>
+<h2 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h2><p>将与Android用户界面相关的所有内容放在这里 Activities，fragments，views，adapters等完成。</p>
+<h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><p>下图显示了我们如何将所有这些组件分成Android Studio模块。 你可能会发现另一个更合适的部门。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="clean architecture - 2"></p>
+<p>我们将entities，use cases，repositories和device接口分组到domain模块中。 如果您想获得额外的挑战，并获得永恒的荣耀和完全干净的设计，您可以使该模块成为纯Java模块。 它会阻止你在这里使用快捷方式并将相关的东西放在Android上。</p>
+<p>device模块应该包含与Android相关的所有内容，而不是数据持久性和UI。 正如我们已经说过的，data模块应该包含与数据持久性相关的所有内容。 你不能让这两个人进入Java模块，因为他们需要访问各种Android的东西。 你可以将它们变成Android库。</p>
+<p>最后，我们将与UI相关的所有内容（包括presenters）分组到UI模块中。 您可以明确地命名为UI，但由于Android中的所有东西，我们将其命名为”app”，就像Android Studio在创建项目时命名的那样。</p>
+<h2 id="这样更好些了吗？"><a href="#这样更好些了吗？" class="headerlink" title="这样更好些了吗？"></a>这样更好些了吗？</h2><p>为了回答这个问题，我会抛弃Bob叔叔的图表，并将之前描述的组件扩展到像我们用来评估以前类型的体系结构的图表。 这样做后，我们得到这个：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean architecture - 3"></p>
+<p>现在让我们应用我们在以前的体系结构中使用的相同条件。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean architecture - 4"></p>
+<p>它完全由模块级别，封装级别和类级别分开。 所以SRP应该得到满足。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="clean architecture - 5"></p>
+<p>我们尽可能将Android和现实世界推到了最外面。 业务逻辑不再直接接触Android。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean architecture - 6"></p>
+<p>我们有很好的分离类，很容易测试。 接触世界的类可以使用Android测试用例进行测试; 可以使用JUnit测试它。 有人恶意可能会称这类爆炸。 我称之为可测试的。:)</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean architecture - 7"></p>
+<h2 id="Clean架构：它可能很复杂-但它是值得的"><a href="#Clean架构：它可能很复杂-但它是值得的" class="headerlink" title="Clean架构：它可能很复杂 - 但它是值得的"></a>Clean架构：它可能很复杂 - 但它是值得的</h2><p>我希望我精心挑选的标准并不是为了支持Clean架构而编造的，它会让你尝试一下。 这看起来很复杂，而且这里有很多细节，<strong>但它是值得的。</strong> 一旦你将所有东西连接起来，测试就容易得多，错误更容易隔离，新特性易于添加，代码更具可读性和可维护性，一切正常，世界满意。</p>
+<p>所以，就是这样。 如果您还没有这样做，请查看以前的系列文章：<a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Mistakes</a> 和 <a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Clean Architecture</a>。 如果您有任何意见或问题，请在下面留言。 我们总是有兴趣听到你的想法。</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">阅读我们的Android Architecture系列的第四部分<i class="fa fa-external-link-alt"></i></span>。</p>
+<p>您还可以查看其他部分：</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/">Part 2: The Clean Architecture</a></p>
+<p><a href="/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E6%AF%8F%E4%B8%AA%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%E9%83%BD%E5%BE%88%E8%89%B0%E9%9A%BE-%E8%AF%91/">Part 1: every new beginning is hard</a> </p>
+]]></content>
+      <categories>
+        <category>Android架构</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Clean架构</tag>
+        <tag>译文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LinkedIn的高效代码检视建议(译)</title>
+    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
+<blockquote>
+<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
+</blockquote>
+<span id="more"></span>
+
+<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
+<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
+<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
+<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
+<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
+<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
+<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
+<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
+<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
+<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
+<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
+<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
+<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
+]]></content>
+      <categories>
+        <category>团队建设</category>
+      </categories>
+      <tags>
+        <tag>译文</tag>
+        <tag>CodeReview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android架构：第二部分-The clean architecture (译)</title>
+    <url>/2018/05/07/Android%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-The-clean-architecture-%E8%AF%91/</url>
+    <content><![CDATA[<p>在系列的第一部分中，我们介绍了我们在寻找可行的体系结构方面所犯的错误。 在这一部分中，我们将介绍所谓的<strong>Clean Architecture</strong>.</p>
+<p>你在google”clean architecture”中遇到的第一个图像是这样的：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-1.png" alt="the clean architecture "></p>
+<p>它也被称为<strong>洋葱架构</strong>，因为图表看起来像一个洋葱（当你意识到你需要写多少样板时，它会让你哭泣）; 或端口和适配器，因为您可以看到右下角有一些端口。 <strong>六角形架构</strong>是另一种类似的架构。</p>
+<p><strong>Clean architecture</strong>是前面提到的Bob叔叔的心血结晶，他也写了关于Clean Code和Clean Coder的书籍。 这种方法的主要观点是业务逻辑（也称为domain）处于宇宙的中心。</p>
+<span id="more"></span>
+
+<h2 id="Domain"><a href="#Domain" class="headerlink" title="Domain"></a>Domain</h2><p>当你打开你的项目，你应该已经知道这个APP是什么。 其他一切都是实现细节。 例如：持久性 - 这是一个细节。 定义一个接口，使内存实现一个快速而肮脏的实现，在业务完成之前不要考虑它。 然后，您可以决定如何确实坚持数据。 数据库，互联网，组合，文件系统 - 也许把它们留在内存中，也许事实证明你根本不必坚持它们。 在一句话中：内层包含业务逻辑，外层包含实现细节。</p>
+<p>这就是说，有一些Clean Architecture可以实现这些功能：</p>
+<ol>
+<li>Dependency rule（依赖规则）</li>
+<li>Abstraction（抽象）</li>
+<li>Communication between layers（层之间的通信）</li>
+</ol>
+<h2 id="I-Dependency-rule（依赖规则）"><a href="#I-Dependency-rule（依赖规则）" class="headerlink" title="I. Dependency rule（依赖规则）"></a>I. Dependency rule（依赖规则）</h2><p>依赖关系规则可以用下图来解释：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-2.png" alt="graph-2"></p>
+<p>外层应该取决于内层。 红色方块中的这三个箭头表示相关性。 “依赖”也许这是最好用的术语，如”看”，”知道”，或者”知道的。”没那么好。在这方面，外层看到并了解内层，但内层既不看也不知道外层。 如前所述，内层包含业务逻辑，外层包含实现细节。 结合依赖关系规则，业务逻辑既看不到，也不知道实现细节。 这正是我们正在努力完成的。</p>
+<p>您如何实现依赖关系规则取决于您。 您可以将它放在不同的包中，但要小心不要使用”内部”包装中的”外层”包装。 但是，如果有人没有意识到依赖性原则，没有什么能阻止他们打破它。 例如，更好的方法是将图层分成不同的Android模块，并调整构建文件中的依赖关系，以便内层无法使用外层。 在Five，我们使用了两者之间的东西。</p>
+<p>值得一提的是，尽管没有人可以阻止你跳过图层 ，例如，在蓝色图层组件中使用红色图层组件。我强烈建议您仅访问图层旁边的组件。</p>
+<h2 id="II-Abstraction（抽象）"><a href="#II-Abstraction（抽象）" class="headerlink" title="II. Abstraction（抽象）"></a>II. Abstraction（抽象）</h2><p><strong>抽象原则</strong>已经暗示过。 当你走向图的中间时，东西变得更加抽象。 这是有道理的：正如我们所说的内圈包含业务逻辑，外圈包含实现细节。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-3.png" alt="clean android architecture "></p>
+<p>您甚至可以在多个图层之间划分相同的逻辑组件，如上图所示： 在内层中可以定义更抽象的部分，外层中更具体的部分。</p>
+<p>一个例子会说清楚：我们可以将抽象接口定义为”通知”并将其放入内层，这样，您的业务逻辑就可以使用它来向用户显示通知。 另一方面，我们可以通过实现使用Android通知管理器显示通知的方式来实现该接口，然后将该实现放入外层。</p>
+<p>通过这种方式，业务逻辑可以在我们的示例中使用功能通知 - 但它不知道实现细节的任何内容：实际通知是如何实现的。 而且，业务逻辑甚至不知道实现细节存在。 看看下面的图片：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-4.png" alt="clean android architecture"></p>
+<p>将抽象与依赖规则结合起来时，事实证明，使用通知的抽象业务逻辑既没有看到也没有意识到使用Android通知管理器的具体实现。 这很好，因为我们可以切换具体实现，业务逻辑甚至不会注意到它。</p>
+<p>让我们简单地比较一下使用标准三层体系结构时抽象和依赖关系的外观和工作方式。</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-5.png" alt="graph-5"></p>
+<p>您可以在图中看到标准三层体系结构中的所有依赖关系都转到数据库。 这意味着抽象和依赖不匹配。 从逻辑上讲，业务层应该是应用程序的中心，但不是，因为依赖关系会转向数据库。</p>
+<p>业务层不应该知道数据库。 而在清洁架构中，依赖关系转到业务层（内层），而抽象层也向业务层上升，因此它们匹配得很好。</p>
+<p>这很重要，因为抽象是理论，依赖是实践。 抽象是应用程序的逻辑布局，依赖关系是它如何组合在一起。 在 clean architecture中，这两者匹配，而在标准的三层架构中则没有; 如果你不小心，这可能会很快导致各种逻辑不一致和混乱。</p>
+<h2 id="III-Communication-between-layers（层之间的通信）"><a href="#III-Communication-between-layers（层之间的通信）" class="headerlink" title="III. Communication between layers（层之间的通信）"></a>III. Communication between layers（层之间的通信）</h2><p>现在我们已经将应用程序划分为模块，很好地分离了所有内容，将业务逻辑放在应用程序的中心和郊区的实现细节中，一切看起来都很棒。 但是你可能很快遇到了一个有趣的问题。</p>
+<p>如果你的UI是一个实现细节，那么internet就是一个实现细节，业务逻辑介于两者之间，<strong>我们如何从internet获取数据，通过业务逻辑传递它，然后将其发送到屏幕？</strong></p>
+<p>业务逻辑处于中间，应该在互联网和用户界面之间进行调解，但它甚至不知道这两个人存在。 这是一个沟通和数据流的问题。</p>
+<p>我们希望数据能够从外层流向内层，反之亦然，但依赖性规则不允许这样做。 让我们将其简化为最简单的例子:</p>
+<p>我们只有两层，绿色和红色。 绿色的是外在的，知道红色的，红色的是内在的，只知道自己。 我们希望数据从绿色流向红色流，然后返回绿色流。 该解决方案之前已经被暗示过，如下图所示：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-6.png" alt="clean android architecture"></p>
+<p>右下角的图部分显示了数据流。 数据从Controller通过Use Case（或用用户选择的组件替换用例）输入端口，然后通过Use Case本身，然后通过Use Case输出端口返回给Presenter。</p>
+<p>图的主要部分上的箭头表示组成和继承 - 组成和继承 - 组成由一个实心箭头表示，继承由一个一个空箭头表示。 组成也被称为<strong>有关系</strong>，而继承是<strong>一种关系</strong>。 圆圈中的”I”和”O”表示输入和输出端口。 可以看出，在绿色层中定义的控制器具有在红色层中定义的输入端口。 Use Case（齿轮，商业逻辑，现在不重要）是（或实现）输入端口并具有输出端口。 最后，在绿色层中定义的Presenter实际上是在红色层中定义的输出端口。</p>
+<p>我们现在可以将其与数据流相匹配。 Controller有一个输入端口 - 它实际上有一个参考。 它调用一个方法，以便数据从Controller传输到输入端口。 但是输入端口是一个接口，实际的实现就是Use Case：所以它在一个Use Case上调用一个方法，数据流向Use Case。 Use Case做了一些事情，并希望将数据返回。 它有一个对输出端口的引用 - 因为输出端口是在同一层定义的 - 所以它可以调用它的方法。 因此，数据进入输出端口。 最后，Presenter是或实现输出端口; 这是神奇的一部分。 由于它实现了输出端口，数据实际上流入了它。</p>
+<p>诀窍是Use Case只知道它的输出端口; 世界在这个输出端口结束。 实施它取决于Presenter， 它可能已经被任何东西实现了，因为用例不知道或关心，并且只知道其层中的小世界。 我们可以看到，通过组合和继承的组合，我们可以使数据在两个方向上流动，尽管内层不知道他们正在与外部世界进行通信。 快速浏览下图：</p>
+<p><img src="http://five.agency/wp-content/uploads/2016/11/Graph-7.png" alt="clean android architecture"></p>
+<p>你可以看到两个箭头都指向中间，就像依赖箭头一样。 那么，这是合乎逻辑的。 根据依赖规则，这是唯一可行的方法。 外层可以看到内层，但不是其他方式。 唯一棘手的部分是，这是一种关系，虽然它指向中间，但会颠倒数据流。</p>
+<p>请注意，定义其输入和输出端口是内层的责任，以便外层可以使用它们与之建立通信。 我已经说过这个解决方案已经在之前被暗示了，而且已经有了。 说明抽象的通知示例也是这种通信的一个例子。 我们在内层中定义了一个通知接口，业务逻辑可以使用它向用户显示通知，但我们也有一个在外层中定义的实现。 在这种情况下，通知接口是业务逻辑的输出端口，它用于与外部世界进行通信 - 本例中的具体实现。 您不必为您的类命名FooOutputPort或BarInputPort; 我们命名只是为了解释这个理论。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那么，这是过于复杂，过度模糊的过度工程？ 好吧，当你习惯它时很简单。 这是必要的。 它使我们能够在现实世界中实现良好的抽象&#x2F;依赖匹配实际交流和工作。 也许这一切都让人联想到弦理论：理论上美观，但是过于复杂，我们仍然不知道它是否有效，但在我们的案例中 - 它确实有效。:)</p>
+<p>这就是这个系列的第二部分。 最后，第三部分，毕竟我们已经了解了理论和体系结构，将涵盖所有你需要了解的关于这些图表上的标签，或者换句话说 - 单独的组件。 我们将向您展示在Android上应用的真实生活Clean Architecture。</p>
+<p>这是Android体系结构博客文章系列的一部分。您还可以查看其他部分：</p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNS10ZXN0LWNsZWFuLWFyY2hpdGVjdHVyZS8=">Part 5: How to Test Clean Architecture<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtNC1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtb24tYW5kcm9pZC1oYW5kcy1vbi8=">Part 4: Applying Clean Architecture on Android (Hands-on)<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMy1hcHBseWluZy1jbGVhbi1hcmNoaXRlY3R1cmUtYW5kcm9pZC8=">Part 3: Applying Clean Architecture on Android<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cDovL2ZpdmUuYWdlbmN5L2FuZHJvaWQtYXJjaGl0ZWN0dXJlLXBhcnQtMS1ldmVyeS1uZXctYmVnaW5uaW5nLWlzLWhhcmQv">Part 1: every new beginning is hard<i class="fa fa-external-link-alt"></i></span> </p>
+]]></content>
+      <categories>
+        <category>Android架构</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>Clean架构</tag>
+        <tag>译文</tag>
       </tags>
   </entry>
   <entry>
@@ -371,140 +402,6 @@
         <tag>Android</tag>
         <tag>Clean架构</tag>
         <tag>译文</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LinkedIn的高效代码检视建议(译)</title>
-    <url>/2018/06/10/LinkedIn%E7%9A%84%E9%AB%98%E6%95%88%E4%BB%A3%E7%A0%81%E6%A3%80%E8%A7%86%E5%BB%BA%E8%AE%AE(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文：LinkedIn’s Tips for Highly Effective Code Review<br>原著作者：Szczepan Faber</p>
-<blockquote>
-<p><em>最近LinkedIn里程碑式地完成了他们的第100万次代码检视，这篇文章是LinkedIn社交网络服务工具的负责人Szczepan Faber分享的一些经验与教训。</em></p>
-</blockquote>
-<span id="more"></span>
-
-<p>阅读和检查代码是每个工程师每天都在做的事情，然而正式的代码检视流程会有点不一样（它要求在代码上线之前），每个代码的更改都要由其他团队成员进行正式检视。在LinkedIn上，自2011年以来，代码检视一直是我们开发流程的强制性部分。我们要求代码检视的目标是尽可能顺利地扩展我们快速发展的工程团队。良好的代码检视与有意义的有用评论确实可以帮助提升整个工程组织。在LinkedIn，这些检视已成为质量保证和知识共享的重要组成部分。拥抱代码检视已经在几个关键方面优化了我们整个工程文化。</p>
-<p>实施全公司代码检视的最大好处之一是增加了我们开发工作流程的标准化。LinkedIn上的每个团队都使用相同的工具和流程来进行代码检视，这意味着任何人都可以帮助审核或为其他团队的项目提供代码。这消除了”我可以修复代码中的错误，但是我将如何构建该代码并提交修复？”这样可以帮助增加工程组织中不同团队之间的协作。</p>
-<p>通过将代码检视制定为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师们对所有工作领域都给予反馈并接受反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不是将代码检视视为关键或否定，而是将代码审查和代码评论作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广流程的重要组成部分，因为它们提供了工程技术的客观证据。</p>
-<p>多年来，我们磨练了几个最佳实践和技巧，以便如何提供真正的优秀代码检视。以下是一些以问题形式提供的指南，我们建议您通过这些指南来帮助确保审阅者和被审阅者都从代码检视中获得最大价值。</p>
-<h3 id="我了解「为什么」吗？"><a href="#我了解「为什么」吗？" class="headerlink" title="我了解「为什么」吗？"></a>我了解「为什么」吗？</h3><p>为了尽可能提供最佳评审和帮助您的团队进行扩展，每一次代码更改提交都应包含一个设计概述，以简要说明变更背后的动机。当需要从代码更改本身推断出理由时，提供高质量的代码检视非常困难。提出问题并期望提交者在尝试代码检视之前解释他们的动机是公平的。这也鼓励提交者在他们的提交消息中有一个解释，提高代码文档的质量。</p>
-<h3 id="我是否给予积极的反馈？"><a href="#我是否给予积极的反馈？" class="headerlink" title="我是否给予积极的反馈？"></a>我是否给予积极的反馈？</h3><p>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被认为是理所当然的。因此，代码检视反馈倾向于只关注代码中发现的问题与代码本身。这是非常不幸的，因为大多数人需要积极的反馈来感受参与和动力「工程师也不例外」。 当审阅者在代码中看到好东西时，他们应该将其发出并给出正面的反馈。 这有助于改善团队动态，而且这种积极的反馈往往具有传染性。正如所有的代码检视建议（下面的更多内容）一样，任何积极的反馈都应该是具体的，解释为什么那些特定的代码是写得很好的。</p>
-<h3 id="我的代码检视评论阐述得好吗？"><a href="#我的代码检视评论阐述得好吗？" class="headerlink" title="我的代码检视评论阐述得好吗？"></a>我的代码检视评论阐述得好吗？</h3><p>无论反馈是正面还是负面，任何代码检视评论都应该是不言自明的。对于收到解释不好的代码检视评论的工程师而言，对于评审者来说看起来很明显的东西可能并不清楚。如果有疑问，最好是过度解释，而不是提供简洁的反馈，这会产生更多的问题，并需要更多的来回通信。建议可以像”减少重复”，”提高覆盖率”或”使代码更容易测试”一样简单。除了使审阅者的评论更加清晰之外，这些类型的评论还有助于加强团队渴望满足的设计原则。</p>
-<h3 id="我表扬了提交者的努力吗？"><a href="#我表扬了提交者的努力吗？" class="headerlink" title="我表扬了提交者的努力吗？"></a>我表扬了提交者的努力吗？</h3><p>无论结果如何，艰苦的工作总是需要被表扬 - 这培养了强有力的，充满活力的团队。一些代码如果改不到最高质量的话，就需要重新设计。 在这些情况下，即使他们的代码的确需要重新设计，仍然承认作者对变更所做的努力是很重要的。表现欣赏的最佳方式是通过提供高质量的反馈并提供合适的解释，承认好的想法（每次提交代码总是有好的东西！）并使用”谢谢”来投入您的代码检视。</p>
-<h3 id="这篇检视评论对我有用吗？"><a href="#这篇检视评论对我有用吗？" class="headerlink" title="这篇检视评论对我有用吗？"></a>这篇检视评论对我有用吗？</h3><p>提出这个问题是验证代码检视评论是否必要的简单而强大的方法。在一天结束时，工程师应该将代码评论视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您不认为特定的检视评论对您有用，请将其删除。无用的代码检视注释的典型例子是与代码格式相关的代码。代码样式和格式应该由自动化工具验证，而不是由工程师来验证。</p>
-<h3 id="只要”测试完成”就足够了吗？"><a href="#只要”测试完成”就足够了吗？" class="headerlink" title="只要”测试完成”就足够了吗？"></a>只要”测试完成”就足够了吗？</h3><p>在LinkedIn上，每个代码更改提交都有一个必须填写的强制性”已完成测试”部分。 在开源世界中，使用GitHub作为示例，工程师可以在请求描述中提交”测试完成”信息。”测试完成”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂度，则期望在单元测试中涵盖它是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。 在这些情况下，”完成测试”应包括有关测试场景和输出的信息。当更换改变程序的输出时，将新输出包含在”测试完成”部分非常有用。</p>
-<h3 id="我在我的检视中过于迂腐吗？"><a href="#我在我的检视中过于迂腐吗？" class="headerlink" title="我在我的检视中过于迂腐吗？"></a>我在我的检视中过于迂腐吗？</h3><p>一些代码检视有很多评论，所以导致重要的问题（真正需要修正的）在重要的建议中丢失了。 对于某个团队的详细信息而言，评论太多可能会减慢审阅周期，并且会导致审阅者和被审阅者都产生摩擦。 具有清晰的审查预期，示例评审以及积极的邀请审阅文化是避免漫长而耗尽审阅周期的好方法。</p>
-<p>总之，通过正式的代码检视流程有助于提高代码质量，团队学习和知识共享。当团队中的每位工程师都意识到两件重要的事情时，工作质量会提高：其他人会阅读我的代码，我必须处理我收到的任何评论意见，所以我应该尝试让我的代码最好是好的，能够一次把事情做好是最好的。当代码检视成为日常习惯时，团队每天都会实践并提供反馈。 这是增长和改善的关键。</p>
-<p>在LinkedIn，我们从过去的一百万次代码检视中学到了很多东西，并且我们渴望从下一个百万人中学到更多。代码检视中付出的努力越多，团队获得优质代码检视的能力越强，检视的代码质量越高，并且所生成产品的质量越高。 高质量的代码检视具有传染性！ </p>
-]]></content>
-      <categories>
-        <category>团队建设</category>
-      </categories>
-      <tags>
-        <tag>译文</tag>
-        <tag>CodeReview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MVVM 架构，ViewModel 和LiveData 第一部分(译)</title>
-    <url>/2018/05/13/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</url>
-    <content><![CDATA[<p>原文：MVVM architecture, ViewModel and LiveData (Part 1)</p>
-<p>在Google I &#x2F; O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。</p>
-<span id="more"></span>
-
-<h3 id="快速定义MVVM"><a href="#快速定义MVVM" class="headerlink" title="快速定义MVVM"></a>快速定义MVVM</h3><p>如果您熟悉MVVM，则可以完全跳过本节。</p>
-<p>MVVM是增强关注点分离的体系结构模式之一，它允许将用户界面逻辑从业务（或后端）逻辑中分离出来。 它的目标（与其他MVC模式目标一致）是为了实现以下原则：”使UI代码简单且不含应用程序逻辑，以便更易于管理”。</p>
-<p>MVVM主要有以下几个层次：</p>
-<ul>
-<li><p>Model<br>Model表示应用程序的数据和业务逻辑。 这一层的推荐实施策略之一是通过观测数据并且公开其数据，从而完全从ViewModel或任何其他观察者&#x2F;消费者（这将在我们的MVVM示例应用程序中进行说明）进行解耦。</p>
-</li>
-<li><p>ViewModel<br>ViewModel与Model交互，并且还准备可以被View观察的observable（s）。 ViewModel可以选择性地为View提供钩子（hooks）以将事件传递给Model。<br>该层的一个重要实现策略是将其与View分离，即ViewModel不应该意识到与之交互的View。</p>
-</li>
-<li><p>View<br>最后，此模式中的View是观察（或订阅）ViewModel，可观察数据以获取数据并且相应地更新UI元素。</p>
-</li>
-</ul>
-<p>下图显示了MVVM组件和基本交互。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*BpxMFh7DdX0_hqX6ABkDgw.png" alt="MVVM组件和基本交互"></p>
-<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>如上所述，LiveData是新引入的体系结构组件之一。 LiveData是一个可观察的数据持有者。 这允许应用程序中的组件能够观察LiveData对象的更改，而无需在它们之间创建明确的和严格的依赖关系路径。 这将完全分离LiveData对象使用者的LiveData对象生产者。</p>
-<p>除此之外，LiveData也有很大的好处，LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理对象生命周期管理，确保LiveData对象不泄漏。</p>
-<blockquote>
-<p>根据Google文档，如果您已经在使用Rx或Agera等Library，则可以继续使用它们而不是LiveData。 但在这种情况下，您有责任处理每个Android组件生命周期的对象分配和解除分配。</p>
-</blockquote>
-<p>由于LiveData尊重Android生命周期，这意味着除非LiveData主机（activity或fragment）处于活动状态（接收onStart()但未收到onStop()），否则它将不会调用其观察者回调。 除此之外，当主机收到onDestroy()时，LiveData也会自动删除观察者。</p>
-<p>LiveData将在下面的MVVM示例应用程序中进行说明。</p>
-<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel也是新引入的体系结构组件之一。 architecture components 提供了一个名为<strong>ViewModel</strong>的新类，它负责为UI &#x2F; View准备数据。</p>
-<p><strong>ViewModel</strong>为您的MVVM ViewModel层提供了一个很好的基类，因为<strong>ViewModel</strong>（及其子类<strong>AndroidViewModel</strong>）的扩展类在配置更改期间自动保留其保留数据。 这意味着，在配置更改后，此<strong>ViewModel</strong>所有数据立即可用于下一个Activity或Fragment实例。</p>
-<p>下图显示了ViewModel组件的生命周期。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*uWXunt0A6fKUFU8PsTLkfA.png" alt="ViewModel组件的生命周期"></p>
-<p><strong>ViewModel</strong>也将在我们的MVVM示例应用程序中进行说明。</p>
-<h3 id="示例应用程序"><a href="#示例应用程序" class="headerlink" title="示例应用程序"></a>示例应用程序</h3><p>现在，让我们来看看最有趣的部分，让我们把所有这些东西放在一个示例应用程序中。 此MVVM示例应用程序主要包含两个屏幕。 下面显示的第一个屏幕显示了Google GitHub项目列表，其中包含一些简要信息，例如标题，编程语言和最终观察者数量。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*vt5V03Pe1Va7B0vGfceRpQ.png" alt="Project List"></p>
-<p>一旦应用程序的最终用户触摸任何列表项、GitHub项目的详细信息，屏幕将显示项目描述、编程语言、观察者数量、公开问题、创建和上次更新日期，最后显示克隆URL。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7dR3uzZsANvvjJp3twYINg.png" alt="Project Details"></p>
-<h3 id="示例应用程序交互图"><a href="#示例应用程序交互图" class="headerlink" title="示例应用程序交互图"></a>示例应用程序交互图</h3><p>下图显示了示例应用程序的包结构</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*2AIrQEjTkInY_BjUW9slSw.png" alt="示例应用程序的包结构"></p>
-<p>以下交互图显示了检索Google GitHub项目的应用场景之一的示例交互图。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*uCmP51XYJCuffo4fXe2KFg.png" alt="Google GitHub项目的应用场景"></p>
-<p>如图所示，每个图层都从其后续图层（Fragment（View） - &gt; ViewModel - &gt; Repository）观察LiveData，最后一旦检索到项目列表，就会使用RecyclerView适配器绑定显示项目列表。</p>
-<blockquote>
-<p>Repository模块负责处理数据操作。 通过确保这一点，Repository模块可以为应用程序的其余部分提供干净的API，并简化使用者ViewModel的工作。 如果需要更新数据，系统信息库模块应该知道从哪里获取数据以及进行哪些API调用。 它们可以被视为不同数据源（REST服务，数据库，XML文件等）之间的中介。</p>
-</blockquote>
-<p>现在，让我们从下往上解释这些图层，从Model，ViewModel开始，最后用View来检索GitHub项目场景。</p>
-<h3 id="示例应用程序模型层"><a href="#示例应用程序模型层" class="headerlink" title="示例应用程序模型层"></a>示例应用程序模型层</h3><p>让我们从业务逻辑层开始，我们有两个模型对象</p>
-<ul>
-<li><strong>Project</strong>，包含GitHub项目的信息，如id，名称，描述，创建日期等等。</li>
-<li><strong>用户</strong>，包含GitHub项目所有者的用户信息。</li>
-</ul>
-<p>为了与GitHub RESTful API进行交互，我使用了我喜欢的Retrofit 2来定义存储库包中的以下简单接口。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">GithubService</span> &#123;</span><br><span class="line">    <span class="meta">@GET(&quot;users/&#123;user&#125;/repos&quot;)</span></span><br><span class="line">    Single&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectList</span><span class="params">(<span class="meta">@Path(&quot;user&quot;)</span> String userId)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET(&quot;repos/&#123;user&#125;/&#123;repoName&#125;&quot;)</span></span><br><span class="line">    Single&lt;Project&gt; <span class="title function_">getProjectDetails</span><span class="params">(<span class="meta">@Path(&quot;user&quot;)</span> String userId, <span class="meta">@Path(&quot;repoName&quot;)</span> String projectName)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>为了便于ViewModel的Job，创建一个<strong>ProjectRepository</strong>类来与GitHub服务交互，并最终为ViewModel提供一个<strong>LiveData</strong>对象。 它也将在以后用于编排服务呼叫。 以下代码片段显示了**getProjectList()**API实现。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectRepository</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> GithubService githubService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// constructor and helper methods</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectList</span><span class="params">(String userId)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> MutableLiveData&lt;List&lt;Project&gt;&gt; data = <span class="keyword">new</span> <span class="title class_">MutableLiveData</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        githubService.getProjectList(userId)</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(<span class="keyword">new</span> <span class="title class_">SingleObserver</span>&lt;List&lt;Project&gt;&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSubscribe</span><span class="params">(Disposable d)</span> &#123;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(List&lt;Project&gt; projects)</span> &#123;</span><br><span class="line">                        data.setValue(projects);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line">                        <span class="comment">// handle the error case</span></span><br><span class="line">                        <span class="comment">//Yet, do not do nothing in this app. In a real world, this should be handled</span></span><br><span class="line">                        System.out.println(e);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>ProjectRepository</strong>是ViewModel的数据提供者，它具有<strong>getProjectList()</strong>，它将响应简单地包装到LiveData Object中。</p>
-<p>为了简化本文的目的，错误处理被省略，并且将在下一篇文章中进行说明。</p>
-<h3 id="示例应用程序ViewModel图层"><a href="#示例应用程序ViewModel图层" class="headerlink" title="示例应用程序ViewModel图层"></a>示例应用程序ViewModel图层</h3><p>为了消费<strong>getProjectList（）<strong>API，创建了ViewModel类（调用Repository API并可以为LiveData执行任何所需的转换）。 以下代码片段显示了</strong>ProjectListViewModel</strong>类。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectListViewModel</span> <span class="keyword">extends</span> <span class="title class_">AndroidViewModel</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LiveData&lt;List&lt;Project&gt;&gt; projectListObservable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ProjectRepository projectRepository;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProjectListViewModel</span><span class="params">(<span class="meta">@NonNull</span> Application application)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(application);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If any transformation is needed, this can be simply done by Transformations class ...</span></span><br><span class="line">        projectRepository = <span class="keyword">new</span> <span class="title class_">ProjectRepository</span>();</span><br><span class="line">        projectListObservable = projectRepository.getProjectList(<span class="string">&quot;Google&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Expose the LiveData Projects query so the UI can observe it.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectListObservable</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> projectListObservable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上所示，我们的<strong>ProjectListViewModel</strong>类扩展了<strong>AndroidViewModel</strong>，并在构造函数中调用**getProjectList（”Google”）**来检索Google GitHub项目。</p>
-<p>在现实世界的情况下，在将结果数据传递给观察视图之前可能需要进行转换，为了进行转换，可以使用Transformation类，如下面的文档所示：</p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYW5kcm9pZC5jb20vdG9waWMvbGlicmFyaWVzL2FyY2hpdGVjdHVyZS9saXZlZGF0YS5odG1sI3RyYW5zZm9ybWF0aW9uc19vZl9saXZlZGF0YQ==">https://developer.android.com/topic/libraries/architecture/livedata.html#transformations_of_livedata<i class="fa fa-external-link-alt"></i></span></p>
-<h3 id="示例应用视图图层"><a href="#示例应用视图图层" class="headerlink" title="示例应用视图图层"></a>示例应用视图图层</h3><p>最后，让我们快速浏览一下这个应用程序的视图层，我们主要有一个名为<strong>MainActivity</strong>的Activity，它负责处理代表应用程序视图的两个片段的导航：</p>
-<ul>
-<li><strong>ProjectListFragment</strong>，它显示Google GitHub项目的列表。</li>
-<li><strong>ProjectFragment</strong>，它显示所选的GitHub项目细节。</li>
-</ul>
-<blockquote>
-<p>由于Activities和Fragments被视为生命周期所有者，活动需要扩展LifecycleActivity，片段需要扩展LifecycleFragment。 但是，请务必记住LifecycleActivity和LifecycleFragment类都是临时实现，直到Lifecycle与支持库集成为止：<span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYW5kcm9pZC5jb20vcmVmZXJlbmNlL2FuZHJvaWQvYXJjaC9saWZlY3ljbGUvTGlmZWN5Y2xlQWN0aXZpdHkuaHRtbA==">https://developer.android.com/reference/android/arch/lifecycle/LifecycleActivity.html<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-<p>现在，让我们继续我们的项目检索方案，查看<strong>ProjectListFragment</strong>，下面的代码片段显示了最重要的集成部分。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectListFragment</span> <span class="keyword">extends</span> <span class="title class_">LifecycleFragment</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> ProjectAdapter projectAdapter;</span><br><span class="line">    <span class="keyword">private</span> FragmentProjectListBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> View <span class="title function_">onCreateView</span><span class="params">(LayoutInflater inflater, <span class="meta">@Nullable</span> ViewGroup container,</span></span><br><span class="line"><span class="params">                           <span class="meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_project_list, container, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        projectAdapter = <span class="keyword">new</span> <span class="title class_">ProjectAdapter</span>(projectClickCallback);</span><br><span class="line">        binding.projectList.setAdapter(projectAdapter);</span><br><span class="line">        binding.setIsLoading(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> binding.getRoot();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onActivityCreated</span><span class="params">(<span class="meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onActivityCreated(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">ProjectListViewModel</span> <span class="variable">viewModel</span> <span class="operator">=</span> ViewModelProviders.of(<span class="built_in">this</span>).get(ProjectListViewModel.class);</span><br><span class="line"></span><br><span class="line">        observeViewModel(viewModel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">observeViewModel</span><span class="params">(ProjectListViewModel viewModel)</span> &#123;</span><br><span class="line">        <span class="comment">// Update the list when the data changes</span></span><br><span class="line">        viewModel.getProjectListObservable().observe(<span class="built_in">this</span>, <span class="keyword">new</span> <span class="title class_">Observer</span>&lt;List&lt;Project&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onChanged</span><span class="params">(<span class="meta">@Nullable</span> List&lt;Project&gt; projects)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (projects != <span class="literal">null</span>) &#123;</span><br><span class="line">                    binding.setIsLoading(<span class="literal">false</span>);</span><br><span class="line">                    projectAdapter.setProjectList(projects);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ProjectClickCallback</span> <span class="variable">projectClickCallback</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProjectClickCallback</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(Project project)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) &#123;</span><br><span class="line">                ((MainActivity) getActivity()).show(project);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上所示，<strong>ProjectListFragment</strong>获取<strong>ProjectListViewModel</strong>，然后监听其<strong>getProjectListObservable（）<strong>方法，以便在准备好时获取Github项目列表。 最后，一旦检索到项目列表，它将被传递给</strong>projectAdapter</strong>（RecyclerView适配器），以显示RecyclerView组件中的项目列表。</p>
-<p>这是对项目的一个端到端场景的解释，您可以在这里找到GitHub中提供的完整项目：</p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hhemVtcy9tdnZtLXNhbXBsZS1hcHAvdHJlZS9wYXJ0MQ==">https://github.com/hazems/mvvm-sample-app/tree/part1<i class="fa fa-external-link-alt"></i></span></p>
-<h3 id="MVVM实施的重要指导原则"><a href="#MVVM实施的重要指导原则" class="headerlink" title="MVVM实施的重要指导原则"></a>MVVM实施的重要指导原则</h3><p>现在，重点介绍MVVM实现的一些重要指导原则：</p>
-<ul>
-<li>如示例中所示，ViewModels不会直接引用Views，因为如果这样做，ViewModels可能会超出View的生命周期，并且可能会发生内存泄漏。</li>
-<li>建议使用Model和ViewModel使用LiveData公开其数据，因为LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理确保LiveData对象不泄漏的对象生命周期管理。</li>
-</ul>
-<h3 id="下一篇文章"><a href="#下一篇文章" class="headerlink" title="下一篇文章"></a>下一篇文章</h3><p>故事尚未完成，因为有些事情需要处理，比如：</p>
-<ul>
-<li>依赖注入</li>
-<li>错误处理</li>
-<li>缓存</li>
-<li>在此演示中添加更多功能以查看Room如何促进SQLite数据操作</li>
-<li>单元测试</li>
-<li>其他…</li>
-</ul>
-<p>这将在MVVM的下一系列文章中进行说明，敬请关注。 </p>
-]]></content>
-      <categories>
-        <category>Android架构</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>译文</tag>
-        <tag>MVVM</tag>
       </tags>
   </entry>
   <entry>
@@ -623,6 +520,30 @@
       </tags>
   </entry>
   <entry>
+    <title>三杯曼哈顿</title>
+    <url>/2024/12/23/%E4%B8%89%E6%9D%AF%E6%9B%BC%E5%93%88%E9%A1%BF/</url>
+    <content><![CDATA[<p><img src="https://images.unsplash.com/photo-1735040736883-9e0bc7e6f1ba?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==" alt="曼哈顿"></p>
+<p>那天晚上，我在深夜酒吧遇见了一个自称来自1984年的女人。<br>她穿着一件褪色的蓝色连衣裙，坐在吧台最角落的位置。<br>调酒师正在为她调制第三杯曼哈顿。<br>冰块在玻璃杯中碰撞，发出清脆的声响，像是某种暗号。</p>
+<p>“你相信平行宇宙吗？”她突然问我。</p>
+<span id="more"></span>
+
+<p>没等我回答，她继续说：”在我的时空里，现在应该是凌晨3点17分。我的丈夫正在床上睡觉，而我在厨房里煮着咖啡。”<br>我看了看手表，现在正好是凌晨3点17分。<br>“真巧，”我说，”现在也是这个时间。”<br>她笑了，那种笑容让我想起了很久以前养过的一只猫。<br>那只猫在离开前的最后一个晚上，也是这样看着我。</p>
+<p>“没什么巧合，”她说，”时间是个圆。就像这个杯子的边缘。”<br>她用手指轻轻划过酒杯的边缘，发出一声几不可闻的嗡鸣。</p>
+<p>爵士乐还在继续。萨克斯风手似乎永远不会疲倦。<br>我注意到她左手无名指上有一道浅浅的戒指印，却没戴戒指。</p>
+<p>“你丈夫知道你在这里吗？”我问。<br>“知道啊，”她说，”他在1984年的床上等我回去。但我想他已经习惯了。毕竟我每个星期四都会来这里，坐在这个位置，点三杯曼哈顿。”<br>“为什么是三杯？”<br>“第一杯是为了记住，第二杯是为了忘记，第三杯是为了在记住和忘记之间找到平衡。”<br>她说这话时，目光穿过我，望向某个我看不见的远方。</p>
+<p>当她喝完第三杯酒，站起身准备离开时，我注意到她的影子却仍坐在吧台前。<br>她像是没有察觉，径直走向门口。<br>推开门的瞬间，一阵冷风吹进来，带着雨水的气息。</p>
+<p>我转头看向她留下的座位。<br>她的影子已经消失了，只剩下三个空酒杯。<br>最后一个杯子里，冰块还在缓慢融化。</p>
+<p>调酒师走过来收拾杯子，我问他：”那个女人经常来吗？”<br>“什么女人？”他一边擦拭吧台一边问。<br>我指了指角落的位置，那里现在空无一人，连杯子都不见了。<br>只有一滴水珠在木质台面上，映着头顶的灯光，闪烁着奇异的光芒。<br>外面开始下雨了。雨滴打在窗户上的声音，和1984年的某个夜晚，或许完全一样。</p>
+]]></content>
+      <categories>
+        <category>短篇小说</category>
+      </categories>
+      <tags>
+        <tag>AI短篇小说</tag>
+        <tag>AI生成</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RxAndroid新型异步API（译）</title>
     <url>/2018/09/02/RxAndroid%E6%96%B0%E5%9E%8B%E5%BC%82%E6%AD%A5API%EF%BC%88%E8%AF%91%EF%BC%89/</url>
     <content><![CDATA[<blockquote>
@@ -666,27 +587,106 @@
       </tags>
   </entry>
   <entry>
-    <title>三杯曼哈顿</title>
-    <url>/2024/12/23/%E4%B8%89%E6%9D%AF%E6%9B%BC%E5%93%88%E9%A1%BF/</url>
-    <content><![CDATA[<p><img src="https://images.unsplash.com/photo-1735040736883-9e0bc7e6f1ba?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==" alt="曼哈顿"></p>
-<p>那天晚上，我在深夜酒吧遇见了一个自称来自1984年的女人。<br>她穿着一件褪色的蓝色连衣裙，坐在吧台最角落的位置。<br>调酒师正在为她调制第三杯曼哈顿。<br>冰块在玻璃杯中碰撞，发出清脆的声响，像是某种暗号。</p>
-<p>“你相信平行宇宙吗？”她突然问我。</p>
+    <title>MVVM 架构，ViewModel 和LiveData 第一部分(译)</title>
+    <url>/2018/05/13/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</url>
+    <content><![CDATA[<p>原文：MVVM architecture, ViewModel and LiveData (Part 1)</p>
+<p>在Google I &#x2F; O期间，Google推出了包含LiveData 和ViewModel 的architecture components ，这有助于使用MVVM模式开发Android应用程序。 本文讨论这些组件如何为遵循MVVM的Android应用程序提供服务。</p>
 <span id="more"></span>
 
-<p>没等我回答，她继续说：”在我的时空里，现在应该是凌晨3点17分。我的丈夫正在床上睡觉，而我在厨房里煮着咖啡。”<br>我看了看手表，现在正好是凌晨3点17分。<br>“真巧，”我说，”现在也是这个时间。”<br>她笑了，那种笑容让我想起了很久以前养过的一只猫。<br>那只猫在离开前的最后一个晚上，也是这样看着我。</p>
-<p>“没什么巧合，”她说，”时间是个圆。就像这个杯子的边缘。”<br>她用手指轻轻划过酒杯的边缘，发出一声几不可闻的嗡鸣。</p>
-<p>爵士乐还在继续。萨克斯风手似乎永远不会疲倦。<br>我注意到她左手无名指上有一道浅浅的戒指印，却没戴戒指。</p>
-<p>“你丈夫知道你在这里吗？”我问。<br>“知道啊，”她说，”他在1984年的床上等我回去。但我想他已经习惯了。毕竟我每个星期四都会来这里，坐在这个位置，点三杯曼哈顿。”<br>“为什么是三杯？”<br>“第一杯是为了记住，第二杯是为了忘记，第三杯是为了在记住和忘记之间找到平衡。”<br>她说这话时，目光穿过我，望向某个我看不见的远方。</p>
-<p>当她喝完第三杯酒，站起身准备离开时，我注意到她的影子却仍坐在吧台前。<br>她像是没有察觉，径直走向门口。<br>推开门的瞬间，一阵冷风吹进来，带着雨水的气息。</p>
-<p>我转头看向她留下的座位。<br>她的影子已经消失了，只剩下三个空酒杯。<br>最后一个杯子里，冰块还在缓慢融化。</p>
-<p>调酒师走过来收拾杯子，我问他：”那个女人经常来吗？”<br>“什么女人？”他一边擦拭吧台一边问。<br>我指了指角落的位置，那里现在空无一人，连杯子都不见了。<br>只有一滴水珠在木质台面上，映着头顶的灯光，闪烁着奇异的光芒。<br>外面开始下雨了。雨滴打在窗户上的声音，和1984年的某个夜晚，或许完全一样。</p>
+<h3 id="快速定义MVVM"><a href="#快速定义MVVM" class="headerlink" title="快速定义MVVM"></a>快速定义MVVM</h3><p>如果您熟悉MVVM，则可以完全跳过本节。</p>
+<p>MVVM是增强关注点分离的体系结构模式之一，它允许将用户界面逻辑从业务（或后端）逻辑中分离出来。 它的目标（与其他MVC模式目标一致）是为了实现以下原则：”使UI代码简单且不含应用程序逻辑，以便更易于管理”。</p>
+<p>MVVM主要有以下几个层次：</p>
+<ul>
+<li><p>Model<br>Model表示应用程序的数据和业务逻辑。 这一层的推荐实施策略之一是通过观测数据并且公开其数据，从而完全从ViewModel或任何其他观察者&#x2F;消费者（这将在我们的MVVM示例应用程序中进行说明）进行解耦。</p>
+</li>
+<li><p>ViewModel<br>ViewModel与Model交互，并且还准备可以被View观察的observable（s）。 ViewModel可以选择性地为View提供钩子（hooks）以将事件传递给Model。<br>该层的一个重要实现策略是将其与View分离，即ViewModel不应该意识到与之交互的View。</p>
+</li>
+<li><p>View<br>最后，此模式中的View是观察（或订阅）ViewModel，可观察数据以获取数据并且相应地更新UI元素。</p>
+</li>
+</ul>
+<p>下图显示了MVVM组件和基本交互。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*BpxMFh7DdX0_hqX6ABkDgw.png" alt="MVVM组件和基本交互"></p>
+<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>如上所述，LiveData是新引入的体系结构组件之一。 LiveData是一个可观察的数据持有者。 这允许应用程序中的组件能够观察LiveData对象的更改，而无需在它们之间创建明确的和严格的依赖关系路径。 这将完全分离LiveData对象使用者的LiveData对象生产者。</p>
+<p>除此之外，LiveData也有很大的好处，LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理对象生命周期管理，确保LiveData对象不泄漏。</p>
+<blockquote>
+<p>根据Google文档，如果您已经在使用Rx或Agera等Library，则可以继续使用它们而不是LiveData。 但在这种情况下，您有责任处理每个Android组件生命周期的对象分配和解除分配。</p>
+</blockquote>
+<p>由于LiveData尊重Android生命周期，这意味着除非LiveData主机（activity或fragment）处于活动状态（接收onStart()但未收到onStop()），否则它将不会调用其观察者回调。 除此之外，当主机收到onDestroy()时，LiveData也会自动删除观察者。</p>
+<p>LiveData将在下面的MVVM示例应用程序中进行说明。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel也是新引入的体系结构组件之一。 architecture components 提供了一个名为<strong>ViewModel</strong>的新类，它负责为UI &#x2F; View准备数据。</p>
+<p><strong>ViewModel</strong>为您的MVVM ViewModel层提供了一个很好的基类，因为<strong>ViewModel</strong>（及其子类<strong>AndroidViewModel</strong>）的扩展类在配置更改期间自动保留其保留数据。 这意味着，在配置更改后，此<strong>ViewModel</strong>所有数据立即可用于下一个Activity或Fragment实例。</p>
+<p>下图显示了ViewModel组件的生命周期。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uWXunt0A6fKUFU8PsTLkfA.png" alt="ViewModel组件的生命周期"></p>
+<p><strong>ViewModel</strong>也将在我们的MVVM示例应用程序中进行说明。</p>
+<h3 id="示例应用程序"><a href="#示例应用程序" class="headerlink" title="示例应用程序"></a>示例应用程序</h3><p>现在，让我们来看看最有趣的部分，让我们把所有这些东西放在一个示例应用程序中。 此MVVM示例应用程序主要包含两个屏幕。 下面显示的第一个屏幕显示了Google GitHub项目列表，其中包含一些简要信息，例如标题，编程语言和最终观察者数量。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vt5V03Pe1Va7B0vGfceRpQ.png" alt="Project List"></p>
+<p>一旦应用程序的最终用户触摸任何列表项、GitHub项目的详细信息，屏幕将显示项目描述、编程语言、观察者数量、公开问题、创建和上次更新日期，最后显示克隆URL。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7dR3uzZsANvvjJp3twYINg.png" alt="Project Details"></p>
+<h3 id="示例应用程序交互图"><a href="#示例应用程序交互图" class="headerlink" title="示例应用程序交互图"></a>示例应用程序交互图</h3><p>下图显示了示例应用程序的包结构</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*2AIrQEjTkInY_BjUW9slSw.png" alt="示例应用程序的包结构"></p>
+<p>以下交互图显示了检索Google GitHub项目的应用场景之一的示例交互图。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*uCmP51XYJCuffo4fXe2KFg.png" alt="Google GitHub项目的应用场景"></p>
+<p>如图所示，每个图层都从其后续图层（Fragment（View） - &gt; ViewModel - &gt; Repository）观察LiveData，最后一旦检索到项目列表，就会使用RecyclerView适配器绑定显示项目列表。</p>
+<blockquote>
+<p>Repository模块负责处理数据操作。 通过确保这一点，Repository模块可以为应用程序的其余部分提供干净的API，并简化使用者ViewModel的工作。 如果需要更新数据，系统信息库模块应该知道从哪里获取数据以及进行哪些API调用。 它们可以被视为不同数据源（REST服务，数据库，XML文件等）之间的中介。</p>
+</blockquote>
+<p>现在，让我们从下往上解释这些图层，从Model，ViewModel开始，最后用View来检索GitHub项目场景。</p>
+<h3 id="示例应用程序模型层"><a href="#示例应用程序模型层" class="headerlink" title="示例应用程序模型层"></a>示例应用程序模型层</h3><p>让我们从业务逻辑层开始，我们有两个模型对象</p>
+<ul>
+<li><strong>Project</strong>，包含GitHub项目的信息，如id，名称，描述，创建日期等等。</li>
+<li><strong>用户</strong>，包含GitHub项目所有者的用户信息。</li>
+</ul>
+<p>为了与GitHub RESTful API进行交互，我使用了我喜欢的Retrofit 2来定义存储库包中的以下简单接口。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">GithubService</span> &#123;</span><br><span class="line">    <span class="meta">@GET(&quot;users/&#123;user&#125;/repos&quot;)</span></span><br><span class="line">    Single&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectList</span><span class="params">(<span class="meta">@Path(&quot;user&quot;)</span> String userId)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GET(&quot;repos/&#123;user&#125;/&#123;repoName&#125;&quot;)</span></span><br><span class="line">    Single&lt;Project&gt; <span class="title function_">getProjectDetails</span><span class="params">(<span class="meta">@Path(&quot;user&quot;)</span> String userId, <span class="meta">@Path(&quot;repoName&quot;)</span> String projectName)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了便于ViewModel的Job，创建一个<strong>ProjectRepository</strong>类来与GitHub服务交互，并最终为ViewModel提供一个<strong>LiveData</strong>对象。 它也将在以后用于编排服务呼叫。 以下代码片段显示了**getProjectList()**API实现。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectRepository</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> GithubService githubService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// constructor and helper methods</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectList</span><span class="params">(String userId)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> MutableLiveData&lt;List&lt;Project&gt;&gt; data = <span class="keyword">new</span> <span class="title class_">MutableLiveData</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        githubService.getProjectList(userId)</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .subscribe(<span class="keyword">new</span> <span class="title class_">SingleObserver</span>&lt;List&lt;Project&gt;&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSubscribe</span><span class="params">(Disposable d)</span> &#123;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(List&lt;Project&gt; projects)</span> &#123;</span><br><span class="line">                        data.setValue(projects);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line">                        <span class="comment">// handle the error case</span></span><br><span class="line">                        <span class="comment">//Yet, do not do nothing in this app. In a real world, this should be handled</span></span><br><span class="line">                        System.out.println(e);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ProjectRepository</strong>是ViewModel的数据提供者，它具有<strong>getProjectList()</strong>，它将响应简单地包装到LiveData Object中。</p>
+<p>为了简化本文的目的，错误处理被省略，并且将在下一篇文章中进行说明。</p>
+<h3 id="示例应用程序ViewModel图层"><a href="#示例应用程序ViewModel图层" class="headerlink" title="示例应用程序ViewModel图层"></a>示例应用程序ViewModel图层</h3><p>为了消费<strong>getProjectList（）<strong>API，创建了ViewModel类（调用Repository API并可以为LiveData执行任何所需的转换）。 以下代码片段显示了</strong>ProjectListViewModel</strong>类。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectListViewModel</span> <span class="keyword">extends</span> <span class="title class_">AndroidViewModel</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LiveData&lt;List&lt;Project&gt;&gt; projectListObservable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ProjectRepository projectRepository;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProjectListViewModel</span><span class="params">(<span class="meta">@NonNull</span> Application application)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(application);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If any transformation is needed, this can be simply done by Transformations class ...</span></span><br><span class="line">        projectRepository = <span class="keyword">new</span> <span class="title class_">ProjectRepository</span>();</span><br><span class="line">        projectListObservable = projectRepository.getProjectList(<span class="string">&quot;Google&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Expose the LiveData Projects query so the UI can observe it.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;Project&gt;&gt; <span class="title function_">getProjectListObservable</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> projectListObservable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，我们的<strong>ProjectListViewModel</strong>类扩展了<strong>AndroidViewModel</strong>，并在构造函数中调用**getProjectList（”Google”）**来检索Google GitHub项目。</p>
+<p>在现实世界的情况下，在将结果数据传递给观察视图之前可能需要进行转换，为了进行转换，可以使用Transformation类，如下面的文档所示：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYW5kcm9pZC5jb20vdG9waWMvbGlicmFyaWVzL2FyY2hpdGVjdHVyZS9saXZlZGF0YS5odG1sI3RyYW5zZm9ybWF0aW9uc19vZl9saXZlZGF0YQ==">https://developer.android.com/topic/libraries/architecture/livedata.html#transformations_of_livedata<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="示例应用视图图层"><a href="#示例应用视图图层" class="headerlink" title="示例应用视图图层"></a>示例应用视图图层</h3><p>最后，让我们快速浏览一下这个应用程序的视图层，我们主要有一个名为<strong>MainActivity</strong>的Activity，它负责处理代表应用程序视图的两个片段的导航：</p>
+<ul>
+<li><strong>ProjectListFragment</strong>，它显示Google GitHub项目的列表。</li>
+<li><strong>ProjectFragment</strong>，它显示所选的GitHub项目细节。</li>
+</ul>
+<blockquote>
+<p>由于Activities和Fragments被视为生命周期所有者，活动需要扩展LifecycleActivity，片段需要扩展LifecycleFragment。 但是，请务必记住LifecycleActivity和LifecycleFragment类都是临时实现，直到Lifecycle与支持库集成为止：<span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYW5kcm9pZC5jb20vcmVmZXJlbmNlL2FuZHJvaWQvYXJjaC9saWZlY3ljbGUvTGlmZWN5Y2xlQWN0aXZpdHkuaHRtbA==">https://developer.android.com/reference/android/arch/lifecycle/LifecycleActivity.html<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>现在，让我们继续我们的项目检索方案，查看<strong>ProjectListFragment</strong>，下面的代码片段显示了最重要的集成部分。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProjectListFragment</span> <span class="keyword">extends</span> <span class="title class_">LifecycleFragment</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> ProjectAdapter projectAdapter;</span><br><span class="line">    <span class="keyword">private</span> FragmentProjectListBinding binding;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> View <span class="title function_">onCreateView</span><span class="params">(LayoutInflater inflater, <span class="meta">@Nullable</span> ViewGroup container,</span></span><br><span class="line"><span class="params">                           <span class="meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_project_list, container, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        projectAdapter = <span class="keyword">new</span> <span class="title class_">ProjectAdapter</span>(projectClickCallback);</span><br><span class="line">        binding.projectList.setAdapter(projectAdapter);</span><br><span class="line">        binding.setIsLoading(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> binding.getRoot();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onActivityCreated</span><span class="params">(<span class="meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onActivityCreated(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">ProjectListViewModel</span> <span class="variable">viewModel</span> <span class="operator">=</span> ViewModelProviders.of(<span class="built_in">this</span>).get(ProjectListViewModel.class);</span><br><span class="line"></span><br><span class="line">        observeViewModel(viewModel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">observeViewModel</span><span class="params">(ProjectListViewModel viewModel)</span> &#123;</span><br><span class="line">        <span class="comment">// Update the list when the data changes</span></span><br><span class="line">        viewModel.getProjectListObservable().observe(<span class="built_in">this</span>, <span class="keyword">new</span> <span class="title class_">Observer</span>&lt;List&lt;Project&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onChanged</span><span class="params">(<span class="meta">@Nullable</span> List&lt;Project&gt; projects)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (projects != <span class="literal">null</span>) &#123;</span><br><span class="line">                    binding.setIsLoading(<span class="literal">false</span>);</span><br><span class="line">                    projectAdapter.setProjectList(projects);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">ProjectClickCallback</span> <span class="variable">projectClickCallback</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProjectClickCallback</span>() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(Project project)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) &#123;</span><br><span class="line">                ((MainActivity) getActivity()).show(project);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，<strong>ProjectListFragment</strong>获取<strong>ProjectListViewModel</strong>，然后监听其<strong>getProjectListObservable（）<strong>方法，以便在准备好时获取Github项目列表。 最后，一旦检索到项目列表，它将被传递给</strong>projectAdapter</strong>（RecyclerView适配器），以显示RecyclerView组件中的项目列表。</p>
+<p>这是对项目的一个端到端场景的解释，您可以在这里找到GitHub中提供的完整项目：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hhemVtcy9tdnZtLXNhbXBsZS1hcHAvdHJlZS9wYXJ0MQ==">https://github.com/hazems/mvvm-sample-app/tree/part1<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="MVVM实施的重要指导原则"><a href="#MVVM实施的重要指导原则" class="headerlink" title="MVVM实施的重要指导原则"></a>MVVM实施的重要指导原则</h3><p>现在，重点介绍MVVM实现的一些重要指导原则：</p>
+<ul>
+<li>如示例中所示，ViewModels不会直接引用Views，因为如果这样做，ViewModels可能会超出View的生命周期，并且可能会发生内存泄漏。</li>
+<li>建议使用Model和ViewModel使用LiveData公开其数据，因为LiveData尊重应用程序组件（活动，片段，服务）的生命周期状态，并处理确保LiveData对象不泄漏的对象生命周期管理。</li>
+</ul>
+<h3 id="下一篇文章"><a href="#下一篇文章" class="headerlink" title="下一篇文章"></a>下一篇文章</h3><p>故事尚未完成，因为有些事情需要处理，比如：</p>
+<ul>
+<li>依赖注入</li>
+<li>错误处理</li>
+<li>缓存</li>
+<li>在此演示中添加更多功能以查看Room如何促进SQLite数据操作</li>
+<li>单元测试</li>
+<li>其他…</li>
+</ul>
+<p>这将在MVVM的下一系列文章中进行说明，敬请关注。 </p>
 ]]></content>
       <categories>
-        <category>短篇小说</category>
+        <category>Android架构</category>
       </categories>
       <tags>
-        <tag>AI短篇小说</tag>
-        <tag>AI生成</tag>
+        <tag>Android</tag>
+        <tag>译文</tag>
+        <tag>MVVM</tag>
       </tags>
   </entry>
   <entry>
@@ -794,98 +794,67 @@
       </tags>
   </entry>
   <entry>
-    <title>如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)</title>
-    <url>/2018/06/09/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC3%E9%83%A8%E5%88%86%20-%20%E6%A8%A1%E6%8B%9F%E5%92%8C%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文</p>
-<p>很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。</p>
-<p>到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。</p>
-<p>我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。</p>
-<p>如图所示，我们可以创建用于登录的用户界面（我知道你会比这更好的用户界面）。</p>
-<p><img src="https://cdn-images-1.medium.com/max/600/1*pFyDEdZTg8DFVbsIml9OIQ.jpeg" alt="登录界面"></p>
+    <title>我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了</title>
+    <url>/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/</url>
+    <content><![CDATA[<h1 id="我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了"><a href="#我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了" class="headerlink" title="我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了"></a>我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了</h1><h2 id="那个让我热血沸腾的下午"><a href="#那个让我热血沸腾的下午" class="headerlink" title="那个让我热血沸腾的下午"></a>那个让我热血沸腾的下午</h2><p>我至今还记得第一次看到 CCPM (<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2F1dG9tYXplaW8vY2NwbQ==">https://github.com/automazeio/ccpm<i class="fa fa-external-link-alt"></i></span>) 项目的那个下午。</p>
+<p>看到这个项目 GitHub 上 4.7K 个 star，心想：妥了！</p>
+<p>屏幕上，一行行命令被敲下，AI智能体（Agent）像一支训练有素的特种部队，自动分析需求、创建任务、并行处理开发……一切井然有序，充满了未来感。</p>
+<p>我当时的感觉，就像是寻觅多年的屠龙刀终于现世。我激动地拍着大腿，告诉自己：就是它了，敏捷开发的终极答案！纯 AI 口喷代码要升级为自动化开发了！！！</p>
+<p>我摩拳擦掌，立刻在自己的项目里部署了这套系统，准备大干一场。我幻想着，从此以后，我只需要提出需求，我的“AI军团”就会夜以继日地为我工作，交付完美的代码。</p>
+<p>然而，我没高兴太久。两天后，一个残酷的现实几乎把我从云端拽回了地面。</p>
+<h2 id="踩坑实录：我的“AI军团”怎么成了一群“金鱼”？"><a href="#踩坑实录：我的“AI军团”怎么成了一群“金鱼”？" class="headerlink" title="踩坑实录：我的“AI军团”怎么成了一群“金鱼”？"></a>踩坑实录：我的“AI军团”怎么成了一群“金鱼”？</h2><p>一开始还算顺利，但很快，问题就一个接一个地冒了出来。</p>
+<p>我让Claude Code 开发一个AI 小说编译器，一开始用 GPT-5 生成的 PRD（大家都说 GPT-5 计划能力比 Claude 强，适合做架构师），CCPM一顿输出，在 GitHub 项目里生成了一堆 Issue，开始生成一堆开发流的子代理开始深入开发，我发现每个开发流开发的代码都比较差强人意。</p>
+<p>更要命的是，它们好像都患上了“短期失忆症”，记忆力跟金鱼差不多，只有7秒。</p>
+<p>每一次启动一个子任务，它都得把所有的项目资料、代码规范、需求文档重新读一遍。</p>
+<p>我感觉自己不像个运筹帷幄的指挥官，倒像个絮絮叨叨的老妈子，跟在一群健忘的机器人屁股后面，一遍遍重复着：“这是需求文档，拿去看！”，“这是代码规范，别忘了！”，“刚刚那个API是这么定义的，你倒是记一下啊！”</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/1E4C54A8-9397-435E-84A1-A1E463DC6021_2/wYwBOru9vegZRsTkf1stplWG9CDenzQE5ekNcIlc1ycz/Image.png" alt="Image.png"></p>
 <span id="more"></span>
 
-<p>所以我们将编写一些与UI相关的代码。 我们在View和Presenter之间签有合同，即LoginView，如下所示。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">LoginView</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginSuccessMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginFailedMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginAttemptExceededMessage</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在我们将LoginView实现为我们的Activity，如下所示。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title class_">LoginView</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> EditText usernameEditText;</span><br><span class="line">    <span class="keyword">private</span> EditText passwordEditText;</span><br><span class="line">    <span class="keyword">private</span> Button loginButton;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter loginPresenter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">        loginPresenter = <span class="keyword">new</span> <span class="title class_">LoginPresenter</span>();</span><br><span class="line">        initView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initView</span><span class="params">()</span> &#123;</span><br><span class="line">        usernameEditText = (EditText) findViewById(R.id.username_edit_text);</span><br><span class="line">        passwordEditText = (EditText) findViewById(R.id.password_edit_text);</span><br><span class="line">        loginButton = (Button) findViewById(R.id.login_button);</span><br><span class="line"></span><br><span class="line">        loginButton.setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                loginPresenter.validateCredentialsAndPerformLogin(</span><br><span class="line">                        usernameEditText.getText().toString(),</span><br><span class="line">                        passwordEditText.getText().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginSuccessMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Success&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginFailedMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Failed&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginAttemptExceededMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Attempt Exceeded&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们的Presenter实现如下所示</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginPresenter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> LoginView loginView;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> loginAttempt;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LoginPresenter</span><span class="params">(LoginView loginView)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.loginView = loginView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">validateCredentialsAndPerformLogin</span><span class="params">(String username, String password)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isLoginAttemptExceeded()) &#123;</span><br><span class="line">            loginView.showLoginAttemptExceededMessage();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        incrementLoginAttempt();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (username.equals(<span class="string">&quot;admin&quot;</span>) &amp;&amp; password.equals(<span class="string">&quot;admin&quot;</span>)) &#123;</span><br><span class="line">            loginView.showLoginSuccessMessage();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            loginView.showLoginFailedMessage();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">incrementLoginAttempt</span><span class="params">()</span> &#123;</span><br><span class="line">        loginAttempt++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isLoginAttemptExceeded</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> loginAttempt &gt;= <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>您将在LoginPresenterTest中发生错误，因为我们有构建使用LoginView对象的Presenter的构造函数。<br><img src="https://cdn-images-1.medium.com/max/800/1*MCKwoXItQiLJzYc9_z3qjQ.png" alt="错误"><br>为了摆脱这个错误，我们必须在创建演示者对象时将LoginView的对象传递给Presenter。 所以我们必须模拟LoginView.Here来模仿😍。</p>
-<h3 id="什么是模仿？"><a href="#什么是模仿？" class="headerlink" title="什么是模仿？"></a>什么是模仿？</h3><p>你有一个对象，你想要测试的方法，这些方法都依赖于其他对象。 您创建依赖对象的模拟，而不是创建该依赖关系的实际实例。 模拟对象用于单元测试。</p>
-<p>为了模仿，我们将使用Mockito。<br>将以下testCompile依赖项添加到应用程序的build.gradle</p>
-<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">testCompile <span class="string">&#x27;org.mockito:mockito-core:1.10.19&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>现在我们模仿我们的LoginView，如下所示</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*CqN7YriY3D7NVkkXV2TZ-g.png" alt="模仿"></p>
-<p>Ooho😳，😎我们有我们的模拟（神奇）登录对象，可以传递给Presenter。 所以我们的实现就像下图</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*JO-0qh-ZMd8XONeOBtYZmg.png" alt="通过测试"></p>
-<p>运行测试显示绿色信号继续。</p>
-<h3 id="集成测试（Presenter和View之间）"><a href="#集成测试（Presenter和View之间）" class="headerlink" title="集成测试（Presenter和View之间）"></a>集成测试（Presenter和View之间）</h3><p>要验证Presenter调用正确的View方法后，我们使用verify（）。<br><img src="https://cdn-images-1.medium.com/max/800/1*O5FxqfH3kFGp9qVtq3U_2g.png" alt="验证"><br>在上面的代码图中，验证方法确保在视图对象上调用showLoginSuccessMessage（），这确保我们的Presenter正确地与View集成。</p>
-<p>其他测试如下</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*3xwuV6prCaZ2kImWZzdLpg.png" alt="验证"></p>
-<p>End</p>
-<p>同时，希望听到有关这方面的建议和意见。</p>
-<p>干杯🍻!!! </p>
+<p>这种“失忆”的代价是巨大的。</p>
+<p>那天，我怀着忐忑的心情点开了我的Token账单，心瞬间凉了半截。那串不断跳动的数字狠狠地告诉我：我的“AI军团”主要工作不是在写代码，而是在烧钱。</p>
+<p>每一次“失忆”，都是一次昂贵得离谱的上下文重复加载。</p>
+<p>我第一次对AI自动化的前景产生了怀疑。这条路，真的走得通吗？至少以这种方式，肯定走不通。</p>
+<p>后面我查到，Claude Code 子代理（Sub-agent）与主代理的上下文不共享。为了完成任务，子代理需要反复查询和加载项目资料，导致上下文信息重复、混乱且极易丢失。</p>
+<p>上下文的反复加载，使得每一次调用都成本高昂，让自动化流程在经济上变得不可行。</p>
+<h2 id="坑底的思考：问题不在AI，在“管理模式”"><a href="#坑底的思考：问题不在AI，在“管理模式”" class="headerlink" title="坑底的思考：问题不在AI，在“管理模式”"></a>坑底的思考：问题不在AI，在“管理模式”</h2><p>碰壁之后，我冷静了一下。我关掉IDE，开始复盘。</p>
+<p>我问自己一个问题：如果这是一个真人团队，我会怎么管理？</p>
+<p>我绝不会找来10个刚毕业的实习生，把他们关在一个会议室里，扔给他们一堆文档，然后说“你们开始干活吧，自由发挥”。那只会是一场灾难。</p>
+<p>一个高效的团队，必然有清晰的层级和分工。</p>
+<p>这时，我脑子里闪过一道光，瞬间想通了。</p>
+<p>CCPM那一套并行模式，像什么呢？</p>
+<p>虽然项目名称叫做 PM，但是它却像一个没有项目经理的“扁平化委员会”。每个AI Agent都是平等的成员，信息共享基本靠吼（反复读取公共资料），最终导致信息过载、责任不清、效率低下。</p>
+<p>我真正需要的，应该是什么呢？</p>
+<p>我需要一个“高效指挥部”！必须有一个唯一的项目经理（PM），他掌握所有信息和最终决策权。团队其他成员都是领域专家（前端、后端、测试等）。专家们接任务、做研究、写分析报告，然后把报告统一交给PM来整合和执行。专家不需要、也不应该知道项目的全部细节，那只会干扰他们的专业判断。</p>
+<p>这个“指挥官-专家”模式，就是我找到的答案！我立刻为我的AI团队重新制定了铁律：</p>
+<p>唯一的“指挥官”: 必须有一个主Agent，它独占所有“写”权限，是唯一的代码“操盘手”，手握最终代码库的写入权限。<br>专注的“专家们”: 其他所有子Agent，都降级为“研究员”和“规划师”。它们只负责思考和写文档（比如需求分析、技术方案），然后把报告交上来。它们不准碰代码。<br>这样一来，上下文永远是统一的，“指挥官”拥有最完整的记忆。Token成本也瞬间降低，因为不再需要反复加载那昂贵的基础信息了。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/CFF5F8C2-5C09-4775-81D9-94BF6ACD00BE_2/4ODCvczKXZoDb62fm5yic9EXb31MbxgvsTZyjxfBTE4z/Image.png" alt="Image.png"></p>
+<h2 id="动手开干：打造我的“AI开发流水线”cc-devflow"><a href="#动手开干：打造我的“AI开发流水线”cc-devflow" class="headerlink" title="动手开干：打造我的“AI开发流水线”cc-devflow"></a>动手开干：打造我的“AI开发流水线”<code>cc-devflow</code></h2><p>有了新思路，我立刻开始敲代码。</p>
+<p>这一次，我的目标不再是造一个更聪明的AI，而是设计一套更聪明的“工作流程”。我要让开发者真正成为指挥官，只需要下达一个命令，剩下的交给这条自动流水线。</p>
+<p>我把它命名为<code>cc-devflow</code>。</p>
+<p>它的核心，就是那套“指挥部”规矩，我把它变成了真实可用的代码：</p>
+<h3 id="一行命令的魔法：-flow-new"><a href="#一行命令的魔法：-flow-new" class="headerlink" title="一行命令的魔法：/flow-new"></a>一行命令的魔法：<code>/flow-new</code></h3><p>过去，启动一个复杂任务需要敲一连串命令。现在，你只需要在终端输入：<br><code>/flow-new &quot;REQ-123|用户下单支持&quot;</code><br>这就像你走到AI项目经理“老王”的工位，把需求文档拍在他桌上说：“老王，这个需求你跟一下，从头到尾。” 简单、直接。</p>
+<h3 id="透明的进度条：-flow-status"><a href="#透明的进度条：-flow-status" class="headerlink" title="透明的进度条：/flow-status"></a>透明的进度条：<code>/flow-status</code></h3><p>项目开始后，你随时可以像老板一样，问一句：“老王，那事儿到哪一步了？”<br><code>/flow-status REQ-100 --detailed</code><br>他会立刻给你一份清晰的进度报告，告诉你需求分析、任务拆解、编码、测试分别进行到哪个阶段了，绝不藏着掖着。</p>
+<h3 id="不怕掉线的安全感：-flow-restart"><a href="#不怕掉线的安全感：-flow-restart" class="headerlink" title="不怕掉线的安全感：/flow-restart"></a>不怕掉线的安全感：<code>/flow-restart</code></h3><p>最让我安心的是这个功能。就算开发过程中电脑蓝屏了、网络断了，你都不用慌。回来后，只需对“老王”说一声：<br><code>/flow-restart &quot;REQ-100</code>”<br>他就能立刻从上次中断的地方接着干，绝不会把做过的工作再做一遍，更不会忘记自己干到哪了。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/29BF2A0D-BD4D-4A0D-80A9-F6C63A2BF1CB/81392339-353C-49EC-B8E7-F718C93DEBFF_2/2cKAn5I1kSRcKyAvUdBKhOzdiIbXbQq8Zb1mxMbCeUwz/Image.png" alt="Image.png"></p>
+<p>当我终于用<code>cc-devflow</code>完整地跑通第一个需求，看着屏幕上自动弹出的GitHub Pull Request创建成功的通知时，我知道，我成功了。</p>
+<p>五、我的新角色：从“码农”到AI“产品经理”<br>这次经历，彻底改变了我对未来工作的看法。我意识到，我的工作性质，可能永远地改变了。</p>
+<p>我不再是那个埋头写每一行代码的人了。</p>
+<p>我的价值，不再是“写得快不快”，而是“想得清不清楚”。我需要把需求定义得无比清晰，这样我的AI团队才能正确地理解和执行。</p>
+<p>我大部分的时间，开始花在设计和优化<code>.claude/agents/</code>目录下的那些提示词（Prompt）和工作流程（SOP）上，就像在为我的AI员工们编写岗位说明书和培训手册。</p>
+<p>我成为了我自己的AI团队的“产品经理”和“流程架构师”。</p>
+<p>这并不可怕，相反，这很酷。它把我们从重复的、机械的体力劳动中解放出来，去做更具创造性和战略性的思考。你，准备好成为AI的管理者了吗？</p>
+<h2 id="写在最后：这不是终点，而是我们共同的起点"><a href="#写在最后：这不是终点，而是我们共同的起点" class="headerlink" title="写在最后：这不是终点，而是我们共同的起点"></a>写在最后：这不是终点，而是我们共同的起点</h2><p>故事讲到这里，也该结尾了。</p>
+<p>我把<code>cc-devflow</code>这个项目，连同我所有的思考和踩坑经验，都开源了。</p>
+<p>GitHub链接：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RpbW9uOTQvY2MtZGV2Zmxvdw==">https://github.com/Dimon94/cc-devflow<i class="fa fa-external-link-alt"></i></span></p>
+<p>因为我踩过的坑，不希望你再踩一遍。这条探索之路，我一个人走很辛苦，但如果有一群志同道合的人一起走，或许能走得更快、更远。</p>
+<p>你可以通过下面这行简单的命令，立刻“认领”你自己的AI开发团队：<br><code>npx tiged Dimon94/cc-devflow/.claude .claude</code></p>
+<p>如果你对这个项目有任何想法，或者你也有自己的“踩坑故事”，都非常欢迎来GitHub的Issue里分享。<code>cc-devflow</code>不是一个完美的终点，而是我们共同探索AI协作新范式的起点。</p>
 ]]></content>
       <categories>
-        <category>Android测试</category>
+        <category>Dependency Injection</category>
       </categories>
       <tags>
-        <tag>Android</tag>
-        <tag>译文</tag>
-        <tag>TDD</tag>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
-    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
-    <content><![CDATA[<p>原文</p>
-<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
-<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
-<blockquote>
-<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
-</blockquote>
-<span id="more"></span>
-
-<p>Espresso主要的三个类</p>
-<ol>
-<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
-<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
-<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
-</blockquote>
-<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
-<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
-<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
-<p><em>Espresso 的方法是自我解释的。</em></p>
-<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
-<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
-<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
-<p>运行测试正在通过。</p>
-<p>接下来我们将为登录成功编写测试。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
-<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
-<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
-]]></content>
-      <categories>
-        <category>Android测试</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-        <tag>译文</tag>
-        <tag>TDD</tag>
-        <tag>测试</tag>
+        <tag>AI</tag>
       </tags>
   </entry>
   <entry>
@@ -1029,6 +998,101 @@
       <tags>
         <tag>AI短篇小说</tag>
         <tag>AI生成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在Android中执行TDD？第4部分 - 使用Espresso进行UI测试(译)</title>
+    <url>/2018/06/10/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC4%E9%83%A8%E5%88%86%20-%20%E4%BD%BF%E7%94%A8Espresso%E8%BF%9B%E8%A1%8CUI%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文</p>
+<p>在这篇文章中，我们将介绍什么是Espresso，Espresso提供了什么API，如何编写UI测试。</p>
+<h3 id="什么是Espresso"><a href="#什么是Espresso" class="headerlink" title="什么是Espresso ?"></a><strong>什么是Espresso ?</strong></h3><p>Espresso正在为谷歌测试用于UI测试的框架。 它为单一应用程序中的UI测试提供了API。 用户界面测试可确保用户交互不良或遇到意外行为。</p>
+<blockquote>
+<p>我知道你现在习惯于为你的代码编写测试（至少这是我对你的<strong>期望）。</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<p>Espresso主要的三个类</p>
+<ol>
+<li><strong>ViewMatcher</strong>：用于使用onView（）在UI上查找视图</li>
+<li><strong>ViewActions</strong>：用户使用ViewInteraction.perform（）对UI元素执行操作</li>
+<li><strong>ViewAssertion</strong>：用于使用ViewInteraction.check（）来断言视图</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onView(withId(R.id.my_view))      <span class="comment">// withId(R.id.my_view) is a ViewMatcher</span></span><br><span class="line">    .perform(click())             <span class="comment">// click() is a ViewAction</span></span><br><span class="line">    .check(matches(isDisplayed())); <span class="comment">// matches(isDisplayed()) is a ViewAssertion</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在LoginActivity上按SHIFT + CTRL + T并在androidTest文件夹中为UI测试创建测试类。</p>
+</blockquote>
+<p>在类名上创建@RunWith（AndroidJUnit4.class）之后</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nSDNz81yNzMoZv9ATHni6Q.png" alt="创建测试类"></p>
+<p>现在我们用@Test注解编写测试<strong>checkUserNameEditTextIsDisplayed（）</strong>。 我们还需要ActivityTestRule。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*TXmipgWmUgbRjSKIua5qSA.png" alt="编写测试"></p>
+<p>在<strong>checkUserNameEditTextIsDisplayed（）<strong>中我们检查的是用户名</strong>EditText</strong>显示在UI上。</p>
+<p><em>Espresso 的方法是自我解释的。</em></p>
+<p>运行它将通过的测试（对于运行测试，我们需要仿真器或实际设备，因为这是UI测试）。</p>
+<p>现在尝试使用户编辑文本的可见性消失，并再次运行测试失败。</p>
+<p>现在我们测试点击空白字段的登录按钮，并检查是否显示错误消息。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*dimJrtNfxgNzRWqqY6dHmg.png" alt="测试空白字段"></p>
+<p>运行测试正在通过。</p>
+<p>接下来我们将为登录成功编写测试。</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*7utZHMwuzuac8WaoDLr0jA.png" alt="测试登录成功"></p>
+<p>干杯！🍺🍺🍺。 我们已经完成了基本的测试。 测试中还有很多需要探索的地方。</p>
+<p>希望听到你的建议，对这个系列或帖子的投入<br>如果你喜欢关于TDD的系列，请将其推荐给其他人。<br>欲了解更多信息，请在Medium上关注我。 </p>
+]]></content>
+      <categories>
+        <category>Android测试</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>译文</tag>
+        <tag>TDD</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在Android中执行TDD？第3部分 - 模拟和集成测试(译)</title>
+    <url>/2018/06/09/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%E7%AC%AC3%E9%83%A8%E5%88%86%20-%20%E6%A8%A1%E6%8B%9F%E5%92%8C%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95(%E8%AF%91)/</url>
+    <content><![CDATA[<p>原文</p>
+<p>很久以后，这是系列的第三篇教程。 我希望你们都做得很好，享受教程系列（阅读，编码和改进）。</p>
+<p>到目前为止，在本系列的第1部分和第2部分，为什么开发人员害怕重构代码，我们获得了为什么TDD至高无上，Android测试的类型，测试的位置，如何编写和运行测试等。</p>
+<p>我们覆盖了单元测试到现在，接下来我们将转向集成测试，以验证演示者是否应对UI。</p>
+<p>如图所示，我们可以创建用于登录的用户界面（我知道你会比这更好的用户界面）。</p>
+<p><img src="https://cdn-images-1.medium.com/max/600/1*pFyDEdZTg8DFVbsIml9OIQ.jpeg" alt="登录界面"></p>
+<span id="more"></span>
+
+<p>所以我们将编写一些与UI相关的代码。 我们在View和Presenter之间签有合同，即LoginView，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">LoginView</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginSuccessMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginFailedMessage</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">showLoginAttemptExceededMessage</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们将LoginView实现为我们的Activity，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title class_">LoginView</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> EditText usernameEditText;</span><br><span class="line">    <span class="keyword">private</span> EditText passwordEditText;</span><br><span class="line">    <span class="keyword">private</span> Button loginButton;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter loginPresenter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">        loginPresenter = <span class="keyword">new</span> <span class="title class_">LoginPresenter</span>();</span><br><span class="line">        initView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">initView</span><span class="params">()</span> &#123;</span><br><span class="line">        usernameEditText = (EditText) findViewById(R.id.username_edit_text);</span><br><span class="line">        passwordEditText = (EditText) findViewById(R.id.password_edit_text);</span><br><span class="line">        loginButton = (Button) findViewById(R.id.login_button);</span><br><span class="line"></span><br><span class="line">        loginButton.setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                loginPresenter.validateCredentialsAndPerformLogin(</span><br><span class="line">                        usernameEditText.getText().toString(),</span><br><span class="line">                        passwordEditText.getText().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginSuccessMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Success&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginFailedMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Failed&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">showLoginAttemptExceededMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        Toast.makeText(<span class="built_in">this</span>, <span class="string">&quot;Login Attempt Exceeded&quot;</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们的Presenter实现如下所示</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginPresenter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> LoginView loginView;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> loginAttempt;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LoginPresenter</span><span class="params">(LoginView loginView)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.loginView = loginView;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">validateCredentialsAndPerformLogin</span><span class="params">(String username, String password)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isLoginAttemptExceeded()) &#123;</span><br><span class="line">            loginView.showLoginAttemptExceededMessage();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        incrementLoginAttempt();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (username.equals(<span class="string">&quot;admin&quot;</span>) &amp;&amp; password.equals(<span class="string">&quot;admin&quot;</span>)) &#123;</span><br><span class="line">            loginView.showLoginSuccessMessage();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            loginView.showLoginFailedMessage();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">incrementLoginAttempt</span><span class="params">()</span> &#123;</span><br><span class="line">        loginAttempt++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">isLoginAttemptExceeded</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> loginAttempt &gt;= <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您将在LoginPresenterTest中发生错误，因为我们有构建使用LoginView对象的Presenter的构造函数。<br><img src="https://cdn-images-1.medium.com/max/800/1*MCKwoXItQiLJzYc9_z3qjQ.png" alt="错误"><br>为了摆脱这个错误，我们必须在创建演示者对象时将LoginView的对象传递给Presenter。 所以我们必须模拟LoginView.Here来模仿😍。</p>
+<h3 id="什么是模仿？"><a href="#什么是模仿？" class="headerlink" title="什么是模仿？"></a>什么是模仿？</h3><p>你有一个对象，你想要测试的方法，这些方法都依赖于其他对象。 您创建依赖对象的模拟，而不是创建该依赖关系的实际实例。 模拟对象用于单元测试。</p>
+<p>为了模仿，我们将使用Mockito。<br>将以下testCompile依赖项添加到应用程序的build.gradle</p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line">testCompile <span class="string">&#x27;org.mockito:mockito-core:1.10.19&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们模仿我们的LoginView，如下所示</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*CqN7YriY3D7NVkkXV2TZ-g.png" alt="模仿"></p>
+<p>Ooho😳，😎我们有我们的模拟（神奇）登录对象，可以传递给Presenter。 所以我们的实现就像下图</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*JO-0qh-ZMd8XONeOBtYZmg.png" alt="通过测试"></p>
+<p>运行测试显示绿色信号继续。</p>
+<h3 id="集成测试（Presenter和View之间）"><a href="#集成测试（Presenter和View之间）" class="headerlink" title="集成测试（Presenter和View之间）"></a>集成测试（Presenter和View之间）</h3><p>要验证Presenter调用正确的View方法后，我们使用verify（）。<br><img src="https://cdn-images-1.medium.com/max/800/1*O5FxqfH3kFGp9qVtq3U_2g.png" alt="验证"><br>在上面的代码图中，验证方法确保在视图对象上调用showLoginSuccessMessage（），这确保我们的Presenter正确地与View集成。</p>
+<p>其他测试如下</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*3xwuV6prCaZ2kImWZzdLpg.png" alt="验证"></p>
+<p>End</p>
+<p>同时，希望听到有关这方面的建议和意见。</p>
+<p>干杯🍻!!! </p>
+]]></content>
+      <categories>
+        <category>Android测试</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>译文</tag>
+        <tag>TDD</tag>
+        <tag>测试</tag>
       </tags>
   </entry>
 </search>
