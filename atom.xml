@@ -4,7 +4,7 @@
   <subtitle>日日是好日</subtitle>
   <link href="https://dimon94.github.io/atom.xml" rel="self"/>
   <link href="https://dimon94.github.io/"/>
-  <updated>2025-09-18T13:28:35.426Z</updated>
+  <updated>2025-09-18T13:39:53.033Z</updated>
   <id>https://dimon94.github.io/</id>
   
   <author>
@@ -23,9 +23,9 @@
     <link href="https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/"/>
     <id>https://dimon94.github.io/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/</id>
     <published>2025-09-18T13:37:16.000Z</published>
-    <updated>2025-09-18T13:28:35.426Z</updated>
+    <updated>2025-09-18T13:39:53.033Z</updated>
     
-    <content type="html"><![CDATA[&lt;h1 id=&quot;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot;&gt;&lt;a href=&quot;#我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot; class=&quot;headerlink&quot; title=&quot;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&quot;&gt;&lt;/a&gt;我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了&lt;/h1&gt;&lt;h2 id=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;a href=&quot;#那个让我热血沸腾的下午&quot; class=&quot;headerlink&quot; title=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;/a&gt;那个让我热血沸腾的下午&lt;/h2&gt;&lt;p&gt;我至今还记得第一次看到 CCPM (&lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL2F1dG9tYXplaW8vY2NwbQ==&quot;&gt;https://github.com/automazeio/ccpm&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;) 项目的那个下午。&lt;/p&gt;
+    <content type="html"><![CDATA[&lt;h2 id=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;a href=&quot;#那个让我热血沸腾的下午&quot; class=&quot;headerlink&quot; title=&quot;那个让我热血沸腾的下午&quot;&gt;&lt;/a&gt;那个让我热血沸腾的下午&lt;/h2&gt;&lt;p&gt;我至今还记得第一次看到 CCPM (&lt;span class=&quot;exturl&quot; data-url=&quot;aHR0cHM6Ly9naXRodWIuY29tL2F1dG9tYXplaW8vY2NwbQ==&quot;&gt;https://github.com/automazeio/ccpm&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/span&gt;) 项目的那个下午。&lt;/p&gt;
 &lt;p&gt;看到这个项目 GitHub 上 4.7K 个 star，心想：妥了！&lt;/p&gt;
 &lt;p&gt;屏幕上，一行行命令被敲下，AI智能体（Agent）像一支训练有素的特种部队，自动分析需求、创建任务、并行处理开发……一切井然有序，充满了未来感。&lt;/p&gt;
 &lt;p&gt;我当时的感觉，就像是寻觅多年的屠龙刀终于现世。我激动地拍着大腿，告诉自己：就是它了，敏捷开发的终极答案！纯 AI 口喷代码要升级为自动化开发了！！！&lt;/p&gt;
@@ -80,7 +80,7 @@
 &lt;p&gt;如果你对这个项目有任何想法，或者你也有自己的“踩坑故事”，都非常欢迎来GitHub的Issue里分享。&lt;code&gt;cc-devflow&lt;/code&gt;不是一个完美的终点，而是我们共同探索AI协作新范式的起点。&lt;/p&gt;
 ]]></content>
     
-      <category term="Dependency Injection"/>
+      <category term="AI研习录"/>
     
     
       <category term="AI"/>

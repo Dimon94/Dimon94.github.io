@@ -22,26 +22,18 @@
     var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Android自动化测试教程系列,使用JUnit＆Espresso 自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="如何在Android中执行TDD？ 第1部分 - 概述(译)">
-<meta property="og:url" content="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/index.html">
+  <meta name="description" content="人到中年日日新，不待扬鞭自奋蹄">
+<meta property="og:type" content="website">
+<meta property="og:title" content="朴哲一的博客">
+<meta property="og:url" content="https://dimon94.github.io/categories/AI%E7%A0%94%E4%B9%A0%E5%BD%95/index.html">
 <meta property="og:site_name" content="朴哲一的博客">
-<meta property="og:description" content="Android自动化测试教程系列,使用JUnit＆Espresso 自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。 有关TDD的更多信息，请参阅此前的教程。">
+<meta property="og:description" content="人到中年日日新，不待扬鞭自奋蹄">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
-<meta property="og:image" content="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png">
-<meta property="article:published_time" content="2018-05-27T14:36:16.000Z">
-<meta property="article:modified_time" content="2025-01-15T14:44:14.118Z">
 <meta property="article:author" content="朴哲一">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="译文">
-<meta property="article:tag" content="TDD">
-<meta property="article:tag" content="测试">
+<meta property="article:tag" content="blog, tech, life">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png">
 
-<link rel="canonical" href="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/">
+<link rel="canonical" href="https://dimon94.github.io/categories/AI%E7%A0%94%E4%B9%A0%E5%BD%95/">
 
 
 <script id="page-configurations">
@@ -49,12 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>如何在Android中执行TDD？ 第1部分 - 概述(译) | 朴哲一的博客</title>
+  <title>分类: AI研习录 | 朴哲一的博客</title>
   
 
 
@@ -194,146 +186,57 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content category">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2018/05/27/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC1%E9%83%A8%E5%88%86%20-%20%E6%A6%82%E8%BF%B0(%E8%AF%91)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="朴哲一">
-      <meta itemprop="description" content="人到中年日日新，不待扬鞭自奋蹄">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="朴哲一的博客">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          如何在Android中执行TDD？ 第1部分 - 概述(译)
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-05-27 22:36:16" itemprop="dateCreated datePublished" datetime="2018-05-27T22:36:16+08:00">2018-05-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-01-15 22:44:14" itemprop="dateModified" datetime="2025-01-15T22:44:14+08:00">2025-01-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Android测试</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">AI研习录
+          <small>分类</small>
+        </h2>
+      </div>
 
       
-        <p>Android自动化测试教程系列,使用JUnit＆Espresso</p>
-<p>自动化测试非常重要，因为它在开发应用程序时确保了质量.TDD在编写实现之前执行写入测试。</p>
-<p>有关TDD的更多信息，请参阅此前的教程。</p>
-<span id="more"></span>
-
-<h3 id="测试金字塔："><a href="#测试金字塔：" class="headerlink" title="测试金字塔："></a>测试金字塔：</h3><p>正如我们可以看到下面的金字塔：</p>
-<p><img src="https://cdn-images-1.medium.com/max/600/1*9LV9happxsb-UqmmnDk-Qw.png" alt="测试金字塔"></p>
-<p><strong>单元测试</strong>涵盖了制作坚实基础的大部分金字塔。 单元测试很容易编写。</p>
-<p><strong>集成测试</strong>确保模块的集成是正确的，并覆盖第二大块金字塔。</p>
-<p><strong>功能测试</strong>通常描述系统在三部分中所做的并占据最小的部分。</p>
-<p>有许多测试工具和框架可以在开发应用程序时使用。 其中一些是由Google提供和支持的，其中一些是第三方。</p>
-<h3 id="Android中的测试类型："><a href="#Android中的测试类型：" class="headerlink" title="Android中的测试类型："></a>Android中的测试类型：</h3><h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><p>单元测试主要针对与其他组件隔离的最小功能（如方法，类，组件或小模块）。</p>
-<p><em>用于单元测试的工具：</em></p>
-<ul>
-<li>JUnit是编写可重复测试的简单框架。 它是单元测试框架的xUnit体系结构的一个实例。</li>
-<li>Robolectric是流行的Android单元测试框架，通过在JVM上运行测试（不需要任何设备或仿真器），可以加快测试的执行速度。</li>
-</ul>
-<h4 id="UI测试"><a href="#UI测试" class="headerlink" title="UI测试"></a>UI测试</h4><p>UI测试是模拟用户交互的测试，如单击按钮，在EditText中输入文本。 Android Instrumentation是Android系统中的一组”挂钩”，它允许您控制Android组件的生命周期（即自己驱动活动生命周期，而不是由系统驱动这些生命周期）。 这些测试需要运行实际的设备或仿真器。</p>
-<p><em>用于UI测试的工具：</em></p>
-<ul>
-<li>Espresso - Google提供的Android UI测试框架，可以很好地处理测试同步。</li>
-<li>UIAutomator - Google提供的Android UI测试框架，用于同时测试多个应用程序。</li>
-<li>Robotium - 第三方Android UI测试框架（Robotium vs Espresso）</li>
-<li>Selendroid - Selenium for Android</li>
-</ul>
-<h4 id="项目测试目录结构"><a href="#项目测试目录结构" class="headerlink" title="项目测试目录结构"></a>项目测试目录结构</h4><p>在我们的项目中，两个文件夹托管我们的测试，这些测试是test和androidTest。</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*64ZYn-MpgqAMAwXaWNHdFA.png" alt="测试目录结构"></p>
-<p><strong>test</strong>：单元测试托管在此文件夹中。 这些测试在JVM上运行，不需要Android设备或模拟器。 这种类型的测试无法访问任何Android框架特定的组件，如上下文。</p>
-<p><strong>androidTest</strong>： - 所有Instrumentation（Espresso）测试托管在此文件夹中。这些测试需要物理Android设备或模拟器才能运行。</p>
-<p>在下一篇文章中，我们将深入探讨遵循和执行单元测试的体系结构。</p>
-<p>同时，希望听到有关这方面的建议和意见。</p>
-<p>干杯🍻!!! </p>
-
+    <div class="collection-year">
+      <span class="collection-header">2025</span>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Android/" rel="tag"># Android</a>
-              <a href="/tags/%E8%AF%91%E6%96%87/" rel="tag"># 译文</a>
-              <a href="/tags/TDD/" rel="tag"># TDD</a>
-              <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
-          </div>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2025-09-18T21:37:16+08:00"
+              content="2025-09-18">
+          09-18
+        </time>
+      </div>
 
-        
+      <div class="post-title">
+          <a class="post-title-link" href="/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86/" itemprop="url">
+            <span itemprop="name">我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了</span>
+          </a>
+      </div>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2018/05/20/MVVM%20%E6%9E%B6%E6%9E%84%EF%BC%8CViewModel%20%E5%92%8CLiveData%20%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/" rel="prev" title="MVVM 架构，ViewModel 和LiveData 第二部分(译)">
-      <i class="fa fa-chevron-left"></i> MVVM 架构，ViewModel 和LiveData 第二部分(译)
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2018/06/03/%E5%A6%82%E4%BD%95%E5%9C%A8Android%E4%B8%AD%E6%89%A7%E8%A1%8CTDD%EF%BC%9F%20%E7%AC%AC2%E9%83%A8%E5%88%86%20-%20%E9%A1%B9%E7%9B%AE%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%EF%BC%8C%E8%AE%BE%E7%BD%AE%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95(%E8%AF%91)/" rel="next" title="如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译)">
-      如何在Android中执行TDD？ 第2部分 - 项目体系结构，设置和单元测试(译) <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -380,7 +283,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%87%91%E5%AD%97%E5%A1%94%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">测试金字塔：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android%E4%B8%AD%E7%9A%84%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">Android中的测试类型：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UI%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">UI测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%B5%8B%E8%AF%95%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">项目测试目录结构</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -568,25 +470,6 @@
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'Ov23liWbPfT2k7DLYffF',
-      clientSecret: '6d5a487ef249df1dcb4d3144150a9ee0523d6043',
-      repo        : 'Dimon94.github.io',
-      owner       : 'Dimon94',
-      admin       : ['Dimon94'],
-      id          : '81ae545ad24d381d1b898b845473a66c',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
 </body>
 </html>
