@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dimon94.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"搜索文章","hits_empty":"没有找到任何搜索结果: ${query}","hits_stats":"找到约 ${hits} 个结果，用时 ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="你有没有觉得，和 AI 一起写代码，时常像在带一个天赋异禀但不守规矩的实习生？ 它能瞬间写出你半小时都憋不出的函数，也能在你最需要稳定输出时，给你一段天马行空的“艺术创作”。我们试图用复杂的 Prompt、用各种框架去约束它，但多数时候，我们仍像个疲惫的指挥官，在混乱的战场上勉力维持秩序。 因为我们搞错了一件事：开发的核心，从来不是写代码。 几十年来，代码为王。我们写的文档、画的图，都是为了服务于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我宣布，这才是 AI 开发的“圣杯”（上）">
+<meta property="og:url" content="https://dimon94.github.io/2025/09/25/%E6%88%91%E5%AE%A3%E5%B8%83%EF%BC%8C%E8%BF%99%E6%89%8D%E6%98%AF%20AI%20%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:site_name" content="朴哲一的博客">
+<meta property="og:description" content="你有没有觉得，和 AI 一起写代码，时常像在带一个天赋异禀但不守规矩的实习生？ 它能瞬间写出你半小时都憋不出的函数，也能在你最需要稳定输出时，给你一段天马行空的“艺术创作”。我们试图用复杂的 Prompt、用各种框架去约束它，但多数时候，我们仍像个疲惫的指挥官，在混乱的战场上勉力维持秩序。 因为我们搞错了一件事：开发的核心，从来不是写代码。 几十年来，代码为王。我们写的文档、画的图，都是为了服务于">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/35914B6C-AED5-433F-8526-50841C0AA001_2/qX0rolSqlQtfxxA6cZuCvPYFtw0jQCOjH9AuAyqXm3Iz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/DF24FE27-EB49-4D3C-AE91-1CAA3AF03C74_2/fCHOFirCR5y5PrFqlcOx9hyx7DIS88KM0GhsruQWlOQz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/ed2d9f28-b24a-2747-ff91-87bc7383237e/r5FLv3NuU5v3HKrFCULjgwJHJbhjWGFHw7syRS7QJ08z/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/192fd63b-bfac-dc2b-fd99-8dab5922569e/x8x06yGP7g26OHZgxrwjL3e9tNpCifgDic2ApM4DwcIz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/6d8e7184-fb41-6855-f682-98ab2d33f4bd/lKpqAD2SacNODV5QnAeUTa4HQUyMrHMlQrzfiG4yjlsz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/a6c60141-7ff2-6e83-3b59-383446d5ebe1/SekqgVmWH7G2hz7tUq5K0bhQNsQiRzcpA8fJyxt2048z/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/29806654-3663-dff2-c9b4-e8a94b03d2f3/x66ALYvS2ti4LdwoJP1PZ1xUpIxyRUWY5IG1w8vrBkgz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/b9f4415a-fc34-f273-cddd-3157a16e8985/ruN0bp72fgnO94qmbpKUGojb6gk7flbH7ky5CKnTlIwz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/4F95DCE1-F6AB-4C77-B8D0-0A2318C0ECAE_2/6DIoWuxw3P0fywZNxKwXskJdFbbtpgyIkywUq0y1xw8z/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/6BACF1D3-8125-427B-889C-2A581EC50ABC_2/aU6EwY4w4gQEWhwiD0YXwh2rjDm3mASUhvRUdxqpRREz/Image.png">
+<meta property="og:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/0eca5bb7-cea9-04b3-b430-dfbf7d300562/1tYLx88zj9gwcXdRhkhxWMLUI47nGnwPM64YlSJn4Y8z/Image.png">
+<meta property="article:published_time" content="2025-09-25T02:39:16.000Z">
+<meta property="article:modified_time" content="2025-09-25T03:04:42.854Z">
+<meta property="article:author" content="朴哲一">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/35914B6C-AED5-433F-8526-50841C0AA001_2/qX0rolSqlQtfxxA6cZuCvPYFtw0jQCOjH9AuAyqXm3Iz/Image.png">
+
+<link rel="canonical" href="https://dimon94.github.io/2025/09/25/%E6%88%91%E5%AE%A3%E5%B8%83%EF%BC%8C%E8%BF%99%E6%89%8D%E6%98%AF%20AI%20%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>我宣布，这才是 AI 开发的“圣杯”（上） | 朴哲一的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="朴哲一的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朴哲一的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">日日是好日</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-rss">
+
+    <a href="/atom.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+  
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dimon94.github.io/2025/09/25/%E6%88%91%E5%AE%A3%E5%B8%83%EF%BC%8C%E8%BF%99%E6%89%8D%E6%98%AF%20AI%20%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="朴哲一">
+      <meta itemprop="description" content="人到中年日日新，不待扬鞭自奋蹄">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朴哲一的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我宣布，这才是 AI 开发的“圣杯”（上）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-09-25 10:39:16 / 修改时间：11:04:42" itemprop="dateCreated datePublished" datetime="2025-09-25T10:39:16+08:00">2025-09-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI%E7%A0%94%E4%B9%A0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">AI研习录</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="vercount_value_page_pv" data-path="/2025/09/25/%E6%88%91%E5%AE%A3%E5%B8%83%EF%BC%8C%E8%BF%99%E6%89%8D%E6%98%AF%20AI%20%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/" data-title="我宣布，这才是 AI 开发的“圣杯”（上）"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>你有没有觉得，和 AI 一起写代码，时常像在带一个天赋异禀但不守规矩的实习生？</p>
+<p>它能瞬间写出你半小时都憋不出的函数，也能在你最需要稳定输出时，给你一段天马行空的“艺术创作”。我们试图用复杂的 Prompt、用各种框架去约束它，但多数时候，我们仍像个疲惫的指挥官，在混乱的战场上勉力维持秩序。</p>
+<p>因为我们搞错了一件事：开发的核心，从来不是写代码。</p>
+<p>几十年来，代码为王。我们写的文档、画的图，都是为了服务于那最终的代码。代码是唯一的事实，文档是终将腐朽的脚手架。</p>
+<p>但今天，AI 正在颠覆这一切。</p>
+<span id="more"></span>
+
+<p>GitHub 官方发布的一个开源项目 spec-kit（已获 2.4万+ Star），背后揭示了一种全新的开发范式——规约驱动开发（Spec-Driven Development, SDD）。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/35914B6C-AED5-433F-8526-50841C0AA001_2/qX0rolSqlQtfxxA6cZuCvPYFtw0jQCOjH9AuAyqXm3Iz/Image.png" alt="Image.png"></p>
+<p>它的核心思想简单而彻底：</p>
+<blockquote>
+<p>Spec-Driven Development (SDD) inverts this power structure.</p>
+</blockquote>
+<blockquote>
+<p>规约驱动开发（SDD）颠覆了这种权力结构。</p>
+</blockquote>
+<p>在这场“权力反转”中，代码不再是国王，而“规约”（Specification）——一份定义了“做什么”和“为什么做”的文档——加冕为王。代码，只是规约忠实的仆人。</p>
+<p>这不仅是效率的提升，这是一场软件开发的工业革命。</p>
+<p>这篇文章，就是我亲身实践这场革命的完整记录。我将带你见证，一个模糊的商业想法，是如何在一个下午之内，被 AI 变成一份包含完整架构设计和50个开发任务的专业工程蓝图。</p>
+<hr>
+<h1 id="Spec-Driven-Development，AI时代的「开发宪章」"><a href="#Spec-Driven-Development，AI时代的「开发宪章」" class="headerlink" title="Spec-Driven Development，AI时代的「开发宪章」"></a>Spec-Driven Development，AI时代的「开发宪章」</h1><p>在深入案例前，我们必须先理解 SDD 的世界观。它到底是什么？</p>
+<p>如果说我之前摸索的 <code>cc-devflow</code> 是一套精巧的“流程管理办法”，那么 SDD 就是一部指导AI行为的“开发宪章”。</p>
+<p>SDD 的强大，在于它为混乱的AI开发世界，建立了三条不容置疑的核心原则：</p>
+<ol>
+<li><strong>规约为通用语 (Specifications as the Lingua Franca)</strong> 规约，是人类与AI之间沟通的唯一语言。它取代了代码，成为项目的“唯一事实来源”。我们的一切讨论、修改、迭代，都围绕规约进行。代码，仅仅是规约在某个特定技术栈下的自动翻译。</li>
+<li><strong>规约即可执行 (Executable Specifications)</strong> 规约不能是模糊的、供人揣测的散文。它必须精确、完整、无歧义，足以被AI直接理解并生成对应的代码和测试用例。这从根本上消除了“需求”与“实现”之间的鸿沟。</li>
+<li><strong>反馈即进化 (Bidirectional Feedback)</strong> 生产环境的运行数据、用户的行为、甚至是系统报错，都会反向流动，成为修订“规约”的输入。这形成了一个从想法到规约，再到代码，最终回归到规约的完美闭环。</li>
+</ol>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/DF24FE27-EB49-4D3C-AE91-1CAA3AF03C74_2/fCHOFirCR5y5PrFqlcOx9hyx7DIS88KM0GhsruQWlOQz/Image.png" alt="Image.png"></p>
+<p>理解了这三点，你就能明白，SDD 不仅仅是“让AI写代码”，而是建立了一套全新的、以规约为中心的、可持续进化的开发契约。</p>
+<hr>
+<h1 id="我如何用15分钟，为“小红书商机挖掘器”绘制完整工程蓝图"><a href="#我如何用15分钟，为“小红书商机挖掘器”绘制完整工程蓝图" class="headerlink" title="我如何用15分钟，为“小红书商机挖掘器”绘制完整工程蓝图"></a><strong>我如何用15分钟，为“小红书商机挖掘器”绘制完整工程蓝图</strong></h1><p>理论听起来总是优雅的。</p>
+<p>现在，让我们进入实战，看看这部“宪章”的威力。</p>
+<p>我的目标很简单：开发一个“小红书商机挖掘器”。</p>
+<p>能分析评论，挖掘真实需求，并验证其商业可行性。</p>
+<p>这是一个典型的、充满不确定性的模糊想法。</p>
+<p>在传统模式下，这至少需要一个产品经理、一个架构师、一个项目经理花费数天时间来回拉扯。</p>
+<p>但在SDD模式下，我只用了三条命令。</p>
+<h2 id="init-constitution-—-为项目“立宪法”"><a href="#init-constitution-—-为项目“立宪法”" class="headerlink" title="/init &amp; /constitution — 为项目“立宪法”"></a><strong><code>/init &amp; /constitution</code> — 为项目“立宪法”</strong></h2><p>首先，我通过 <code>uv tool install</code> 安装了 <code>spec-kit</code>，并用 <code>specify init &lt;项目名&gt; </code>初始化了我的项目。</p>
+<blockquote>
+<p><code>1️⃣：uv tool install specify-cli --from git+https://github.com/github/spec-kit.git</code></p>
+</blockquote>
+<blockquote>
+<p>2️⃣：<code>specify init &lt;项目名&gt; </code></p>
+</blockquote>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/ed2d9f28-b24a-2747-ff91-87bc7383237e/r5FLv3NuU5v3HKrFCULjgwJHJbhjWGFHw7syRS7QJ08z/Image.png" alt="Image.png"></p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/192fd63b-bfac-dc2b-fd99-8dab5922569e/x8x06yGP7g26OHZgxrwjL3e9tNpCifgDic2ApM4DwcIz/Image.png" alt="Image.png"></p>
+<p>init 项目后，会自动生成.claude 和 .specify 两个文件夹。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/6d8e7184-fb41-6855-f682-98ab2d33f4bd/lKpqAD2SacNODV5QnAeUTa4HQUyMrHMlQrzfiG4yjlsz/Image.png" alt="Image.png"></p>
+<p>因为我们在 init 的时候选择的是 Claude Code，spec-kit 会自动生成Claude Code 能够识别的 commands。</p>
+<p>.specify 文件夹里包含了memory（宪章模板） 、scripts（脚本）、templates（plan&#x2F;sepc&#x2F;task 等模板）</p>
+<p>init 项目后，启动Claude Code 会自动相关命令。（偶尔会抽抽识别不出来）</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/a6c60141-7ff2-6e83-3b59-383446d5ebe1/SekqgVmWH7G2hz7tUq5K0bhQNsQiRzcpA8fJyxt2048z/Image.png" alt="Image.png"></p>
+<p>我用官方的宪章文案再加上我平时的一些让 AI 遵守的原则，使用 <code>/constitution</code> 命令创建您项目的治理原则和发展指南，这些原则将指导所有后续的开发。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/29806654-3663-dff2-c9b4-e8a94b03d2f3/x66ALYvS2ti4LdwoJP1PZ1xUpIxyRUWY5IG1w8vrBkgz/Image.png" alt="Image.png"></p>
+<p>执行后，一个关键的文件诞生了：.specify&#x2F;memory&#x2F;constitution.md。</p>
+<p>这，就是我们项目的“宪法”。它不是普通的配置文件，它是一系列不可动摇的原则，是给AI戴上的“思想钢印”，确保它未来所有的行为都严格遵守我们的工程纪律。</p>
+<p>比如，其中最震撼的条款之一：</p>
+<blockquote>
+<p>Article III: Test-First Imperative</p>
+</blockquote>
+<blockquote>
+<p>This is NON-NEGOTIABLE: All implementation MUST follow strict Test-Driven Development.<br>No implementation code shall be written before:</p>
+</blockquote>
+<blockquote>
+<p>Unit tests are written<br>Tests are validated and approved by the user<br>Tests are confirmed to FAIL (Red phase)</p>
+</blockquote>
+<blockquote>
+<p>第三条：测试优先原则 </p>
+</blockquote>
+<blockquote>
+<p>这是不可协商的：所有实现必须严格遵循测试驱动开发。 </p>
+</blockquote>
+<blockquote>
+<p>在编写以下内容之前，不得编写任何实现代码： </p>
+</blockquote>
+<ul>
+<li><blockquote>
+<p>单元测试已编写 </p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>测试已通过用户验证和批准 </p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>测试已确认失败（红色阶段）</p>
+</blockquote>
+</li>
+</ul>
+<p>“不可协商”、“严格遵循测试驱动开发”、“确认测试失败”。</p>
+<p>在项目开始的第一分钟，我就以“宪法”的形式，将软件工程的最佳实践，注入了AI的灵魂。</p>
+<h2 id="specify-—-AI化身“顶级产品经理”"><a href="#specify-—-AI化身“顶级产品经理”" class="headerlink" title="/specify — AI化身“顶级产品经理”"></a><strong><code>/specify</code> — AI化身“顶级产品经理”</strong></h2><p>我向AI下达了第一个指令，用一长串自然、甚至有些口语化的中文描述了我的想法：</p>
+<blockquote>
+<p>&#x2F;specify  开发一个工具，专门用于分析小红书里用户的评论，挖掘某类ToC 用户的真实需求，并且通过爬虫技术和 AI 能力挖掘需求且验证需求，验证是否为商机，我希望的是找到具体为某个需求付费的客户，这个客户量是否足够大，需求是否真实和用户是否愿意掏出真金白银付费，且实际可落地的需求。</p>
+</blockquote>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/b9f4415a-fc34-f273-cddd-3157a16e8985/ruN0bp72fgnO94qmbpKUGojb6gk7flbH7ky5CKnTlIwz/Image.png" alt="Image.png"></p>
+<p>AI没有立刻开始写代码，而是扮演起了产品经理的角色：</p>
+<ol>
+<li><strong>自动创建了一个语义化的分支</strong>：<code>001-toc-ai</code>。</li>
+<li><strong>生成了一份结构化的规约文档</strong>：<code>spec.md</code>。</li>
+</ol>
+<p>这份 <code>spec.md</code> 里，包含了用户故事、功能清单、非功能性需求、甚至还有AI自己提出的“待澄清项 <code>[NEEDS CLARIFICATION]</code>”。</p>
+<p>它将我的发散想法，瞬间收敛成了一份专业的PRD文档。</p>
+<p>这一步的价值，是<strong>驯服模糊性</strong>。</p>
+<p>正如官方文档所说：“这改变了传统的软件开发生命周期——需求和设计变成了持续的活动，而不是离散的阶段。”</p>
+<h2 id="plan-—-AI化身“首席架构师”"><a href="#plan-—-AI化身“首席架构师”" class="headerlink" title="/plan — AI化身“首席架构师”"></a><strong><code>/plan</code> — AI化身“首席架构师”</strong></h2><p>有了“做什么”的规约，接下来是“怎么做”。</p>
+<p>我继续用自然语言下达指令，描述我的技术偏好：</p>
+<blockquote>
+<p>&#x2F;plan 我希望能够运行在浏览器里,网页作为前端页面,后端只需要在本地即<br>可,Python作为爬虫技术,openrouter作为AI模型的提供商,模型使用openai&#x2F;gpt-5,最后输出的内容可以是.md为格式的报告内容,可以下载到本地,元数据存储在本地SQLite 数据库中。</p>
+</blockquote>
+<p>AI再次启动，这次它的角色是“首席架构师”。它没有直接输出代码，而是生成了一整套的架构设计蓝图，包括：</p>
+<ul>
+<li><code>plan.md</code>：记录了技术选型、性能目标、约束条件。</li>
+<li><code>data-model.md</code>：定义了数据实体和表结构。</li>
+<li><code>contracts/api-contract.yaml</code>：一份标准的OpenAPI合约文件。</li>
+</ul>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/4F95DCE1-F6AB-4C77-B8D0-0A2318C0ECAE_2/6DIoWuxw3P0fywZNxKwXskJdFbbtpgyIkywUq0y1xw8z/Image.png" alt="Image.png"></p>
+<p>最关键的是，AI的这次设计，并非天马行空，而是<strong>严格遵守了我们之前立下的“宪法”</strong>。</p>
+<p>在 <code>plan.md</code> 文件中，我看到了一个“合宪性检查”（Constitution Check）部分，AI会逐条自审其设计是否符合“KISS原则”、“TDD原则”等宪法条款。</p>
+<p>这一步的价值在于，<strong>设计必须遵从宪法</strong>，确保了架构的规范性和一致性。</p>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/6BACF1D3-8125-427B-889C-2A581EC50ABC_2/aU6EwY4w4gQEWhwiD0YXwh2rjDm3mASUhvRUdxqpRREz/Image.png" alt="Image.png"></p>
+<h2 id="tasks-—-AI化身“资深项目总监”"><a href="#tasks-—-AI化身“资深项目总监”" class="headerlink" title="/tasks — AI化身“资深项目总监”"></a><strong><code>/tasks</code> — AI化身“资深项目总监”</strong></h2><p>规约已定，蓝图已出。最后一步，生成可执行的路线图。</p>
+<p>我只输入了一个简单的命令：</p>
+<blockquote>
+<p>&#x2F;tasks</p>
+</blockquote>
+<p><img src="https://resv2.craft.do/user/full/86216952-a1bc-6ff4-661b-46aa5fdbb1d4/doc/E640F092-9FBD-4982-8569-0BA81FEA8851/0eca5bb7-cea9-04b3-b430-dfbf7d300562/1tYLx88zj9gwcXdRhkhxWMLUI47nGnwPM64YlSJn4Y8z/Image.png" alt="Image.png"></p>
+<p>AI迅速分析了所有前面生成的文档，然后输出了一份tasks.md文件。这份文件，是一个包含50个具体开发任务的甘特图！</p>
+<p>它清晰地列出了：</p>
+<p>任务分布：Setup, Contract Tests, Data Models, Core Services…<br>依赖关系：哪些任务必须按顺序执行。<br>并行机会：哪些任务可以并行处理以提高效率（用[P]标记）。<br>最让我惊叹的是任务的顺序：</p>
+<p>排在最前面的，永远是“Contract Tests”（合约测试）。</p>
+<p>这完美印证了宪法的内容：</p>
+<p>“TDD 贯彻始终，永远是测试先行”。</p>
+<p>AI不是在空喊口号，而是将测试驱动开发的理念，落实到了每一个具体的执行步骤中。</p>
+<p>至此，从一个模糊的想法，到一个包含完整架构设计和50个开发任务的专业工程计划，总共耗时不到15分钟。</p>
+<hr>
+<h1 id="我的认知被刷新：它凭什么比一个开发团队更“靠谱”？"><a href="#我的认知被刷新：它凭什么比一个开发团队更“靠谱”？" class="headerlink" title="我的认知被刷新：它凭什么比一个开发团队更“靠谱”？"></a>我的认知被刷新：它凭什么比一个开发团队更“靠谱”？</h1><p>看到这里，你可能会问：这太神奇了，但它凭什么这么靠谱？它的核心魔法到底是什么？</p>
+<p>在我看来，spec-kit的魔法不在于生成代码，而在于它通过两大支柱，为善于创造却疏于纪律的AI，注入了“软件工程的灵魂”。</p>
+<h2 id="魔法揭秘1：模板-Templates-—-AI的“写作脚手架”"><a href="#魔法揭秘1：模板-Templates-—-AI的“写作脚手架”" class="headerlink" title="魔法揭秘1：模板(Templates) — AI的“写作脚手架”"></a>魔法揭秘1：模板(Templates) — AI的“写作脚手架”</h2><p>【引：我的感悟：“流程、清单、模板的价值，在上下文管理中，好用到超乎你地想象”。】</p>
+<p>spec-kit的.specify&#x2F;templates&#x2F;目录下，存放着各种输出物的模板。这些模板就像一个精密的“写作脚手架”，通过内置的规则和清单，强力约束着AI的行为。</p>
+<p>例如，模板会强制AI：</p>
+<ul>
+<li>避免猜测：当信息不足时，必须使用[NEEDS CLARIFICATION]标记，而不是自己编造一个“合理”的假设。</li>
+<li>保持抽象：在写spec.md时，只关注“What”和“Why”，严禁涉及“How”（技术实现）。</li>
+<li>自我检查：模板内置的清单，就像“单元测试”，强迫AI在输出前检查自己是否遗漏了关键点。</li>
+</ul>
+<h2 id="魔法揭秘2：宪法-Constitution-—-AI的“思想钢印”"><a href="#魔法揭秘2：宪法-Constitution-—-AI的“思想钢印”" class="headerlink" title="魔法揭秘2：宪法(Constitution) — AI的“思想钢印”"></a>魔法揭秘2：宪法(Constitution) — AI的“思想钢印”</h2><p>如果说模板解决了“单次输出”的质量，那么constitution.md则解决了“长期演进”的纪律。</p>
+<p>这部“宪法”是不可变的根本大法，它定义了项目的架构DNA。例如，除了TDD，它还规定了：</p>
+<ul>
+<li>Article I: Library-First Principle: 所有功能都必须先作为独立的库来实现，强制模块化。</li>
+<li>Article VII: Simplicity Gate: 严禁过度设计和未来证明（future-proofing）。</li>
+</ul>
+<p>这些原则通过“思想钢印”的方式，确保了无论项目如何演进，无论未来由哪个版本的AI模型来维护，其架构风格和工程质量都能保持高度一致。</p>
+<p>模板是AI的“行为准则”，宪法是AI的“价值信仰”。 两者结合，构成了一个强大的约束系统，让AI从一个自由散漫的“艺术家”，变成了一个纪律严明的“工程大师”。</p>
+<hr>
+<h1 id="快速上手：今天就为你的AI“立宪”"><a href="#快速上手：今天就为你的AI“立宪”" class="headerlink" title="快速上手：今天就为你的AI“立宪”"></a><strong>快速上手：今天就为你的AI“立宪”</strong></h1><p>spec-kit 和它背后的SDD范式，远不止一个提效工具那么简单。它预示着一个新时代的到来：</p>
+<p>开发者的核心价值，正在从“代码的生产者”，转变为高质量“规约”的设计者、AI架构的监督者、以及整个系统意图的定义者。</p>
+<p>我们正在从一个给AI下达零碎指令的“老板”，变成一个与AI签订严谨契约的“合伙人”。</p>
+<hr>
+<h1 id="本期互动"><a href="#本期互动" class="headerlink" title="本期互动"></a>本期互动</h1><p>你觉得SDD模式最先会在哪个领域&#x2F;场景爆发？</p>
+<p>是个人项目、创业公司，还是大厂的创新团队？</p>
+<p>在评论区聊聊你的看法。</p>
+<h2 id="下期预告-·-敬请期待"><a href="#下期预告-·-敬请期待" class="headerlink" title="下期预告 · 敬请期待"></a>下期预告 · 敬请期待</h2><p><strong>（上篇）我们用15分钟规划了一个项目，（下篇）我们将亲手执行这50个任务，把“小红书商机挖掘器”真正跑起来，并把全部代码开源！</strong></p>
+<p><strong>关注我们，见证实战全过程。</strong></p>
+<p><strong>用AI重塑工作流，而不只是生成内容。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/09/18/%E6%88%91%E4%BB%A5%E4%B8%BA%E6%89%BE%E5%88%B0%E4%BA%86AI%E5%BC%80%E5%8F%91%E7%9A%84%E2%80%9C%E5%9C%A3%E6%9D%AF%E2%80%9D%EF%BC%8C%E7%BB%93%E6%9E%9C%E5%B7%AE%E7%82%B9%E8%A2%ABToken%E8%B4%A6%E5%8D%95%E5%8A%9D%E9%80%80%E2%80%A6%E2%80%A6%E7%9B%B4%E5%88%B0%E6%88%91%E6%82%9F%E4%BA%86%20copy/" rel="prev" title="我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了">
+      <i class="fa fa-chevron-left"></i> 我以为找到了AI开发的“圣杯”，结果差点被Token账单劝退……直到我悟了
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spec-Driven-Development%EF%BC%8CAI%E6%97%B6%E4%BB%A3%E7%9A%84%E3%80%8C%E5%BC%80%E5%8F%91%E5%AE%AA%E7%AB%A0%E3%80%8D"><span class="nav-number">1.</span> <span class="nav-text">Spec-Driven Development，AI时代的「开发宪章」</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E5%A6%82%E4%BD%95%E7%94%A815%E5%88%86%E9%92%9F%EF%BC%8C%E4%B8%BA%E2%80%9C%E5%B0%8F%E7%BA%A2%E4%B9%A6%E5%95%86%E6%9C%BA%E6%8C%96%E6%8E%98%E5%99%A8%E2%80%9D%E7%BB%98%E5%88%B6%E5%AE%8C%E6%95%B4%E5%B7%A5%E7%A8%8B%E8%93%9D%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">我如何用15分钟，为“小红书商机挖掘器”绘制完整工程蓝图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init-constitution-%E2%80%94-%E4%B8%BA%E9%A1%B9%E7%9B%AE%E2%80%9C%E7%AB%8B%E5%AE%AA%E6%B3%95%E2%80%9D"><span class="nav-number">2.1.</span> <span class="nav-text">&#x2F;init &amp; &#x2F;constitution — 为项目“立宪法”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#specify-%E2%80%94-AI%E5%8C%96%E8%BA%AB%E2%80%9C%E9%A1%B6%E7%BA%A7%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E2%80%9D"><span class="nav-number">2.2.</span> <span class="nav-text">&#x2F;specify — AI化身“顶级产品经理”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plan-%E2%80%94-AI%E5%8C%96%E8%BA%AB%E2%80%9C%E9%A6%96%E5%B8%AD%E6%9E%B6%E6%9E%84%E5%B8%88%E2%80%9D"><span class="nav-number">2.3.</span> <span class="nav-text">&#x2F;plan — AI化身“首席架构师”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tasks-%E2%80%94-AI%E5%8C%96%E8%BA%AB%E2%80%9C%E8%B5%84%E6%B7%B1%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%9B%91%E2%80%9D"><span class="nav-number">2.4.</span> <span class="nav-text">&#x2F;tasks — AI化身“资深项目总监”</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E8%AE%A4%E7%9F%A5%E8%A2%AB%E5%88%B7%E6%96%B0%EF%BC%9A%E5%AE%83%E5%87%AD%E4%BB%80%E4%B9%88%E6%AF%94%E4%B8%80%E4%B8%AA%E5%BC%80%E5%8F%91%E5%9B%A2%E9%98%9F%E6%9B%B4%E2%80%9C%E9%9D%A0%E8%B0%B1%E2%80%9D%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">我的认知被刷新：它凭什么比一个开发团队更“靠谱”？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%B3%95%E6%8F%AD%E7%A7%981%EF%BC%9A%E6%A8%A1%E6%9D%BF-Templates-%E2%80%94-AI%E7%9A%84%E2%80%9C%E5%86%99%E4%BD%9C%E8%84%9A%E6%89%8B%E6%9E%B6%E2%80%9D"><span class="nav-number">3.1.</span> <span class="nav-text">魔法揭秘1：模板(Templates) — AI的“写作脚手架”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%B3%95%E6%8F%AD%E7%A7%982%EF%BC%9A%E5%AE%AA%E6%B3%95-Constitution-%E2%80%94-AI%E7%9A%84%E2%80%9C%E6%80%9D%E6%83%B3%E9%92%A2%E5%8D%B0%E2%80%9D"><span class="nav-number">3.2.</span> <span class="nav-text">魔法揭秘2：宪法(Constitution) — AI的“思想钢印”</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%EF%BC%9A%E4%BB%8A%E5%A4%A9%E5%B0%B1%E4%B8%BA%E4%BD%A0%E7%9A%84AI%E2%80%9C%E7%AB%8B%E5%AE%AA%E2%80%9D"><span class="nav-number">4.</span> <span class="nav-text">快速上手：今天就为你的AI“立宪”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E6%9C%9F%E4%BA%92%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">本期互动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E6%9C%9F%E9%A2%84%E5%91%8A-%C2%B7-%E6%95%AC%E8%AF%B7%E6%9C%9F%E5%BE%85"><span class="nav-number">5.1.</span> <span class="nav-text">下期预告 · 敬请期待</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="朴哲一"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">朴哲一</p>
+  <div class="site-description" itemprop="description">人到中年日日新，不待扬鞭自奋蹄</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RpbW9uOTQ=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Dimon94"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/lovedaih@gmail.com" title="E-Mail → lovedaih@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9TY290dF9fRA==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;Scott__D"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93ZWIub2tqaWtlLmNvbS91Lzk4MGNkYjU0LWE5ZmItNDg5ZC05NmQ1LTMxYmI3YjcyMTJhMw==" title="即刻 → https:&#x2F;&#x2F;web.okjike.com&#x2F;u&#x2F;980cdb54-a9fb-489d-96d5-31bb7b7212a3"><i class="fab fa-angellist fa-fw"></i>即刻</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9hcHBzLmFwcGxlLmNvbS91cy9hcHAvaWNhY2FsLWFpLWRpZXQtY29hY2gvaWQ2NzM3MTc3NjEw" title="iCaCal → https:&#x2F;&#x2F;apps.apple.com&#x2F;us&#x2F;app&#x2F;icacal-ai-diet-coach&#x2F;id6737177610"><i class="fab fa-app-store-ios fa-fw"></i>iCaCal</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朴哲一</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9tdXNlLnRoZW1lLW5leHQub3Jn">NexT.Muse</span> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script defer src="https://vercount.one/js"></script>
+  <script defer src="/js/vercount-init.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="vercount_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="vercount_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'Ov23liWbPfT2k7DLYffF',
+      clientSecret: '6d5a487ef249df1dcb4d3144150a9ee0523d6043',
+      repo        : 'Dimon94.github.io',
+      owner       : 'Dimon94',
+      admin       : ['Dimon94'],
+      id          : 'abedd1635611f851e491880edfead347',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
